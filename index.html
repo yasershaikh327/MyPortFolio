@@ -408,7 +408,7 @@
         }
 
         .profile-image::before {
-            content: '📸';
+            content: '';
             position: absolute;
             top: 50%;
             left: 50%;
@@ -418,7 +418,7 @@
         }
 
         .profile-image::after {
-            content: 'Your Photo Here';
+            content: '';
             position: absolute;
             bottom: 20px;
             left: 50%;
@@ -1095,7 +1095,7 @@
             <div class="profile-image-wrapper fade-in">
                 <div class="profile-image">
                     <!-- Replace with your actual photo -->
-                     <img src="myimg.jpg" />
+                     <img src="myimg.jpg" style="width: inherit;"/>
                 </div>
                 <div class="profile-badges">
                     <span class="badge">💻 Developer</span>
