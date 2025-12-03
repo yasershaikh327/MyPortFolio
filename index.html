@@ -10,6 +10,7 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <!-- Google tag (gtag.js) -->
     <script async src="https://www.googletagmanager.com/gtag/js?id=G-B35J11X9JW"></script>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <script>
     window.dataLayer = window.dataLayer || [];
     function gtag(){dataLayer.push(arguments);}
@@ -1684,6 +1685,85 @@
 
         console.log('%c💻 Developer Portfolio Loaded Successfully!', 'color: #00ff88; font-size: 16px; font-weight: bold;');
         console.log('%cBuilt with Quicksand & Fira Sans by Yaser Shaikh', 'color: #00ff88; font-size: 12px;');
+
+        	  function getDeviceType() {
+            const ua = navigator.userAgent;
+
+            if (/mobile/i.test(ua)) return "Mobile";
+            if (/tablet|ipad|playbook|silk/i.test(ua)) return "Tablet";
+            return "Laptop / Desktop";
+        }
+		
+ function getCountryFromTimezone() {
+    const tz = Intl.DateTimeFormat().resolvedOptions().timeZone;
+
+    const map = {
+        "Asia/Calcutta": "India",
+        "Asia/Kolkata": "India",
+        "Asia/Kathmandu": "Nepal",
+        "Asia/Dubai": "UAE",
+        "Asia/Riyadh": "Saudi Arabia",
+        "Asia/Qatar": "Qatar",
+        "Asia/Bahrain": "Bahrain",
+        "Asia/Kuwait": "Kuwait",
+        "Asia/Tokyo": "Japan",
+        "Asia/Singapore": "Singapore",
+        "Europe/London": "United Kingdom",
+        "Europe/Paris": "France",
+        "Europe/Berlin": "Germany",
+        "America/New_York": "USA",
+        "America/Los_Angeles": "USA",
+        "America/Toronto": "Canada",
+        "Australia/Sydney": "Australia"
+        // Add more if needed
+    };
+
+    return map[tz] || "Unknown";
+}
+
+const userInfo = {
+     country: getCountryFromTimezone(),            // Much more accurate
+    state: "Not available (JS cannot detect)",
+    province: "Not available (JS cannot detect)",
+  //  localDateTime: new Date().toLocaleString(),
+    deviceType: getDeviceType(),
+    platform: navigator.platform,
+ //   timezone: Intl.DateTimeFormat().resolvedOptions().timeZone,
+    userAgent: navigator.userAgent,
+    language: navigator.language,
+    referrer: document.referrer,
+    currentUrl: window.location.href,
+ //   timeVisitedUTC: new Date().toISOString(),
+   // VisitDate: new Date().toISOString()
+};
+
+$.ajax({
+    url: 'https://resturantapp-2z56.onrender.com/api/Home/AddViewerDetails',
+    type: 'POST',
+    contentType: 'application/json',
+    data: JSON.stringify(userInfo),  // ✔ send pure object
+    success: function (response) {
+        console.log("Success:", response);
+    },
+    error: function (xhr, status, error) {
+        console.error("Error:", xhr.responseText);
+    }
+});
+
+
+
+   /*     $.ajax({
+           // url: 'https://resturantapp-2z56.onrender.com/api/Home/AddViewerDetails',
+            url: 'https://localhost:44389/api/Home/GetDetails',
+            type: 'GET',   // or 'POST'
+            success: function (response) {
+                console.log("Success:", response);
+            },
+            error: function (xhr, status, error) {
+                console.error("Error:", error);
+            }
+        });
+*/
     </script>
 </body>
 </html>
