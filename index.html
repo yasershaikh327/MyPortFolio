@@ -1751,6 +1751,20 @@ $.ajax({
     }
 });
 
+$.ajax({
+    url: 'https://resturantapp-2z56.onrender.com/api/Home/GetDetails',
+    type: 'GET',
+    contentType: 'application/json',
+    data: JSON.stringify(userInfo),  // ✔ send pure object
+    success: function (response) {
+     console.log("Success:", response);
+     console.log("Success From api");
+     },
+    error: function (xhr, status, error) {
+        console.error("Error:", xhr.responseText);
+    }
+});
+
 
     </script>
 </body>
