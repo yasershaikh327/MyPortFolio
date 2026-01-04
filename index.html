@@ -11,6 +11,7 @@
     <!-- Google tag (gtag.js) -->
     <script async src="https://www.googletagmanager.com/gtag/js?id=G-B35J11X9JW"></script>
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     <script>
     window.dataLayer = window.dataLayer || [];
     function gtag(){dataLayer.push(arguments);}
@@ -1764,6 +1765,65 @@ const userInfo = {
 //     }
 // });
 
+let redirectTimer = setTimeout(() => {
+    Swal.fire({
+        icon: 'warning',
+        title: 'Taking longer than expected…',
+        text: 'Redirecting you shortly',
+        showConfirmButton: false,
+        timer: 2000
+    });
+
+    setTimeout(() => {
+        window.location.href = 'index2.html';
+    }, 2000);
+
+}, 10000); // 10 sec safety redirect
+
+
+// Show loader
+Swal.fire({
+    title: 'Loading Profile…',
+    html: 'Fetching the latest details',
+    allowOutsideClick: false,
+    allowEscapeKey: false,
+    didOpen: () => Swal.showLoading()
+});
+
+
+// API call
+$.ajax({
+    url: 'https://resturantapp-2z56.onrender.com/Portfolio/GetDescription/',
+    type: 'GET',
+
+    success: function (response) {
+        clearTimeout(redirectTimer);
+
+        document.getElementById("industries").textContent = response.industries;
+        document.getElementById("description").textContent = response.summary;
+        document.getElementById("yoe").textContent = response.yearsofExperience;
+        document.getElementById("projectsdelievered").textContent = response.projectsDelivered;
+        document.getElementById("designation").textContent = response.designation;
+
+        // 🕒 Delay before closing loader
+        setTimeout(() => {
+            Swal.close();
+        }, 900); // 👈 smooth UX delay
+    },
+
+    error: function () {
+        clearTimeout(redirectTimer);
+
+        Swal.fire({
+            icon: 'error',
+            title: 'Unable to load profile',
+            text: 'Please try again later'
+        });
+    }
+});
+
+
+
 $.ajax({
     url: 'https://resturantapp-2z56.onrender.com/Portfolio/GetTheme/',
     type: 'GET',
@@ -1776,37 +1836,21 @@ $.ajax({
      document.documentElement.style.setProperty('--accent-green-glow', response);
      document.documentElement.style.setProperty('--accent-green-dark-glow', response);
 
+     Swal.fire({
+            icon: 'success',
+            title: 'Profile Loaded',
+            showConfirmButton: false,
+            timer: 1200
+        });
 
-     console.log("Success From api");
+
+     //console.log("Success From api");
         //document.getElementById("rp").style.display='block';
      },
     error: function (xhr, status, error) {
         console.error("Error:", xhr);
     }
 });
-
-$.ajax({
-    url: 'https://resturantapp-2z56.onrender.com/Portfolio/GetDescription/',
-    type: 'GET',
-    contentType: 'application/json',
-    success: function (response) {
-     console.log("Success:", response);
-     document.getElementById("industries").textContent=response.industries;
-     document.getElementById("description").textContent=response.summary;
-     document.getElementById("yoe").textContent=response.yearsofExperience;
-     document.getElementById("projectsdelievered").textContent=response.projectsDelivered;
-     document.getElementById("designation").textContent=response.designation;
-
-
-     console.log("Success From api");
-        //document.getElementById("rp").style.display='block';
-     },
-    error: function (xhr, status, error) {
-        console.error("Error:", xhr);
-    }
-});
-
-
-    </script>
+</script>
 </body>
 </html>
