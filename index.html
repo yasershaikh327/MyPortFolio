@@ -1771,6 +1771,13 @@ $.ajax({
     contentType: 'application/json',
     success: function (response) {
      console.log("Success:", response);
+     document.documentElement.style.setProperty('--accent-green', response);
+     document.documentElement.style.setProperty('--accent-green-dark', response);
+     document.documentElement.style.setProperty('--accent-green-light', response);
+     document.documentElement.style.setProperty('--accent-green-glow', response);
+     document.documentElement.style.setProperty('--accent-green-dark-glow', response);
+
+
      console.log("Success From api");
         //document.getElementById("rp").style.display='block';
      },
