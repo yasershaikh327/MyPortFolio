@@ -1737,22 +1737,36 @@ const userInfo = {
    // VisitDate: new Date().toISOString()
 };
 
-$.ajax({
-    url: 'https://resturantapp-2z56.onrender.com/api/Home/AddViewerDetails',
-    type: 'POST',
-    contentType: 'application/json',
-    data: JSON.stringify(userInfo),  // ✔ send pure object
-    success: function (response) {
-      //  console.log("Success:", response);
-      console.log("Success From api");
-     },
-    error: function (xhr, status, error) {
-        console.error("Error:", xhr.responseText);
-    }
-});
+// $.ajax({
+//     url: 'https://resturantapp-2z56.onrender.com/api/Home/AddViewerDetails',
+//     type: 'POST',
+//     contentType: 'application/json',
+//     data: JSON.stringify(userInfo),  // ✔ send pure object
+//     success: function (response) {
+//       //  console.log("Success:", response);
+//       console.log("Success From api");
+//      },
+//     error: function (xhr, status, error) {
+//         console.error("Error:", xhr.responseText);
+//     }
+// });
+
+// $.ajax({
+//     url: 'https://resturantapp-2z56.onrender.com/api/Home/GetDetails',
+//     type: 'GET',
+//     contentType: 'application/json',
+//     success: function (response) {
+//      console.log("Success:", response);
+//      console.log("Success From api");
+//         //document.getElementById("rp").style.display='block';
+//      },
+//     error: function (xhr, status, error) {
+//         console.error("Error:", xhr.responseText);
+//     }
+// });
 
 $.ajax({
-    url: 'https://resturantapp-2z56.onrender.com/api/Home/GetDetails',
+    url: 'https://resturantapp-2z56.onrender.com/Portfolio/GetTheme/',
     type: 'GET',
     contentType: 'application/json',
     success: function (response) {
@@ -1761,7 +1775,7 @@ $.ajax({
         //document.getElementById("rp").style.display='block';
      },
     error: function (xhr, status, error) {
-        console.error("Error:", xhr.responseText);
+        console.error("Error:", xhr);
     }
 });
 
