@@ -1131,7 +1131,7 @@
         <div class="hero-background"></div>
         <div class="hero-content">
             <h1 class="hero-name">YASER SHAIKH</h1>
-            <h2 class="hero-title">Full Stack <span class="highlight">Web Developer</span></h2>
+            <span class="highlight" id="designation">Full Stack Web Developer</span></h2>
             <p class="hero-description" id="description">
              
             </p>
@@ -1795,6 +1795,7 @@ $.ajax({
      document.getElementById("description").textContent=response.summary;
      document.getElementById("yoe").textContent=response.yearsofExperience;
      document.getElementById("projectsdelievered").textContent=response.projectsDelivered;
+     document.getElementById("designation").textContent=response.Designation;
 
 
      console.log("Success From api");
