@@ -1181,7 +1181,7 @@
 
             <div class="profile-info fade-in">
                 <h2>About Me</h2>
-                <h3>&lt;Full Stack Developer /&gt;</h3>
+                <h3  id="designation2"></h3>
                 <p id="aboutusDescription"></p>
    
                 
@@ -1810,6 +1810,7 @@ $.ajax({
         document.getElementById("yoe").textContent = response.yearsofExperience;
         document.getElementById("projectsdelievered").textContent = response.projectsDelivered;
         document.getElementById("designation").textContent = response.designation;
+        document.getElementById("designation2").textContent = response.designation;
 
         // 🕒 Delay before closing loader
         setTimeout(() => {
