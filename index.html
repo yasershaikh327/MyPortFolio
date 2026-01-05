@@ -1182,16 +1182,8 @@
             <div class="profile-info fade-in">
                 <h2>About Me</h2>
                 <h3>&lt;Full Stack Developer /&gt;</h3>
-                <p>
-                    Web Developer with 2.8 years of professional experience specializing in backend development using 
-                    Core PHP, MySQL, and .NET. Proven track record of building scalable applications across diverse 
-                    industries including Event Management, Education, Pharma, Casino, and Government sectors.
-                </p>
-                <p>
-                    Expert in implementing secure authentication systems, integrating payment gateways (HDFC, SBI, RazorPay), 
-                    and leveraging AI-powered tools for workflow automation. Proficient in Docker, GitHub, and cloud deployments 
-                    with a strong commitment to writing clean, maintainable code following SOLID principles.
-                </p>
+                <p id="aboutusDescription"></p>
+   
                 
                 <div class="tech-stack">
                     <span class="tech-tag"><i class="tech-icon fab fa-microsoft"></i> .NET Core</span>
@@ -1759,6 +1751,20 @@ $.ajax({
      console.log("Success:", response);
      console.log("Success From api");
         //document.getElementById("rp").style.display='block';
+     },
+    error: function (xhr, status, error) {
+        console.error("Error:", xhr.responseText);
+    }
+});
+
+$.ajax({
+    url: 'https://resturantapp-2z56.onrender.com/api/Home/GetAboutus',
+    type: 'GET',
+    contentType: 'application/json',
+    success: function (response) {
+     console.log("Success:", response);
+     console.log("Success From api");
+        document.getElementById("aboutusDescription").textContent=response;
      },
     error: function (xhr, status, error) {
         console.error("Error:", xhr.responseText);
