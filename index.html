@@ -1764,7 +1764,7 @@ $.ajax({
     success: function (response) {
      console.log("Success:", response);
      console.log("Success From api");
-        document.getElementById("aboutusDescription").textContent=response;
+       document.getElementById("aboutusDescription").innerHTML = response;
      },
     error: function (xhr, status, error) {
         console.error("Error:", xhr.responseText);
