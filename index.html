@@ -1730,7 +1730,7 @@ const userInfo = {
 };
 
 $.ajax({
-    url: 'https://resturantapp-2z56.onrender.com/api/Home/AddViewerDetails',
+    url: 'https://resturantapp-2z56.onrender.com/Home/AddViewerDetails',
     type: 'POST',
     contentType: 'application/json',
     data: JSON.stringify(userInfo),  // ✔ send pure object
@@ -1758,7 +1758,7 @@ $.ajax({
 });
 
 $.ajax({
-    url: 'https://resturantapp-2z56.onrender.com/api/Portfolio/GetAboutus',
+    url: 'https://resturantapp-2z56.onrender.com/Portfolio/GetAboutus',
     type: 'GET',
     contentType: 'application/json',
     success: function (response) {
