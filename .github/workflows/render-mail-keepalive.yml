@@ -2,7 +2,7 @@ name: Render Keep Alive + Trigger API Mail
 
 on:
   schedule:
-    - cron: '*/10 * * * *'   # every 10 minutes
+    - cron: '*/5 * * * *'   # every 5 minutes
   workflow_dispatch:
 
 jobs:
@@ -10,7 +10,7 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      - name: Ping Render API to send mail
+      - name: Ping Render API
         run: |
           echo "Calling Render API to send email..."
           response=$(curl -s -o /dev/null -w "%{http_code}" https://resturantapp-2z56.onrender.com/api/Home/SendMessage)
