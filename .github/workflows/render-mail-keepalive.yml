@@ -1,0 +1,21 @@
+name: Render Keep Alive + Trigger API Mail
+
+on:
+  schedule:
+    - cron: '*/10 * * * *'   # every 10 minutes
+  workflow_dispatch:
+
+jobs:
+  ping-api:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Ping Render API to send mail
+        run: |
+          echo "Calling Render API to send email..."
+          response=$(curl -s -o /dev/null -w "%{http_code}" https://resturantapp-2z56.onrender.com/api/Home/SendMessage)
+          echo "API responded with status code: $response"
+          if [ "$response" -ne 200 ]; then
+            echo "Warning: API did not return 200 OK!"
+            exit 1
+          fi
