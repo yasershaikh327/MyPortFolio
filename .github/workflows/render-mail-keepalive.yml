@@ -13,7 +13,7 @@ jobs:
       - name: Ping Render API
         run: |
           echo "Calling Render API to send email..."
-          response=$(curl -s -o /dev/null -w "%{http_code}" https://resturantapp-2z56.onrender.com/api/Home/SendMessage)
+          response=$(curl -s -o /dev/null -w "%{http_code}" https://yasershaikh327.github.io/MyPortFolio/index.html)
           echo "API responded with status code: $response"
           if [ "$response" -ne 200 ]; then
             echo "Warning: API did not return 200 OK!"
