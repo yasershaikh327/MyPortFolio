@@ -1170,7 +1170,7 @@
             <div class="profile-image-wrapper fade-in">
                 <div class="profile-image">
                     <!-- Replace with your actual photo -->
-                    <img src="myimg.jpg" alt="Yaser Shaikh">
+                    <img src="myimg.jpg" alt="Yaser Shaikh" id="profileimg">
                 </div>
                 <div class="profile-badges">
                     <span class="badge">💻 Developer</span>
@@ -1729,7 +1729,7 @@ const userInfo = {
    // VisitDate: new Date().toISOString()
 };
 
-$.ajax({
+/*$.ajax({
     url: 'https://resturantapp-2z56.onrender.com/api/Home/AddViewerDetails',
     type: 'POST',
     contentType: 'application/json',
@@ -1741,6 +1741,20 @@ $.ajax({
     error: function (xhr, status, error) {
         console.error("Error:", xhr.responseText);
     }
+});*/
+
+$(document).ready(function () {
+    $.ajax({
+        url: 'https://resturantapp-2z56.onrender.com/api/Home/accountprofilepicture',
+        type: 'GET',
+        success: function (data) {
+            $('#profileimg').attr('src', data); // ✅ correct
+            console.log(data);
+        },
+        error: function (err) {
+            console.error(err);
+        }
+    });
 });
 
 $.ajax({
