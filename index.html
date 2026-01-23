@@ -1743,7 +1743,7 @@ const userInfo = {
     }
 });*/
 
-$(document).ready(function () {
+/*$(document).ready(function () {
     $.ajax({
         url: 'https://resturantapp-2z56.onrender.com/api/Home/accountprofilepicture',
         type: 'GET',
@@ -1755,7 +1755,50 @@ $(document).ready(function () {
             console.error(err);
         }
     });
+});*/
+function checkImageExists(url) {
+    return new Promise((resolve) => {
+        const img = new Image();
+        img.onload = () => resolve(true);
+        img.onerror = () => resolve(false);
+        img.src = url;
+    });
+}
+
+
+$(document).ready(function () {
+    loadProfileImage();
 });
+
+async function loadProfileImage() {
+    try {
+        const url = await $.ajax({
+            url: 'https://resturantapp-2z56.onrender.com/api/Home/accountprofilepicture',
+            type: 'GET'
+        });
+
+        const isValid = await checkImageExists(url);
+
+        if (isValid) {
+            $('#profileimg').attr('src', url);
+            console.log("Image loaded");
+        } else {
+            console.log("Expired URL, requesting new one...");
+
+            // call API again to regenerate presigned URL
+            const newUrl = await $.ajax({
+                url: 'https://resturantapp-2z56.onrender.com/api/Home/accountprofilepicture',
+                type: 'GET'
+            });
+
+            $('#profileimg').attr('src', newUrl);
+        }
+
+    } catch (err) {
+        console.error(err);
+    }
+}
+
 
 $.ajax({
     url: 'https://resturantapp-2z56.onrender.com/api/Home/GetDetails',
