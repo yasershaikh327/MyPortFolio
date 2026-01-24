@@ -1,7 +1,7 @@
 
     const localhost = 'https://localhost:44389';
     const live = 'https://resturantapp-2z56.onrender.com'
-    const currentDomain = live;
+    const currentDomain = localhost;
     // Smooth scrolling
     document.querySelectorAll('a[href^="#"]').forEach(anchor => {
         anchor.addEventListener('click', function (e) {
@@ -300,10 +300,10 @@ error: function (xhr, status, error) {
 
 
 
-const apiUrl = currentDomain + '/api/Home/GetExperience';
+
 
 $.ajax({
-    url: apiUrl,
+    url: currentDomain + '/api/Home/GetExperience',
     type: 'GET',
     contentType: 'application/json',
     success: function (response) {
@@ -326,7 +326,7 @@ function renderExperienceTimeline(experiences) {
     }
 
     // Sort experiences by fromDate (optional)
-    experiences.sort((a, b) => new Date(a.fromDate) - new Date(b.fromDate));
+   // experiences.sort((a, b) => new Date(a.fromDate) - new Date(b.fromDate));
 
     // Loop through each experience and create child items
     experiences.forEach(exp => {
@@ -512,3 +512,49 @@ error: function (xhr, status, error) {
     console.error("Error:", xhr);
 }
 });
+
+function decodeHtml(html) {
+    var txt = document.createElement("textarea");
+    txt.innerHTML = html;
+    return txt.value;
+}
+
+
+$.ajax({
+    url: currentDomain + '/api/Home/GetProjects',
+    type: 'GET',
+    contentType: 'application/json',
+    success: function (projects) {
+        let html = '';
+
+        projects.forEach(project => {
+            let toolsHtml = '';
+            if (project.tools && project.tools.length > 0) {
+                project.tools.forEach(tool => {
+                    toolsHtml += `<span class="project-tag">${tool.toolName}</span>`;
+                });
+            }
+
+            html += `
+                <div class="project-card fade-in">
+                    <div class="project-content">
+                        <h3>${project.title}</h3>
+                        <div class="project-description">${project.description}</div>
+                        <div class="project-tags">
+                            ${toolsHtml}
+                        </div>
+                    </div>
+                </div>
+            `;
+        });
+
+        // Use jQuery .html() to render the HTML content
+        $('#toolsContainer').html(html);
+    },
+    error: function (xhr, status, error) {
+        console.error("Error fetching projects:", xhr.responseText);
+    }
+});
+
+
+
