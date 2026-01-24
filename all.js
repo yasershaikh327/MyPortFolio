@@ -299,6 +299,59 @@ error: function (xhr, status, error) {
 });
 
 
+
+const apiUrl = currentDomain + '/api/Home/GetExperience';
+
+$.ajax({
+    url: apiUrl,
+    type: 'GET',
+    contentType: 'application/json',
+    success: function (response) {
+        console.log("Success From api - Experience", response);
+        renderExperienceTimeline(response);
+    },
+    error: function (xhr, status, error) {
+        console.error("Error:", xhr.responseText);
+    }
+});
+
+function renderExperienceTimeline(experiences) {
+    // Parent container
+    const $timeline = $('#experienceTimeline');
+    $timeline.empty(); // clear previous content
+
+    if (experiences.length === 0) {
+        $timeline.html('<p>No experience found.</p>');
+        return;
+    }
+
+    // Sort experiences by fromDate (optional)
+    experiences.sort((a, b) => new Date(a.fromDate) - new Date(b.fromDate));
+
+    // Loop through each experience and create child items
+    experiences.forEach(exp => {
+        const from = new Date(exp.fromDate).toLocaleString('default', { month: 'short', year: 'numeric' });
+        const to = exp.toDate ? new Date(exp.toDate).toLocaleString('default', { month: 'short', year: 'numeric' }) : 'Present';
+
+        const timelineItem = `
+            <div class="timeline-item fade-in">
+                <div class="timeline-date">${from} – ${to}</div>
+                <div class="timeline-content">
+                    <h3>${exp.designation}</h3>
+                    <div class="timeline-company">${exp.locationOrganization}</div>
+                    <p class="timeline-description">
+                        ${exp.description}
+                    </p>
+                </div>
+            </div>
+        `;
+
+        $timeline.append(timelineItem);
+    });
+}
+
+
+
 $.ajax({
 url: currentDomain + '/api/Home/GetTools',
 type: 'GET',
