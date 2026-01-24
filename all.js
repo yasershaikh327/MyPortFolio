@@ -325,6 +325,39 @@ error: function (xhr, status, error) {
 }
 });
 
+
+
+$.ajax({
+    url: currentDomain + '/api/Home/GetTechnology', // or your correct API URL
+    type: 'GET',
+    contentType: 'application/json',
+    success: function(response) {
+        console.info(response);
+        const container = document.getElementById("skillsGrid");
+        container.innerHTML = ""; // Clear previous
+
+        response.forEach(t => {
+          //  alert(t);
+            const card = document.createElement("div");
+            card.className = "skill-card fade-in";
+
+            card.innerHTML = `
+                <div class="skill-icon"><i class="${t.icon}"></i></div>
+                <h3>${t.title}</h3>
+                <p>${t.description}</p>
+            `;
+
+            container.appendChild(card);
+        });
+    },
+    error: function(xhr, status, error) {
+        console.error("Error fetching technologies:", xhr.responseText);
+    }
+});
+
+
+
+
 $.ajax({
 url: currentDomain + '/Portfolio/GetAboutus',
 type: 'GET',
