@@ -520,40 +520,51 @@ function decodeHtml(html) {
 }
 
 
-$.ajax({
-    url: currentDomain + '/api/Home/GetProjects',
-    type: 'GET',
-    contentType: 'application/json',
-    success: function (projects) {
-        let html = '';
+$(function () {
+    // Fetch projects from API
+    $.ajax({
+        url: currentDomain + '/api/Home/GetProjects',
+        type: 'GET',
+        contentType: 'application/json',
+        success: function (projects) {
+            let html = '';
 
-        projects.forEach(project => {
-            let toolsHtml = '';
-            if (project.tools && project.tools.length > 0) {
-                project.tools.forEach(tool => {
-                    toolsHtml += `<span class="project-tag">${tool.toolName}</span>`;
-                });
-            }
+            // Emoji mapping (you can expand or randomize)
+        
+            projects.forEach((project, index) => {
+                // Render tools
+                let toolsHtml = '';
+                if (project.tools && project.tools.length > 0) {
+                    project.tools.forEach(tool => {
+                        toolsHtml += `<span class="project-tag">${tool.toolName}</span>`;
+                    });
+                }
 
-            html += `
-                <div class="project-card fade-in">
-                    <div class="project-content">
-                        <h3>${project.title}</h3>
-                        <div class="project-description">${project.description}</div>
-                        <div class="project-tags">
-                            ${toolsHtml}
+                // Append project card
+                html += `
+                    <div class="project-card fade-in">
+                        <div class="project-content">
+                            <h3>${project.title}</h3>
+                            <p>${project.description}</p>
+                            <div class="project-tags">
+                                ${toolsHtml}
+                            </div>
                         </div>
                     </div>
-                </div>
-            `;
-        });
+                `;
+            });
 
-        // Use jQuery .html() to render the HTML content
-        $('#toolsContainer').html(html);
-    },
-    error: function (xhr, status, error) {
-        console.error("Error fetching projects:", xhr.responseText);
-    }
+            // Inject into container
+            $('#toolsContainer2').html(html);
+
+            // Optional: fade-in effect
+            $('.project-card').hide().fadeIn(800);
+        },
+        error: function (xhr, status, error) {
+            console.error("Error fetching projects:", xhr.responseText);
+            $('#toolsContainer2').html('<p>No projects found.</p>');
+        }
+    });
 });
 
 
