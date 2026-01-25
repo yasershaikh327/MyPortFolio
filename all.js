@@ -170,48 +170,117 @@
         return "Laptop / Desktop";
     }
     
-function getCountryFromTimezone() {
-const tz = Intl.DateTimeFormat().resolvedOptions().timeZone;
-
-const map = {
-    "Asia/Calcutta": "India",
-    "Asia/Kolkata": "India",
-    "Asia/Kathmandu": "Nepal",
-    "Asia/Dubai": "UAE",
-    "Asia/Riyadh": "Saudi Arabia",
-    "Asia/Qatar": "Qatar",
-    "Asia/Bahrain": "Bahrain",
-    "Asia/Kuwait": "Kuwait",
-    "Asia/Tokyo": "Japan",
-    "Asia/Singapore": "Singapore",
-    "Europe/London": "United Kingdom",
-    "Europe/Paris": "France",
-    "Europe/Berlin": "Germany",
-    "America/New_York": "USA",
-    "America/Los_Angeles": "USA",
-    "America/Toronto": "Canada",
-    "Australia/Sydney": "Australia"
-    // Add more if needed
-};
-
-return map[tz] || "Unknown";
+function getTimezone() {
+    return Intl.DateTimeFormat().resolvedOptions().timeZone;
 }
 
-const userInfo = {
-    country: getCountryFromTimezone(),            // Much more accurate
-state: "Not available (JS cannot detect)",
-province: "Not available (JS cannot detect)",
-//  localDateTime: new Date().toLocaleString(),
-deviceType: getDeviceType(),
-platform: navigator.platform,
-//   timezone: Intl.DateTimeFormat().resolvedOptions().timeZone,
-userAgent: navigator.userAgent,
-language: navigator.language,
-referrer: document.referrer,
-currentUrl: window.location.href,
-//   timeVisitedUTC: new Date().toISOString(),
-// VisitDate: new Date().toISOString()
+function getCityFromTimezone(tz) {
+    if (!tz) return "Unknown";
+    const parts = tz.split('/');
+    return parts[1] ? parts[1].replace(/_/g, ' ') : "Unknown";
+}
+
+// Small internal map ONLY for country codes (covers all major TZ cities)
+const tzToCountryCode = {
+    // India / Nepal / Sri Lanka
+    "Asia/Kolkata": "IN",
+    "Asia/Calcutta": "IN",
+    "Asia/Kathmandu": "NP",
+    "Asia/Colombo": "LK",
+
+    // Middle East
+    "Asia/Dubai": "AE",
+    "Asia/Riyadh": "SA",
+    "Asia/Qatar": "QA",
+    "Asia/Bahrain": "BH",
+    "Asia/Kuwait": "KW",
+    "Asia/Muscat": "OM",
+    "Asia/Jerusalem": "IL",
+
+    // Asia
+    "Asia/Tokyo": "JP",
+    "Asia/Singapore": "SG",
+    "Asia/Bangkok": "TH",
+    "Asia/Jakarta": "ID",
+    "Asia/Manila": "PH",
+    "Asia/Seoul": "KR",
+    "Asia/Shanghai": "CN",
+    "Asia/Hong_Kong": "HK",
+    "Asia/Kuala_Lumpur": "MY",
+    "Asia/Taipei": "TW",
+
+    // Europe
+    "Europe/London": "GB",
+    "Europe/Paris": "FR",
+    "Europe/Berlin": "DE",
+    "Europe/Rome": "IT",
+    "Europe/Madrid": "ES",
+    "Europe/Amsterdam": "NL",
+    "Europe/Moscow": "RU",
+    "Europe/Istanbul": "TR",
+
+    // America
+    "America/New_York": "US",
+    "America/Los_Angeles": "US",
+    "America/Chicago": "US",
+    "America/Denver": "US",
+    "America/Toronto": "CA",
+    "America/Vancouver": "CA",
+    "America/Mexico_City": "MX",
+    "America/Sao_Paulo": "BR",
+    "America/Argentina/Buenos_Aires": "AR",
+
+    // Africa
+    "Africa/Cairo": "EG",
+    "Africa/Nairobi": "KE",
+    "Africa/Johannesburg": "ZA",
+
+    // Australia / NZ
+    "Australia/Sydney": "AU",
+    "Australia/Melbourne": "AU",
+    "Pacific/Auckland": "NZ"
 };
+
+function getCountryFromTimezone() {
+    const tz = getTimezone();
+    const code = tzToCountryCode[tz];
+
+    if (!code) return "Unknown";
+
+    const regionNames = new Intl.DisplayNames(['en'], { type: 'region' });
+    return regionNames.of(code);
+}
+
+const tz = getTimezone();
+
+const userInfo = {
+    country: getCountryFromTimezone(),
+    city: getCityFromTimezone(tz),
+    state: "Not available (JS cannot detect)",
+    province: "Not available (JS cannot detect)",
+    deviceType: getDeviceType(),
+    platform: navigator.platform,
+    userAgent: navigator.userAgent,
+    language: navigator.language,
+    referrer: document.referrer,
+    currentUrl: window.location.href
+};
+
+// const userInfo = {
+//     country: getCountryFromTimezone(),            // Much more accurate
+// state: "Not available (JS cannot detect)",
+// province: "Not available (JS cannot detect)",
+// //  localDateTime: new Date().toLocaleString(),
+// deviceType: getDeviceType(),
+// platform: navigator.platform,
+// //   timezone: Intl.DateTimeFormat().resolvedOptions().timeZone,
+// userAgent: navigator.userAgent,
+// language: navigator.language,
+// referrer: document.referrer,
+// currentUrl: window.location.href,
+// //   timeVisitedUTC: new Date().toISOString(),
+// // VisitDate: new Date().toISOString()
+//};
 
 $.ajax({
 url: currentDomain + '/api/Home/AddViewerDetails',
