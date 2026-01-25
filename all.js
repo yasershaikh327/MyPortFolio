@@ -1,7 +1,7 @@
 
     const localhost = 'https://localhost:44389';
     const live = 'https://resturantapp-2z56.onrender.com'
-    const currentDomain = live;
+    const currentDomain = localhost;
     // Smooth scrolling
     document.querySelectorAll('a[href^="#"]').forEach(anchor => {
         anchor.addEventListener('click', function (e) {
