@@ -282,19 +282,19 @@ const userInfo = {
 // // VisitDate: new Date().toISOString()
 //};
 
-$.ajax({
-url: currentDomain + '/api/Home/AddViewerDetails',
-type: 'POST',
-contentType: 'application/json',
-data: JSON.stringify(userInfo),  // ✔ send pure object
-success: function (response) {
-    //  console.log("Success:", response);
-    console.log("Success From api");
-    },
-error: function (xhr, status, error) {
-    console.error("Error:", xhr.responseText);
-}
-});
+// $.ajax({
+// url: currentDomain + '/api/Home/AddViewerDetails',
+// type: 'POST',
+// contentType: 'application/json',
+// data: JSON.stringify(userInfo),  // ✔ send pure object
+// success: function (response) {
+//     //  console.log("Success:", response);
+//     console.log("Success From api");
+//     },
+// error: function (xhr, status, error) {
+//     console.error("Error:", xhr.responseText);
+// }
+// });
 
 /*$(document).ready(function () {
 $.ajax({
