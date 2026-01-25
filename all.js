@@ -213,8 +213,8 @@ currentUrl: window.location.href,
 // VisitDate: new Date().toISOString()
 };
 
-/*$.ajax({
-url: 'https://resturantapp-2z56.onrender.com/api/Home/AddViewerDetails',
+$.ajax({
+url: currentDomain + '/api/Home/AddViewerDetails',
 type: 'POST',
 contentType: 'application/json',
 data: JSON.stringify(userInfo),  // ✔ send pure object
@@ -225,7 +225,7 @@ success: function (response) {
 error: function (xhr, status, error) {
     console.error("Error:", xhr.responseText);
 }
-});*/
+});
 
 /*$(document).ready(function () {
 $.ajax({
