@@ -1,7 +1,7 @@
 
     const localhost = 'https://localhost:44389';
     const live = 'https://resturantapp-2z56.onrender.com'
-    const currentDomain = live;
+    const currentDomain = localhost;
     // Smooth scrolling
     document.querySelectorAll('a[href^="#"]').forEach(anchor => {
         anchor.addEventListener('click', function (e) {
@@ -567,5 +567,49 @@ $(function () {
     });
 });
 
+function Validate() {
+
+    var name = $('#name');
+    var email = $('#email');
+    var message = $('#message');
+    if(name.val()==""){
+        Swal.fire("Please Enter the Name");
+        return false;
+    }
+    if(email.val()==""){
+        Swal.fire("Please Enter the Email");
+        return false;
+    }
+    if(message.val()==""){
+        Swal.fire("Please Enter the Message");
+        return false;
+    }
+
+    var contact = {
+        name: $('#name').val(),
+        email: $('#email').val(),
+        message: $('#message').val()
+    };
+
+    //console.log(contact);
+
+    $.ajax({
+        url: currentDomain + '/api/Home/Contact',   // ✅ correct MVC route
+        type: 'POST',
+        contentType: 'application/json',
+        data: JSON.stringify(contact),  // ✔ send pure object
+        success: function (response) {
+            console.log("Success:", response);
+            Swal.fire("Thank You",
+                "Thank you for reaching out. I will get back to you soon.",
+                "success");
+        },
+        error: function (xhr,err) {
+            console.error("Error:", xhr);
+        }
+    });
+
+    //return false; // important
+}
 
 
