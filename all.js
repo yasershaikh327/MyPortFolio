@@ -2,6 +2,7 @@
     const localhost = 'https://localhost:44389';
     const live = 'https://resturantapp-2z56.onrender.com'
     const currentDomain = live;
+    const commonController = '/api/Home/';
     // Smooth scrolling
     document.querySelectorAll('a[href^="#"]').forEach(anchor => {
         anchor.addEventListener('click', function (e) {
@@ -326,7 +327,7 @@ loadProfileImage();
 async function loadProfileImage() {
 try {
     const url = await $.ajax({
-        url: currentDomain + '/api/Home/accountprofilepicture',
+        url: currentDomain + commonController + 'accountprofilepicture',
         type: 'GET'
     });
 
@@ -354,7 +355,140 @@ try {
 
 
 $.ajax({
-url: currentDomain + '/api/Home/GetDetails',
+url: currentDomain + commonController + 'GetWhyHireMe',
+type: 'GET',
+contentType: 'application/json',
+success: function (response) {
+    console.log("Success:", response);
+    console.log("Success From api");
+    document.getElementById("txtwhyhireme").innerHTML = response;
+    },
+error: function (xhr, status, error) {
+    console.error("Error:", xhr.responseText);
+}
+});
+
+
+$.ajax({
+url: currentDomain + commonController + 'GetChallengesSolved',
+type: 'GET',
+contentType: 'application/json',
+success: function (response) {
+    console.log("Success:", response);
+    console.log("Success From api");
+    document.getElementById("txtchallenges").innerHTML = response;
+    },
+error: function (xhr, status, error) {
+    console.error("Error:", xhr.responseText);
+}
+});
+
+
+$.ajax({
+url: currentDomain + commonController + 'GetCodeQualityPrinciples',
+type: 'GET',
+contentType: 'application/json',
+success: function (response) {
+    console.log("Success:", response);
+    console.log("Success From api");
+    document.getElementById("txtcodequality").innerHTML = response;
+    },
+error: function (xhr, status, error) {
+    console.error("Error:", xhr.responseText);
+}
+});
+
+
+$.ajax({
+url: currentDomain + commonController + 'GetApiintegrations',
+type: 'GET',
+contentType: 'application/json',
+success: function (response) {
+    console.log("Success:", response);
+    console.log("Success From api");
+    document.getElementById("txtapiintegrations").innerHTML = response;
+    },
+error: function (xhr, status, error) {
+    console.error("Error:", xhr.responseText);
+}
+});
+
+
+$.ajax({
+url: currentDomain + commonController + 'GetSecurityPractices',
+type: 'GET',
+contentType: 'application/json',
+success: function (response) {
+    console.log("Success:", response);
+    console.log("Success From api");
+    document.getElementById("txtsecuritypractices").innerHTML = response;
+    },
+error: function (xhr, status, error) {
+    console.error("Error:", xhr.responseText);
+}
+});
+
+$.ajax({
+url: currentDomain + commonController + 'GetHowIWork',
+type: 'GET',
+contentType: 'application/json',
+success: function (response) {
+    console.log("Success:", response);
+    console.log("Success From api");
+    document.getElementById("txthowiwork").innerHTML = response;
+    },
+error: function (xhr, status, error) {
+    console.error("Error:", xhr.responseText);
+}
+});
+
+
+$.ajax({
+url: currentDomain + commonController + 'GetTechStackDaily',
+type: 'GET',
+contentType: 'application/json',
+success: function (response) {
+    console.log("Success:", response);
+    console.log("Success From api");
+    document.getElementById("txttechstackiusedaily").innerHTML = response;
+    },
+error: function (xhr, status, error) {
+    console.error("Error:", xhr.responseText);
+}
+});
+
+
+$.ajax({
+url: currentDomain + commonController + 'GetKeyAchivement',
+type: 'GET',
+contentType: 'application/json',
+success: function (response) {
+    console.log("Success:", response);
+    console.log("Success From api");
+    document.getElementById("txtkeyachievements").innerHTML = response;
+    },
+error: function (xhr, status, error) {
+    console.error("Error:", xhr.responseText);
+}
+});
+
+$.ajax({
+url: currentDomain + commonController + 'GetWhatCanIDoForYou',
+type: 'GET',
+contentType: 'application/json',
+success: function (response) {
+    console.log("Success:", response);
+    console.log("Success From api");
+    document.getElementById("txtwhatcanidoforyou").innerHTML = response;
+    },
+error: function (xhr, status, error) {
+    console.error("Error:", xhr.responseText);
+}
+});
+
+
+$.ajax({
+url: currentDomain +  commonController + 'GetDetails',
 type: 'GET',
 contentType: 'application/json',
 success: function (response) {
@@ -372,7 +506,7 @@ error: function (xhr, status, error) {
 
 
 $.ajax({
-    url: currentDomain + '/api/Home/GetExperience',
+    url: currentDomain + commonController + 'GetExperience',
     type: 'GET',
     contentType: 'application/json',
     success: function (response) {
@@ -422,7 +556,7 @@ function renderExperienceTimeline(experiences) {
 
 
 $.ajax({
-url: currentDomain + '/api/Home/GetTools',
+url: currentDomain + commonController + 'GetTools',
 type: 'GET',
 contentType: 'application/json',
 success: function (response) {
@@ -450,7 +584,7 @@ error: function (xhr, status, error) {
 
 
 $.ajax({
-    url: currentDomain + '/api/Home/GetTechnology', // or your correct API URL
+    url: currentDomain + commonController + 'GetTechnology', // or your correct API URL
     type: 'GET',
     contentType: 'application/json',
     success: function(response) {
@@ -481,7 +615,7 @@ $.ajax({
 
 
 $.ajax({
-url: currentDomain + '/Portfolio/GetAboutus',
+url: currentDomain + commonController + 'GetAboutus',
 type: 'GET',
 contentType: 'application/json',
 success: function (response) {
@@ -522,7 +656,7 @@ didOpen: () => Swal.showLoading()
 
 // API call
 $.ajax({
-url: currentDomain + '/Portfolio/GetDescription/',
+url: currentDomain + commonController + 'GetDescription/',
 type: 'GET',
 
 success: function (response) {
@@ -555,7 +689,7 @@ error: function () {
 
 
 $.ajax({
-url: currentDomain + '/Portfolio/GetTheme/',
+url: currentDomain + commonController + 'GetTheme/',
 type: 'GET',
 contentType: 'application/json',
 success: function (response) {
@@ -592,7 +726,7 @@ function decodeHtml(html) {
 $(function () {
     // Fetch projects from API
     $.ajax({
-        url: currentDomain + '/api/Home/GetProjects',
+        url: currentDomain +  commonController + 'GetProjects',
         type: 'GET',
         contentType: 'application/json',
         success: function (projects) {
@@ -663,7 +797,7 @@ function Validate() {
     //console.log(contact);
 
     $.ajax({
-        url: currentDomain + '/api/Home/Contact',   // ✅ correct MVC route
+        url: currentDomain + commonController + 'Contact',   // ✅ correct MVC route
         type: 'POST',
         contentType: 'application/json',
         data: JSON.stringify(contact),  // ✔ send pure object
