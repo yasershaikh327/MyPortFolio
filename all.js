@@ -1,7 +1,7 @@
 
     const localhost = 'https://localhost:44389';
     const live = 'https://resturantapp-2z56.onrender.com'
-    const currentDomain = localhost;
+    const currentDomain = live;
     const commonController = '/api/Home/';
     const cond = 0;
     
