@@ -1,7 +1,7 @@
 
     const localhost = 'https://localhost:44389';
     const live = 'https://resturantapp-2z56.onrender.com'
-    const currentDomain = live;
+    const currentDomain = localhost;
     const commonController = '/api/Home/';
     const cond = 0;
     
@@ -812,7 +812,8 @@ function Validate() {
                 "success");
         },
         error: function (xhr,err) {
-            console.error("Error:", xhr);
+            console.error("Errors:", xhr);
+            Swal.fire("Please Wait!","You may Have Requested too Many Times or Something went Wrong. Please Try Again later","error");
         }
     });
 
