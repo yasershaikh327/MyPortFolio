@@ -359,6 +359,51 @@ try {
 
 
 $.ajax({
+    url: currentDomain + commonController + 'GetCertificates',
+    type: 'GET',
+    success: function (data) {
+
+        let html = '';
+
+        data.forEach(c => {
+
+            let formattedDate = new Date(c.certificateCompleted)
+                .toLocaleDateString('en-US', { year: 'numeric', month: 'short' });
+
+            html += `
+                <div class="certificate-card fade-in">
+                    <div class="certificate-header">
+                        <div class="certificate-icon">🎓</div>
+                        <div class="certificate-source">${c.learningSource}</div>
+                    </div>
+
+                    <h3 class="certificate-name">${c.courseName}</h3>
+
+                    <p class="certificate-description">
+                        ${c.description}
+                    </p>
+
+                    <div class="certificate-footer">
+                        <span class="certificate-date">Issued: ${formattedDate}</span>
+                        <a href="${c.certificateUrl}" target="_blank" class="certificate-link">
+                            View Certificate →
+                        </a>
+                    </div>
+                </div>
+            `;
+        });
+
+        $('#certificatesGrid').html(html);
+    },
+    error: function (xhr) {
+        console.error(xhr.responseText);
+    }
+});
+
+
+
+
+$.ajax({
 url: currentDomain + commonController + 'GetWhyHireMe',
 type: 'GET',
 contentType: 'application/json',
