@@ -367,30 +367,26 @@ $.ajax({
 
         data.forEach(c => {
 
-            let formattedDate = new Date(c.certificateCompleted)
-                .toLocaleDateString('en-US', { year: 'numeric', month: 'short' });
+            let formattedDate = '';
+
+            if (c.certificateCompleted) {
+                formattedDate = new Date(c.certificateCompleted)
+                    .toLocaleDateString('en-US', { year: 'numeric', month: 'short' });
+            }
 
             html += `
-                <div class="certificate-card fade-in">
-                    <div class="certificate-header">
-                        <div class="certificate-icon">🎓</div>
-                        <div class="certificate-source">${c.learningSource}</div>
-                    </div>
-
-                    <h3 class="certificate-name">${c.courseName}</h3>
-
-                    <p class="certificate-description">
-                        ${c.description}
-                    </p>
-
-                    <div class="certificate-footer">
-                        <span class="certificate-date">Issued: ${formattedDate}</span>
-                        <a href="${c.certificateUrl}" target="_blank" class="certificate-link">
-                            View Certificate →
-                        </a>
-                    </div>
-                </div>
-            `;
+<div class="certificate-card fade-in">
+    <div class="certificate-header">
+        <div class="certificate-icon">🎓</div>
+        <div class="certificate-source">${c.learningSource}</div>
+    </div>
+    <h3 class="certificate-name">${c.courseName}</h3>
+    <p class="certificate-description">${c.description}</p>
+    <div class="certificate-footer">
+        <span class="certificate-date">Issued: ${formattedDate}</span>
+        <a href="${c.certificateUrl}" target="_blank" class="certificate-link">View Certificate →</a>
+    </div>
+</div>`;
         });
 
         $('#certificatesGrid').html(html);
