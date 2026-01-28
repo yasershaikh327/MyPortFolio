@@ -3,6 +3,8 @@
     const live = 'https://resturantapp-2z56.onrender.com'
     const currentDomain = live;
     const commonController = '/api/Home/';
+    const cond = 0;
+    
     // Smooth scrolling
     document.querySelectorAll('a[href^="#"]').forEach(anchor => {
         anchor.addEventListener('click', function (e) {
@@ -283,19 +285,21 @@ const userInfo = {
 // // VisitDate: new Date().toISOString()
 //};
 
-// $.ajax({
-// url: currentDomain + '/api/Home/AddViewerDetails',
-// type: 'POST',
-// contentType: 'application/json',
-// data: JSON.stringify(userInfo),  // ✔ send pure object
-// success: function (response) {
-//     //  console.log("Success:", response);
-//     console.log("Success From api");
-//     },
-// error: function (xhr, status, error) {
-//     console.error("Error:", xhr.responseText);
-// }
-// });
+if(cond == 1){
+    $.ajax({
+    url: currentDomain + commonController + 'AddViewerDetails',
+    type: 'POST',
+    contentType: 'application/json',
+    data: JSON.stringify(userInfo),  // ✔ send pure object
+    success: function (response) {
+        //  console.log("Success:", response);
+        console.log("Success From api");
+        },
+    error: function (xhr, status, error) {
+        console.error("Error:", xhr.responseText);
+    }
+    });
+}
 
 /*$(document).ready(function () {
 $.ajax({
