@@ -361,18 +361,19 @@ try {
 $.ajax({
     url: currentDomain + commonController + 'GetCertificates',
     type: 'GET',
-    success: function (data) {
-
+    success: function(data) {
         let html = '';
 
         data.forEach(c => {
 
             let formattedDate = '';
-
             if (c.certificateCompleted) {
                 formattedDate = new Date(c.certificateCompleted)
                     .toLocaleDateString('en-US', { year: 'numeric', month: 'short' });
             }
+
+            let desc = (c.description || '').replace(/\s+/g, ' ').trim();
+            if (desc.length > 180) desc = desc.substring(0, 180) + '...';
 
             html += `
 <div class="certificate-card fade-in">
@@ -381,17 +382,20 @@ $.ajax({
         <div class="certificate-source">${c.learningSource}</div>
     </div>
     <h3 class="certificate-name">${c.courseName}</h3>
-    <p class="certificate-description">${c.description}</p>
-    <div class="certificate-footer">
-        <span class="certificate-date">Issued: ${formattedDate}</span>
-        <a href="${c.certificateUrl}" target="_blank" class="certificate-link">View Certificate →</a>
+
+    <div class="certificate-body" style="flex-grow:1; display:flex; flex-direction:column;">
+        <p class="certificate-description">${desc}</p>
+        <div class="certificate-footer">
+            <span class="certificate-date">Issued: ${formattedDate}</span>
+            <a href="${c.certificateUrl}" target="_blank" class="certificate-link">View Certificate →</a>
+        </div>
     </div>
 </div>`;
         });
 
         $('#certificatesGrid').html(html);
     },
-    error: function (xhr) {
+    error: function(xhr) {
         console.error(xhr.responseText);
     }
 });

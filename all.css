@@ -1093,7 +1093,12 @@
     grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
     gap: 2rem;
     margin-top: 3rem;
+
+    /* Add these lines */
+    align-items: stretch;      /* ensures all cards in a row have same height */
+    justify-items: stretch;    /* optional: stretches cards horizontally too */
 }
+
 
 .certificate-card {
     background: var(--bg-secondary);
@@ -1174,6 +1179,14 @@
     color: var(--text-primary);
     transform: translateX(5px);
 }
+
+.certificate-body {
+    display: flex;
+    flex-direction: column;
+    flex-grow: 1;
+    justify-content: space-between; /* pushes footer to bottom */
+}
+
 
 /* Responsive Design */
 @media (max-width: 768px) {
