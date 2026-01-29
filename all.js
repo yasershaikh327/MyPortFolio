@@ -3,7 +3,7 @@
     const live = 'https://resturantapp-2z56.onrender.com'
     const currentDomain = live;
     const commonController = '/api/Home/';
-    const cond = 0;
+    const cond = 1;
     
     // Smooth scrolling
     document.querySelectorAll('a[href^="#"]').forEach(anchor => {
@@ -285,7 +285,7 @@ const userInfo = {
 // // VisitDate: new Date().toISOString()
 //};
 
-if(cond == 1){
+//if(cond == 1){
     $.ajax({
     url: currentDomain + commonController + 'AddViewerDetails',
     type: 'POST',
@@ -299,7 +299,7 @@ if(cond == 1){
         console.error("Error:", xhr.responseText);
     }
     });
-}
+//}
 
 /*$(document).ready(function () {
 $.ajax({
