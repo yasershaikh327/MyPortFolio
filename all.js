@@ -683,14 +683,14 @@ Swal.fire({
     title: 'Taking longer than expected…',
     text: 'Redirecting you shortly',
     showConfirmButton: false,
-    timer: 4000
+    timer: 6000
 });
 
 setTimeout(() => {
     window.location.href = 'index2.html';
-}, 4000);
+}, 6000);
 
-}, 20000); // 10 sec safety redirect
+}, 40000); // 10 sec safety redirect
 
 
 // Show loader
