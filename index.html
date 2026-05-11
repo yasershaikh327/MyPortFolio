@@ -655,51 +655,112 @@
         <a href="linkedin.com/in/yaser-shaikh-b0245614a" class="btn-outline">in Connect on LinkedIn</a>
       </div>
     </div>
-    <!-- Glowing dot — India (Goa) — PRIMARY -->
-    <circle cx="598" cy="185" r="6" fill="#00d4ff" opacity="1">
-      <animate attributeName="opacity" values="1;0.4;1" dur="1.8s" repeatCount="indefinite"/>
-    </circle>
-    <circle cx="598" cy="185" r="14" fill="#00d4ff" opacity="0.2">
-      <animate attributeName="r" values="10;18;10" dur="1.8s" repeatCount="indefinite"/>
-    </circle>
-    <line x1="598" y1="178" x2="630" y2="155" stroke="#00d4ff" stroke-width="0.8" opacity="0.6"/>
-    <text x="635" y="152" fill="#00d4ff" font-size="8" font-family="monospace">Goa, India</text>
+    <div class="world-map">
+      <svg viewBox="0 0 1000 500" xmlns="http://www.w3.org/2000/svg" style="width:100%;height:100%;display:block;">
+        <rect width="1000" height="500" fill="#0d1520"/>
 
-    <!-- Glowing dot — Middle East -->
-    <circle cx="515" cy="148" r="5" fill="#00d4ff" opacity="0.9">
-      <animate attributeName="opacity" values="0.9;0.3;0.9" dur="2.2s" repeatCount="indefinite"/>
-    </circle>
-    <circle cx="515" cy="148" r="10" fill="#00d4ff" opacity="0.2">
-      <animate attributeName="r" values="8;14;8" dur="2.2s" repeatCount="indefinite"/>
-    </circle>
-    <line x1="515" y1="142" x2="510" y2="120" stroke="#00d4ff" stroke-width="0.8" opacity="0.6"/>
-    <text x="488" y="117" fill="#00d4ff" font-size="8" font-family="monospace">Middle East</text>
+        <!-- Ocean grid lines for depth -->
+        <line x1="0" y1="100" x2="1000" y2="100" stroke="#111f30" stroke-width="0.5"/>
+        <line x1="0" y1="200" x2="1000" y2="200" stroke="#111f30" stroke-width="0.5"/>
+        <line x1="0" y1="300" x2="1000" y2="300" stroke="#111f30" stroke-width="0.5"/>
+        <line x1="0" y1="400" x2="1000" y2="400" stroke="#111f30" stroke-width="0.5"/>
+        <line x1="200" y1="0" x2="200" y2="500" stroke="#111f30" stroke-width="0.5"/>
+        <line x1="400" y1="0" x2="400" y2="500" stroke="#111f30" stroke-width="0.5"/>
+        <line x1="600" y1="0" x2="600" y2="500" stroke="#111f30" stroke-width="0.5"/>
+        <line x1="800" y1="0" x2="800" y2="500" stroke="#111f30" stroke-width="0.5"/>
 
-    <!-- Glowing dot — UK -->
-    <circle cx="408" cy="72" r="5" fill="#00d4ff" opacity="0.9">
-      <animate attributeName="opacity" values="0.9;0.3;0.9" dur="2.5s" repeatCount="indefinite"/>
-    </circle>
-    <circle cx="408" cy="72" r="10" fill="#00d4ff" opacity="0.2">
-      <animate attributeName="r" values="8;14;8" dur="2.5s" repeatCount="indefinite"/>
-    </circle>
-    <line x1="408" y1="66" x2="395" y2="48" stroke="#00d4ff" stroke-width="0.8" opacity="0.6"/>
-    <text x="368" y="45" fill="#00d4ff" font-size="8" font-family="monospace">UK</text>
+        <!-- ===== CONTINENTS ===== -->
 
-    <!-- Glowing dot — North America -->
-    <circle cx="155" cy="155" r="5" fill="#00d4ff" opacity="0.9">
-      <animate attributeName="opacity" values="0.9;0.3;0.9" dur="2s" repeatCount="indefinite"/>
-    </circle>
-    <circle cx="155" cy="155" r="10" fill="#00d4ff" opacity="0.2">
-      <animate attributeName="r" values="8;14;8" dur="2s" repeatCount="indefinite"/>
-    </circle>
-    <line x1="155" y1="149" x2="155" y2="128" stroke="#00d4ff" stroke-width="0.8" opacity="0.6"/>
-    <text x="118" y="125" fill="#00d4ff" font-size="8" font-family="monospace">N. America</text>
+        <!-- North America -->
+        <path d="M120,80 L180,70 L220,90 L240,130 L220,160 L200,180 L180,200 L160,220 L140,210 L120,190 L100,170 L90,140 L100,110 Z" fill="#1a2a3a" stroke="#2a4a6a" stroke-width="1"/>
+        <!-- Greenland -->
+        <path d="M220,40 L260,30 L280,50 L270,80 L240,85 L220,70 Z" fill="#1a2a3a" stroke="#2a4a6a" stroke-width="1"/>
+        <!-- Central America -->
+        <path d="M160,220 L180,230 L170,260 L150,250 Z" fill="#1a2a3a" stroke="#2a4a6a" stroke-width="1"/>
 
-    <!-- Continent Labels (subtle) -->
-    <text x="215" y="340" fill="rgba(255,255,255,0.2)" font-size="9" font-family="monospace" text-anchor="middle">S.America</text>
-    <text x="460" y="240" fill="rgba(255,255,255,0.2)" font-size="9" font-family="monospace" text-anchor="middle">Africa</text>
-    <text x="720" y="95"  fill="rgba(255,255,255,0.2)" font-size="9" font-family="monospace" text-anchor="middle">Asia</text>
-    <text x="790" y="335" fill="rgba(255,255,255,0.2)" font-size="9" font-family="monospace" text-anchor="middle">Australia</text>
+        <!-- South America -->
+        <path d="M180,260 L220,250 L250,270 L260,310 L250,360 L230,400 L200,420 L180,400 L165,360 L160,310 L170,280 Z" fill="#1a2a3a" stroke="#2a4a6a" stroke-width="1"/>
+
+        <!-- Europe -->
+        <path d="M420,60 L460,55 L480,70 L470,100 L450,110 L430,105 L415,90 Z" fill="#1a2a3a" stroke="#2a4a6a" stroke-width="1"/>
+        <!-- Scandinavia -->
+        <path d="M440,30 L460,20 L475,40 L465,60 L445,55 Z" fill="#1a2a3a" stroke="#2a4a6a" stroke-width="1"/>
+        <!-- UK -->
+        <path d="M400,60 L415,55 L418,78 L405,80 Z" fill="#1a2a3a" stroke="#2a4a6a" stroke-width="1"/>
+
+        <!-- Africa -->
+        <path d="M420,120 L470,110 L500,130 L510,180 L500,240 L480,290 L450,320 L420,310 L400,270 L395,220 L400,170 L410,140 Z" fill="#1a2a3a" stroke="#2a4a6a" stroke-width="1"/>
+
+        <!-- Russia -->
+        <path d="M480,40 L700,20 L820,35 L840,60 L800,75 L760,70 L700,60 L600,50 L480,60 Z" fill="#1a2a3a" stroke="#2a4a6a" stroke-width="1"/>
+
+        <!-- Asia main -->
+        <path d="M480,60 L600,50 L700,60 L760,80 L780,110 L760,140 L720,150 L680,145 L640,155 L600,150 L560,140 L520,130 L490,110 L475,90 Z" fill="#1a2a3a" stroke="#2a4a6a" stroke-width="1"/>
+        <!-- Middle East -->
+        <path d="M490,130 L530,125 L540,160 L520,175 L495,165 Z" fill="#1a2a3a" stroke="#2a4a6a" stroke-width="1"/>
+        <!-- India -->
+        <path d="M580,145 L620,140 L635,170 L625,210 L605,230 L585,210 L575,175 Z" fill="#1a2a3a" stroke="#2a4a6a" stroke-width="1"/>
+        <!-- Southeast Asia -->
+        <path d="M660,150 L700,145 L720,170 L710,195 L685,200 L665,185 Z" fill="#1a2a3a" stroke="#2a4a6a" stroke-width="1"/>
+        <!-- East Asia -->
+        <path d="M700,80 L760,75 L790,100 L785,135 L755,145 L720,140 L700,120 Z" fill="#1a2a3a" stroke="#2a4a6a" stroke-width="1"/>
+        <!-- Japan -->
+        <path d="M790,95 L800,88 L810,100 L800,112 L790,108 Z" fill="#1a2a3a" stroke="#2a4a6a" stroke-width="1"/>
+
+        <!-- Australia -->
+        <path d="M720,290 L790,275 L840,285 L860,320 L850,360 L810,380 L760,375 L725,350 L710,320 Z" fill="#1a2a3a" stroke="#2a4a6a" stroke-width="1"/>
+
+        <!-- ===== GLOWING DOTS ===== -->
+
+        <!-- India (Goa) — PRIMARY -->
+        <circle cx="598" cy="185" r="6" fill="#00d4ff" opacity="1">
+          <animate attributeName="opacity" values="1;0.4;1" dur="1.8s" repeatCount="indefinite"/>
+        </circle>
+        <circle cx="598" cy="185" r="14" fill="#00d4ff" opacity="0.15">
+          <animate attributeName="r" values="10;20;10" dur="1.8s" repeatCount="indefinite"/>
+        </circle>
+        <line x1="598" y1="178" x2="635" y2="155" stroke="#00d4ff" stroke-width="0.8" opacity="0.7"/>
+        <text x="640" y="153" fill="#00d4ff" font-size="9" font-family="monospace">Goa, India ★</text>
+
+        <!-- Middle East -->
+        <circle cx="515" cy="148" r="5" fill="#00d4ff" opacity="0.9">
+          <animate attributeName="opacity" values="0.9;0.3;0.9" dur="2.2s" repeatCount="indefinite"/>
+        </circle>
+        <circle cx="515" cy="148" r="10" fill="#00d4ff" opacity="0.15">
+          <animate attributeName="r" values="8;15;8" dur="2.2s" repeatCount="indefinite"/>
+        </circle>
+        <line x1="515" y1="141" x2="515" y2="118" stroke="#00d4ff" stroke-width="0.8" opacity="0.7"/>
+        <text x="488" y="114" fill="#00d4ff" font-size="9" font-family="monospace">Middle East</text>
+
+        <!-- UK -->
+        <circle cx="408" cy="68" r="5" fill="#00d4ff" opacity="0.9">
+          <animate attributeName="opacity" values="0.9;0.3;0.9" dur="2.5s" repeatCount="indefinite"/>
+        </circle>
+        <circle cx="408" cy="68" r="10" fill="#00d4ff" opacity="0.15">
+          <animate attributeName="r" values="8;15;8" dur="2.5s" repeatCount="indefinite"/>
+        </circle>
+        <line x1="408" y1="61" x2="395" y2="42" stroke="#00d4ff" stroke-width="0.8" opacity="0.7"/>
+        <text x="365" y="39" fill="#00d4ff" font-size="9" font-family="monospace">UK</text>
+
+        <!-- North America -->
+        <circle cx="155" cy="155" r="5" fill="#00d4ff" opacity="0.9">
+          <animate attributeName="opacity" values="0.9;0.3;0.9" dur="2s" repeatCount="indefinite"/>
+        </circle>
+        <circle cx="155" cy="155" r="10" fill="#00d4ff" opacity="0.15">
+          <animate attributeName="r" values="8;15;8" dur="2s" repeatCount="indefinite"/>
+        </circle>
+        <line x1="155" y1="148" x2="155" y2="125" stroke="#00d4ff" stroke-width="0.8" opacity="0.7"/>
+        <text x="112" y="122" fill="#00d4ff" font-size="9" font-family="monospace">N. America</text>
+
+        <!-- Subtle continent labels -->
+        <text x="160" y="200" fill="rgba(255,255,255,0.12)" font-size="11" font-family="monospace" text-anchor="middle">N.America</text>
+        <text x="210" y="350" fill="rgba(255,255,255,0.12)" font-size="11" font-family="monospace" text-anchor="middle">S.America</text>
+        <text x="448" y="88"  fill="rgba(255,255,255,0.12)" font-size="11" font-family="monospace" text-anchor="middle">Europe</text>
+        <text x="455" y="230" fill="rgba(255,255,255,0.12)" font-size="11" font-family="monospace" text-anchor="middle">Africa</text>
+        <text x="660" y="105" fill="rgba(255,255,255,0.12)" font-size="11" font-family="monospace" text-anchor="middle">Asia</text>
+        <text x="785" y="330" fill="rgba(255,255,255,0.12)" font-size="11" font-family="monospace" text-anchor="middle">Australia</text>
+      </svg>
+    </div>
       <p>📍 GOA, INDIA</p>
       <p>⏱ Usually responds within 24 hours</p>
     </div>
