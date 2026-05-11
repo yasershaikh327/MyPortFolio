@@ -1,43 +1,76 @@
 // ===== PAGE NAVIGATION =====
+// ===== PAGE COLOR THEMES =====
+const pageColors = {
+  home:    '#00d4ff',   // Blue
+  about:   '#a855f7',   // Purple
+  work:    '#ef4444',   // Red
+  stories: '#f97316',   // Orange
+  contact: '#4ade80',   // Green
+};
+
+// ===== SHOW PAGE =====
 function showPage(pageId) {
   // Hide all pages
   document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
-  // Show target
-  const target = document.getElementById(pageId);
-  if (target) target.classList.add('active');
+  document.querySelectorAll('.nav-link').forEach(l => l.classList.remove('active'));
+  document.querySelectorAll('.mobile-nav-link').forEach(l => l.classList.remove('active'));
 
-  // Update desktop nav links
-  document.querySelectorAll('.nav-link').forEach(link => {
-    link.classList.remove('active');
-    if (link.dataset.page === pageId) link.classList.add('active');
-  });
+  // Show selected page
+  document.getElementById(pageId)?.classList.add('active');
 
-  // Update mobile nav links
-  document.querySelectorAll('.mobile-nav-link').forEach(link => {
-    link.classList.remove('active');
-    if (link.dataset.page === pageId) link.classList.add('active');
-  });
+  // Activate nav link
+  document.querySelectorAll(`[data-page="${pageId}"]`).forEach(l => l.classList.add('active'));
+
+  // Apply body class for CSS variable theming
+  const body = document.body;
+  body.className = body.className.replace(/page-\w+/g, '').trim();
+  body.classList.add(`page-${pageId}`);
+
+  // Also set CSS variable directly for full browser support
+  document.documentElement.style.setProperty('--cyan', pageColors[pageId]);
+
+  // Close mobile nav
+  document.getElementById('mobileNav')?.classList.remove('open');
+  document.getElementById('hamburger')?.classList.remove('open');
 
   // Scroll to top
   window.scrollTo({ top: 0, behavior: 'smooth' });
-
-  // Update URL hash
-  history.pushState(null, null, '#' + pageId);
 }
 
-// Nav link clicks
-document.querySelectorAll('.nav-link').forEach(link => {
+// ===== NAV LINKS =====
+document.querySelectorAll('[data-page]').forEach(link => {
   link.addEventListener('click', (e) => {
     e.preventDefault();
     showPage(link.dataset.page);
   });
 });
 
-// "Let's Talk" button → Contact
-document.querySelector('.btn-talk')?.addEventListener('click', (e) => {
-  e.preventDefault();
-  showPage('contact');
+// ===== THEME TOGGLE =====
+const themeToggle = document.getElementById('themeToggle');
+themeToggle?.addEventListener('click', () => {
+  document.body.classList.toggle('light-mode');
+  themeToggle.textContent = document.body.classList.contains('light-mode') ? '☾' : '☀';
 });
+
+// ===== HAMBURGER =====
+document.getElementById('hamburger')?.addEventListener('click', () => {
+  document.getElementById('hamburger').classList.toggle('open');
+  document.getElementById('mobileNav').classList.toggle('open');
+});
+
+// ===== TIMELINE TOGGLE =====
+function toggleTimeline(header) {
+  const card = header.parentElement;
+  const body = card.querySelector('.timeline-card-body');
+  const arrow = header.querySelector('.tl-arrow');
+  const isOpen = body.style.display !== 'none';
+  body.style.display = isOpen ? 'none' : 'block';
+  arrow.textContent = isOpen ? '›' : '▾';
+  card.classList.toggle('expanded', !isOpen);
+}
+
+// Init home page color on load
+showPage('home');
 
 // Footer links
 document.querySelectorAll('#footer a[href^="#"]').forEach(link => {

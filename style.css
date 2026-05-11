@@ -20,6 +20,17 @@
   --font-script: 'Caveat', cursive;
 }
 
+/* ===== PER-PAGE COLOR THEMES ===== */
+:root {
+  --cyan: #00d4ff;   /* Default / Home = Blue */
+}
+
+body.page-home    { --cyan: #00d4ff; --cyan2: #00b8d9; }  /* Blue */
+body.page-about   { --cyan: #a855f7; --cyan2: #9333ea; }  /* Purple */
+body.page-work    { --cyan: #ef4444; --cyan2: #dc2626; }  /* Red */
+body.page-stories { --cyan: #f97316; --cyan2: #ea6c10; }  /* Orange */
+body.page-contact { --cyan: #4ade80; --cyan2: #22c55e; }  /* Green */
+
 body {
   background: var(--bg);
   color: var(--text);
