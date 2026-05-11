@@ -72,6 +72,46 @@ function toggleTimeline(header) {
 // Init home page color on load
 showPage('home');
 
+function showPage(pageId) {
+  // Hide all pages
+  document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
+  // Show target
+  const target = document.getElementById(pageId);
+  if (target) target.classList.add('active');
+
+  // Update desktop nav links
+  document.querySelectorAll('.nav-link').forEach(link => {
+    link.classList.remove('active');
+    if (link.dataset.page === pageId) link.classList.add('active');
+  });
+
+  // Update mobile nav links
+  document.querySelectorAll('.mobile-nav-link').forEach(link => {
+    link.classList.remove('active');
+    if (link.dataset.page === pageId) link.classList.add('active');
+  });
+
+  // Scroll to top
+  window.scrollTo({ top: 0, behavior: 'smooth' });
+
+  // Update URL hash
+  history.pushState(null, null, '#' + pageId);
+}
+
+// Nav link clicks
+document.querySelectorAll('.nav-link').forEach(link => {
+  link.addEventListener('click', (e) => {
+    e.preventDefault();
+    showPage(link.dataset.page);
+  });
+});
+
+// "Let's Talk" button → Contact
+document.querySelector('.btn-talk')?.addEventListener('click', (e) => {
+  e.preventDefault();
+  showPage('contact');
+});
+
 // Footer links
 document.querySelectorAll('#footer a[href^="#"]').forEach(link => {
   link.addEventListener('click', (e) => {
