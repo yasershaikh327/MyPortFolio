@@ -994,3 +994,48 @@ body.light-mode .gmail-icon { background: #f0f0f5; }
     border-radius: 10px;
     display: block;
 }
+
+/* ===== MAP PINS ===== */
+.map-pin-wrap {
+  position: relative;
+  width: 14px;
+  height: 14px;
+}
+.map-pin-dot {
+  position: absolute;
+  top: 50%; left: 50%;
+  transform: translate(-50%, -50%);
+  width: 7px; height: 7px;
+  border-radius: 50%;
+  background: var(--cyan);
+  z-index: 2;
+}
+.map-pin-pulse {
+  position: absolute;
+  top: 50%; left: 50%;
+  transform: translate(-50%, -50%);
+  width: 14px; height: 14px;
+  border-radius: 50%;
+  background: var(--cyan);
+  opacity: 0.4;
+  animation: mapPulse 2s infinite;
+  z-index: 1;
+}
+@keyframes mapPulse {
+  0%   { transform: translate(-50%,-50%) scale(1);   opacity: 0.4; }
+  100% { transform: translate(-50%,-50%) scale(2.5); opacity: 0; }
+}
+.map-tooltip {
+  background: rgba(10,10,20,0.85) !important;
+  border: 1px solid var(--cyan) !important;
+  color: var(--cyan) !important;
+  font-family: monospace !important;
+  font-size: 10px !important;
+  font-weight: 700 !important;
+  border-radius: 4px !important;
+  padding: 2px 6px !important;
+  box-shadow: none !important;
+  white-space: nowrap;
+}
+.map-tooltip::before { display: none !important; }
+.leaflet-attribution-flag { display: none !important; }

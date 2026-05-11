@@ -166,3 +166,62 @@ const statsObserver = new IntersectionObserver((entries) => {
 
 const statsCard = document.querySelector('.stats-card');
 if (statsCard) statsObserver.observe(statsCard);
+
+// ===== CONTACT MAP (Leaflet) =====
+function initContactMap() {
+  if (document.getElementById('contact-map')._leaflet_id) return; // already init
+
+  const map = L.map('contact-map', {
+    center: [20, 30],
+    zoom: 1,
+    zoomControl: false,
+    scrollWheelZoom: false,
+    dragging: false,
+    doubleClickZoom: false,
+    attributionControl: false
+  });
+
+  // CartoDB Dark tiles (same as your reference)
+  L.tileLayer('https://{s}.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}{r}.png', {
+    subdomains: 'abcd',
+    maxZoom: 4
+  }).addTo(map);
+
+  // Custom pulsing marker
+  const pinIcon = L.divIcon({
+    className: '',
+    html: `<div class="map-pin-wrap"><span class="map-pin-pulse"></span><span class="map-pin-dot"></span></div>`,
+    iconSize: [14, 14],
+    iconAnchor: [7, 7]
+  });
+
+  // Locations
+  const locations = [
+    { latlng: [15.4909, 73.8278], label: 'Goa, India ★' },   // Goa
+    { latlng: [25.2048, 55.2708], label: 'Middle East' },      // Dubai
+    { latlng: [51.5074, -0.1278], label: 'UK' },               // London
+    { latlng: [37.0902, -95.7129], label: 'N. America' },      // USA
+  ];
+
+  locations.forEach(loc => {
+    L.marker(loc.latlng, { icon: pinIcon })
+      .addTo(map)
+      .bindTooltip(loc.label, {
+        permanent: true,
+        direction: 'top',
+        className: 'map-tooltip',
+        offset: [0, -10]
+      });
+  });
+}
+
+// Init map when contact page is shown
+const _origShowPage = showPage;
+// Watch for contact page
+const mapObserver = new MutationObserver(() => {
+  const contactPage = document.getElementById('contact');
+  if (contactPage && contactPage.classList.contains('active')) {
+    setTimeout(initContactMap, 100);
+  }
+});
+mapObserver.observe(document.body, { attributes: true, subtree: true, attributeFilter: ['class'] });
