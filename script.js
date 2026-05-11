@@ -206,8 +206,8 @@ function initContactMap() {
   });
 
   const locations = [
-    { latlng: [15.4909, 73.8278], label: 'Goa, India ★' },
-    { latlng: [25.2048, 55.2708], label: 'Middle East' },
+    { latlng: [15.4909, 73.8278], label: 'India ★' },
+    { latlng: [25.2048, 55.2708], label: 'Saudi Arabia' },
     { latlng: [51.5074, -0.1278], label: 'UK' },
     { latlng: [37.0902, -95.7129], label: 'N. America' },
   ];
