@@ -155,7 +155,7 @@ const statsObserver = new IntersectionObserver((entries) => {
   entries.forEach(entry => {
     if (entry.isIntersecting) {
       const statNums = entry.target.querySelectorAll('.stat-num');
-      const targets = [7, 100, 12775];
+      const targets = [4, 100, 12775];
       const suffixes = ['+', '%', ''];
       statNums.forEach((el, i) => animateCounter(el, targets[i], suffixes[i]));
       statsObserver.unobserve(entry.target);
