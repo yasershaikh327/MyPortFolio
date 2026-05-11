@@ -205,11 +205,28 @@ function initContactMap() {
     iconAnchor: [7, 7]
   });
 
+  // const locations = [
+  //   { latlng: [15.4909, 73.8278], label: 'India ★' },
+  //   { latlng: [25.2048, 45.0000], label: 'Middle East' },
+  //   { latlng: [51.5074, -0.1278], label: 'UK' },
+  //   { latlng: [37.0902, -95.7129], label: 'N. America' },
+  // ];
+
+  // locations.forEach(loc => {
+  //   L.marker(loc.latlng, { icon: pinIcon })
+  //     .addTo(contactMap)
+  //     .bindTooltip(loc.label, {
+  //       permanent: true,
+  //       direction: 'top',
+  //       className: 'map-tooltip',
+  //       offset: [0, -10]
+  //     });
+  // });
   const locations = [
-    { latlng: [15.4909, 73.8278], label: 'India ★' },
-    { latlng: [25.2048, 45.0000], label: 'Middle East' },
-    { latlng: [51.5074, -0.1278], label: 'UK' },
-    { latlng: [37.0902, -95.7129], label: 'N. America' },
+    { latlng: [15.4909, 73.8278], label: 'India ★',   tooltipClass: 'map-tooltip map-tooltip-india' },
+    { latlng: [25.2048, 45.0000], label: 'Middle East', tooltipClass: 'map-tooltip map-tooltip-middle-east' },
+    { latlng: [51.5074, -0.1278], label: 'UK',          tooltipClass: 'map-tooltip map-tooltip-uk' },
+    { latlng: [37.0902, -95.7129], label: 'N. America', tooltipClass: 'map-tooltip map-tooltip-america' },
   ];
 
   locations.forEach(loc => {
@@ -218,7 +235,7 @@ function initContactMap() {
       .bindTooltip(loc.label, {
         permanent: true,
         direction: 'top',
-        className: 'map-tooltip',
+        className: loc.tooltipClass,
         offset: [0, -10]
       });
   });
