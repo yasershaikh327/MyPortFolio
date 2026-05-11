@@ -37,6 +37,11 @@ function showPage(pageId) {
 
   // Scroll to top
   window.scrollTo({ top: 0, behavior: 'smooth' });
+
+  // Init map when contact tab is opened
+  if (pageId === 'contact') {
+    setTimeout(initContactMap, 150);
+  }
 }
 
 // ===== NAV LINK CLICKS =====
@@ -168,10 +173,17 @@ const statsCard = document.querySelector('.stats-card');
 if (statsCard) statsObserver.observe(statsCard);
 
 // ===== CONTACT MAP (Leaflet) =====
-function initContactMap() {
-  if (document.getElementById('contact-map')._leaflet_id) return; // already init
+let contactMap = null;
 
-  const map = L.map('contact-map', {
+function initContactMap() {
+  const container = document.getElementById('contact-map');
+  if (!container) return;
+  if (contactMap) {
+    contactMap.invalidateSize();
+    return;
+  }
+
+  contactMap = L.map('contact-map', {
     center: [20, 30],
     zoom: 1,
     zoomControl: false,
@@ -181,13 +193,11 @@ function initContactMap() {
     attributionControl: false
   });
 
-  // CartoDB Dark tiles (same as your reference)
   L.tileLayer('https://{s}.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}{r}.png', {
     subdomains: 'abcd',
     maxZoom: 4
-  }).addTo(map);
+  }).addTo(contactMap);
 
-  // Custom pulsing marker
   const pinIcon = L.divIcon({
     className: '',
     html: `<div class="map-pin-wrap"><span class="map-pin-pulse"></span><span class="map-pin-dot"></span></div>`,
@@ -195,17 +205,16 @@ function initContactMap() {
     iconAnchor: [7, 7]
   });
 
-  // Locations
   const locations = [
-    { latlng: [15.4909, 73.8278], label: 'Goa, India ★' },   // Goa
-    { latlng: [25.2048, 55.2708], label: 'Middle East' },      // Dubai
-    { latlng: [51.5074, -0.1278], label: 'UK' },               // London
-    { latlng: [37.0902, -95.7129], label: 'N. America' },      // USA
+    { latlng: [15.4909, 73.8278], label: 'Goa, India ★' },
+    { latlng: [25.2048, 55.2708], label: 'Middle East' },
+    { latlng: [51.5074, -0.1278], label: 'UK' },
+    { latlng: [37.0902, -95.7129], label: 'N. America' },
   ];
 
   locations.forEach(loc => {
     L.marker(loc.latlng, { icon: pinIcon })
-      .addTo(map)
+      .addTo(contactMap)
       .bindTooltip(loc.label, {
         permanent: true,
         direction: 'top',
@@ -213,15 +222,7 @@ function initContactMap() {
         offset: [0, -10]
       });
   });
-}
 
-// Init map when contact page is shown
-const _origShowPage = showPage;
-// Watch for contact page
-const mapObserver = new MutationObserver(() => {
-  const contactPage = document.getElementById('contact');
-  if (contactPage && contactPage.classList.contains('active')) {
-    setTimeout(initContactMap, 100);
-  }
-});
-mapObserver.observe(document.body, { attributes: true, subtree: true, attributeFilter: ['class'] });
+  // Critical: recalculate size after tiles load
+  setTimeout(() => contactMap.invalidateSize(), 200);
+}
