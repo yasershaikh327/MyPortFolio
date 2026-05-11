@@ -962,3 +962,23 @@ body.light-mode .gmail-icon { background: #f0f0f5; }
   .timeline { padding-left: 50px; }
   .timeline-date { left: -50px; width: 44px; font-size: 9px; }
 }
+
+.about-photo-placeholder {
+    width: 260px;
+    height: 380px;
+    border-radius: 12px;
+    background: linear-gradient(160deg, #1a1a35, #0d0d20);
+    border: 2px dashed rgba(0, 212, 255, 0.3);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    overflow: hidden; /* Ensures image stays within the box */
+}
+
+.about-profile-image {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;   /* Fills the box while maintaining aspect ratio */
+    border-radius: 10px; /* Slightly smaller to fit inside the container */
+    display: block;
+}
