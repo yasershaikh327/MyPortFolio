@@ -223,7 +223,7 @@ function initContactMap() {
   //     });
   // });
   const locations = [
-    { latlng: [15.4909, 83.8278], label: 'India ★',   tooltipClass: 'map-tooltip map-tooltip-india' },
+    { latlng: [15.4909, 93.8278], label: 'India ★',   tooltipClass: 'map-tooltip map-tooltip-india' },
     { latlng: [25.2048, 45.0000], label: 'Middle East', tooltipClass: 'map-tooltip map-tooltip-middle-east' },
     { latlng: [51.5074, -0.1278], label: 'UK',          tooltipClass: 'map-tooltip map-tooltip-uk' },
     { latlng: [37.0902, -95.7129], label: 'N. America', tooltipClass: 'map-tooltip map-tooltip-america' },
