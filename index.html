@@ -1,3 +1,533 @@
-<script>
-    window.location.href='https://myportfolio327.onrender.com';
-</script>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Mr. Mallik – Gulger Mallik</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=DM+Sans:ital,wght@0,300;0,400;0,500;1,300&family=Caveat:wght@600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="style.css">
+</head>
+<body class="dark-mode">
+
+<!-- NAV -->
+<nav id="navbar">
+  <div class="nav-logo">
+    <div class="logo-icon">
+      <svg width="36" height="36" viewBox="0 0 36 36" fill="none"><polygon points="18,2 34,10 34,26 18,34 2,26 2,10" stroke="#00d4ff" stroke-width="1.5" fill="none"/><text x="50%" y="55%" dominant-baseline="middle" text-anchor="middle" fill="#fff" font-size="10" font-family="Syne" font-weight="700">inn</text></svg>
+    </div>
+    <span class="logo-text">mr mallik</span>
+  </div>
+  <ul class="nav-links">
+    <li><a href="#home" class="nav-link active" data-page="home">Home</a></li>
+    <li><a href="#about" class="nav-link" data-page="about">About</a></li>
+    <li><a href="#work" class="nav-link" data-page="work">Work</a></li>
+    <li><a href="#stories" class="nav-link" data-page="stories">Stories</a></li>
+    <li><a href="#contact" class="nav-link" data-page="contact">Contact</a></li>
+  </ul>
+  <div class="nav-actions">
+    <button class="theme-toggle" id="themeToggle" title="Toggle theme">☀</button>
+    <a href="#contact" class="btn-talk" onclick="showPage('contact')">Let's Talk</a>
+    <button class="hamburger" id="hamburger" aria-label="Menu">
+      <span></span><span></span><span></span>
+    </button>
+  </div>
+</nav>
+
+<!-- Mobile Nav Drawer -->
+<div class="mobile-nav" id="mobileNav">
+  <a href="#home"    class="mobile-nav-link active" data-page="home">Home</a>
+  <a href="#about"   class="mobile-nav-link" data-page="about">About</a>
+  <a href="#work"    class="mobile-nav-link" data-page="work">Work</a>
+  <a href="#stories" class="mobile-nav-link" data-page="stories">Stories</a>
+  <a href="#contact" class="mobile-nav-link" data-page="contact">Contact</a>
+  <a href="#contact" class="mobile-nav-link" data-page="contact" style="margin-top:8px;background:var(--cyan);color:#000;font-weight:700;">Let's Talk</a>
+</div>
+
+<!-- ======================== HOME PAGE ======================== -->
+<section id="home" class="page active">
+  <div class="home-grid">
+    <!-- Hero Card -->
+    <div class="card hero-card">
+      <div class="hero-img-placeholder">
+        <span class="img-label">image</span>
+      </div>
+      <div class="hero-text">
+        <p class="greeting">Hello, I'm</p>
+        <h1 class="hero-name">Gulger Mallik.</h1>
+        <p class="hero-sub">I am a Software Engineer, Researcher and a Fullstack developer.</p>
+        <p class="hero-desc">Passionate about building solutions that make a difference.</p>
+      </div>
+    </div>
+
+    <!-- About Me Card -->
+    <div class="card about-card card-link" onclick="showPage('about')">
+      <div class="card-img anime-img anime-desk"></div>
+      <div class="card-meta">
+        <span class="card-label">MORE ABOUT ME</span>
+        <h3>About Me</h3>
+      </div>
+    </div>
+
+    <!-- Projects Card -->
+    <div class="card projects-card card-link" onclick="showPage('work')">
+      <div class="card-img anime-img anime-present"></div>
+      <div class="card-meta">
+        <span class="card-label">SHOWCASE</span>
+        <h3>Projects</h3>
+      </div>
+    </div>
+
+    <!-- Stories Card -->
+    <div class="card stories-card card-link" onclick="showPage('stories')">
+      <div class="card-img stories-bg"></div>
+      <div class="card-meta">
+        <span class="card-label">BLOG</span>
+        <h3>Stories</h3>
+      </div>
+    </div>
+
+    <!-- Services Card -->
+    <div class="card services-card">
+      <div class="services-icons">
+        <div class="service-item">
+          <div class="svc-icon">
+            <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="18" height="14" rx="2"/><path d="M8 21h8M12 17v4"/></svg>
+          </div>
+          <span>Web Development</span>
+        </div>
+        <div class="service-item">
+          <div class="svc-icon">
+            <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><rect x="7" y="2" width="10" height="20" rx="2"/><circle cx="12" cy="18" r="1" fill="currentColor" stroke="none"/></svg>
+          </div>
+          <span>Mobile Development</span>
+        </div>
+        <div class="service-item">
+          <div class="svc-icon">
+            <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2a7 7 0 0 1 7 7c0 3-1.5 5-3.5 6.5V17a1 1 0 0 1-1 1h-5a1 1 0 0 1-1-1v-1.5C6.5 14 5 12 5 9a7 7 0 0 1 7-7z"/><path d="M9 21h6M10 17v4M14 17v4"/></svg>
+          </div>
+          <span>AI & ML</span>
+        </div>
+        <div class="service-item">
+          <div class="svc-icon">
+            <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M9 3H5a2 2 0 0 0-2 2v4m6-6h10a2 2 0 0 1 2 2v4M9 3v18m0 0h10a2 2 0 0 0 2-2v-4M9 21H5a2 2 0 0 1-2-2v-4m0 0h18"/></svg>
+          </div>
+          <span>R&D</span>
+        </div>
+        <div class="service-item">
+          <div class="svc-icon">
+            <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="3"/><path d="M12 1v4M12 19v4M4.22 4.22l2.83 2.83M16.95 16.95l2.83 2.83M1 12h4M19 12h4M4.22 19.78l2.83-2.83M16.95 7.05l2.83-2.83"/></svg>
+          </div>
+          <span>Software Engineering</span>
+        </div>
+      </div>
+      <div class="card-meta">
+        <span class="card-label">SERVICES</span>
+        <h3>Professional Services Offered</h3>
+      </div>
+    </div>
+
+    <!-- Socials Card -->
+    <div class="card socials-card">
+      <div class="social-icons">
+        <a href="#" class="social-btn" title="LinkedIn">in</a>
+        <a href="#" class="social-btn" title="GitHub">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><path d="M12 0C5.37 0 0 5.37 0 12c0 5.3 3.438 9.8 8.205 11.385.6.113.82-.258.82-.577 0-.285-.01-1.04-.015-2.04-3.338.724-4.042-1.61-4.042-1.61C4.422 18.07 3.633 17.7 3.633 17.7c-1.087-.744.084-.729.084-.729 1.205.084 1.838 1.236 1.838 1.236 1.07 1.835 2.809 1.305 3.495.998.108-.776.417-1.305.76-1.605-2.665-.3-5.466-1.332-5.466-5.93 0-1.31.465-2.38 1.235-3.22-.135-.303-.54-1.523.105-3.176 0 0 1.005-.322 3.3 1.23.96-.267 1.98-.399 3-.405 1.02.006 2.04.138 3 .405 2.28-1.552 3.285-1.23 3.285-1.23.645 1.653.24 2.873.12 3.176.765.84 1.23 1.91 1.23 3.22 0 4.61-2.805 5.625-5.475 5.92.42.36.81 1.096.81 2.22 0 1.606-.015 2.896-.015 3.286 0 .315.21.69.825.57C20.565 21.795 24 17.295 24 12c0-6.63-5.37-12-12-12"/></svg>
+        </a>
+        <a href="#" class="social-btn" title="Medium">M</a>
+        <a href="#" class="social-btn" title="Instagram">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.163 6.162 6.163 6.162-2.759 6.162-6.163c0-3.403-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.79-4-4 0-2.209 1.791-4 4-4s4 1.791 4 4c0 2.21-1.791 4-4 4zm6.406-11.845c-.796 0-1.441.645-1.441 1.44s.645 1.44 1.441 1.44c.795 0 1.439-.645 1.439-1.44s-.644-1.44-1.439-1.44z"/></svg>
+        </a>
+      </div>
+      <div class="card-meta">
+        <span class="card-label">LET'S CONNECT</span>
+        <h3>Socials</h3>
+      </div>
+    </div>
+
+    <!-- Stats Card -->
+    <div class="card stats-card">
+      <div class="stats-row">
+        <div class="stat-box">
+          <div class="stat-num">07+</div>
+          <div class="stat-label">Years of<br>Experience</div>
+        </div>
+        <div class="stat-box">
+          <div class="stat-num">100%</div>
+          <div class="stat-label">Happy<br>Clients</div>
+        </div>
+        <div class="stat-box">
+          <div class="stat-num">+12,775</div>
+          <div class="stat-label">Coding<br>Hours</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- CTA Card -->
+    <div class="card cta-card">
+      <div class="cta-text">
+        <p>Let's</p>
+        <p>talk about your <span class="cyan">next</span> project.</p>
+        <p class="cta-sub">Send your ideas to <span class="cyan underline">gulgermallik@gmail.com</span></p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ======================== ABOUT PAGE ======================== -->
+<section id="about" class="page">
+  <h2 class="page-title">About Me</h2>
+  <div class="about-top-grid">
+    <div class="about-left">
+      <div class="about-section-label">BIOGRAPHY</div>
+      <p class="about-bio">Software engineer and fullstack developer with a Master's in Computing from the University of Huddersfield. Co-founder of <a href="#" class="cyan-link">Cosmokode Ltd</a>, specialising in web development, AI/ML solutions, and research-driven innovation.</p>
+      <div class="about-contact-block">
+        <div class="about-section-label">CONTACT</div>
+        <p>📍 Huddersfield, UK</p>
+        <p>✉ gulgermallik@gmail.com</p>
+      </div>
+      <div class="about-services-block">
+        <div class="about-section-label">SERVICES</div>
+        <p>&lt;/&gt; Web Development</p>
+        <p>🔶 AI & Machine Learning</p>
+        <p>🧪 Research & Development</p>
+      </div>
+    </div>
+    <div class="about-center">
+      <div class="about-photo-placeholder">
+        <span class="img-label">image</span>
+      </div>
+    </div>
+    <div class="about-right">
+      <div class="credibility-block">
+        <div class="about-section-label cyan-label">CREDIBILITY</div>
+        <div class="cred-stats">
+          <div class="cred-item"><span class="cred-num">02</span><span class="cred-txt">PROFESSIONAL<br>DEGREES</span></div>
+          <div class="cred-item"><span class="cred-num">4+</span><span class="cred-txt">PROFESSIONAL<br>CERTIFICATIONS</span></div>
+        </div>
+        <div class="exp-display">
+          <span class="exp-num">06</span><span class="exp-unit">YRS</span>
+          <span class="exp-num">11</span><span class="exp-unit">MO</span>
+          <span class="exp-num">20</span><span class="exp-unit">D</span>
+        </div>
+        <div class="exp-label">OF PROFESSIONAL EXPERIENCE</div>
+      </div>
+      <div class="skills-block">
+        <div class="about-section-label cyan-label">TECHNICAL SKILLS</div>
+        <div class="skills-grid">
+          <div class="skill-badge">🐍 Python</div>
+          <div class="skill-badge">⚡ Laravel</div>
+          <div class="skill-badge">🗄️ MySQL</div>
+          <div class="skill-badge">☕ Java</div>
+          <div class="skill-badge">🎸 Django</div>
+          <div class="skill-badge">🐘 PostgreSQL</div>
+          <div class="skill-badge">🐘 PHP</div>
+          <div class="skill-badge">⚛️ ReactJS</div>
+          <div class="skill-badge">🍃 MongoDB</div>
+          <div class="skill-badge">▲ Next.JS</div>
+          <div class="skill-badge">🟡 JavaScript</div>
+          <div class="skill-badge">💨 Tailwind CSS</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Education & Experience Timeline -->
+  <div class="exp-section">
+    <h2 class="section-heading">Education & Experience</h2>
+    <div class="timeline">
+
+      <div class="timeline-item">
+        <div class="timeline-date"><span>Mar</span><span>2026</span></div>
+        <div class="timeline-dot"></div>
+        <div class="timeline-card expanded">
+          <div class="timeline-card-header" onclick="toggleTimeline(this)">
+            <div>
+              <h4>Research Technician</h4>
+              <p class="tl-org">University of Huddersfield, UK</p>
+            </div>
+            <span class="tl-arrow">▾</span>
+          </div>
+          <div class="timeline-card-body">
+            <p class="tl-period">Mar 2026 – Present</p>
+            <p>Building a full-stack platform to help housing associations make data-driven Net Zero retrofit decisions using explainable AI, predictive modelling, and cross-departmental feasibility analysis.</p>
+            <div class="tl-project-label">NET ZERO RETROFIT DECISION PLATFORM</div>
+            <ul>
+              <li>Developing a full-stack web platform enabling housing associations to plan and prioritise Net Zero retrofit interventions</li>
+              <li>Implementing explainable AI (XAI) models to surface transparent, audit-ready retrofit recommendations</li>
+              <li>Building predictive models to forecast energy performance, cost impact, and carbon reduction outcomes</li>
+              <li>Designing cross-departmental feasibility analysis tools to support finance, operations, and sustainability teams</li>
+              <li>Integrating housing stock data pipelines to drive real-time, evidence-based decision making</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+
+      <div class="timeline-item">
+        <div class="timeline-date"><span>Apr</span><span>2025</span></div>
+        <div class="timeline-dot"></div>
+        <div class="timeline-card">
+          <div class="timeline-card-header" onclick="toggleTimeline(this)">
+            <div>
+              <h4>Director & Co-founder</h4>
+              <p class="tl-org">Cosmokode Ltd, UK</p>
+            </div>
+            <span class="tl-arrow">›</span>
+          </div>
+          <div class="timeline-card-body" style="display:none"></div>
+        </div>
+      </div>
+
+      <div class="timeline-item">
+        <div class="timeline-date"><span>Oct</span><span>2024</span></div>
+        <div class="timeline-dot"></div>
+        <div class="timeline-card">
+          <div class="timeline-card-header" onclick="toggleTimeline(this)">
+            <div>
+              <h4>Research Assistant in Applied AI</h4>
+              <p class="tl-org">University of Huddersfield, UK</p>
+            </div>
+            <span class="tl-arrow">›</span>
+          </div>
+          <div class="timeline-card-body" style="display:none"></div>
+        </div>
+      </div>
+
+      <div class="timeline-item">
+        <div class="timeline-date"><span>Apr</span><span>2024</span></div>
+        <div class="timeline-dot"></div>
+        <div class="timeline-card">
+          <div class="timeline-card-header" onclick="toggleTimeline(this)">
+            <div>
+              <h4>AI/ML Research Technician</h4>
+              <p class="tl-org">University of Huddersfield, UK</p>
+            </div>
+            <span class="tl-arrow">›</span>
+          </div>
+          <div class="timeline-card-body" style="display:none"></div>
+        </div>
+      </div>
+
+      <div class="timeline-item">
+        <div class="timeline-date"><span>Oct</span><span>2023</span></div>
+        <div class="timeline-dot"></div>
+        <div class="timeline-card">
+          <div class="timeline-card-header" onclick="toggleTimeline(this)">
+            <div>
+              <h4>R&D Software Engineer</h4>
+              <p class="tl-org">University of Huddersfield, UK</p>
+            </div>
+            <span class="tl-arrow">›</span>
+          </div>
+          <div class="timeline-card-body" style="display:none"></div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<!-- ======================== WORK PAGE ======================== -->
+<section id="work" class="page">
+  <h2 class="page-title">My Projects</h2>
+  <div class="projects-grid">
+
+    <div class="project-card">
+      <div class="project-thumb pt-yellow">
+        <div class="pt-icon">🏛️</div>
+      </div>
+      <h4>Chaos of Traditional Job Hunting</h4>
+      <p>Discover how an AI-powered Job Application Tracker transformed my job search, streamlining organization, analyzing JD...</p>
+      <a href="#" class="read-more">Read more →</a>
+    </div>
+
+    <div class="project-card">
+      <div class="project-thumb pt-blue">
+        <div class="pt-text">BLUE OCEAN<br>STRATEGY</div>
+      </div>
+      <h4>Visualizing Strategic Positioning</h4>
+      <p>Discover how a custom React and ApexCharts app visualizes strategic differentiation using Blue Ocean Strategy...</p>
+      <a href="#" class="read-more">Read more →</a>
+    </div>
+
+    <div class="project-card">
+      <div class="project-thumb pt-dark">
+        <div class="pt-text small">Interview Prep Generator</div>
+      </div>
+      <h4>How I used Google's Antigravity AI Tool</h4>
+      <p>Explore the reality of Google's Antigravity AI tool. Discover how this powerful technology amplifies, rather than...</p>
+      <a href="#" class="read-more">Read more →</a>
+    </div>
+
+    <div class="project-card">
+      <div class="project-thumb pt-light">
+        <div class="pt-text brand">tierrasphere</div>
+      </div>
+      <h4>Building the Digital Backbone for Soil Carbon Innovation</h4>
+      <p>Explore the three core technological assets powering the Tierrasphere initiative: the internal modeling tool, the...</p>
+      <a href="#" class="read-more">Read more →</a>
+    </div>
+
+    <div class="project-card">
+      <div class="project-thumb pt-gray">
+        <div class="pt-text brand">ATMAS</div>
+      </div>
+      <h4>ATMAS – Advanced Manufacturing</h4>
+      <p>Innovative solutions for manufacturing process optimisation and automation...</p>
+      <a href="#" class="read-more">Read more →</a>
+    </div>
+
+    <div class="project-card">
+      <div class="project-thumb pt-red">
+        <div class="pt-text big-red">CAP</div>
+      </div>
+      <h4>CAP – Platform Development</h4>
+      <p>Full-stack development of a comprehensive analytics and performance platform...</p>
+      <a href="#" class="read-more">Read more →</a>
+    </div>
+
+    <div class="project-card">
+      <div class="project-thumb pt-interior">
+        <div class="pt-text interior">Ranik Interiors</div>
+      </div>
+      <h4>Ranik Interiors – Digital Presence</h4>
+      <p>Building a refined web presence for a premium interior design consultancy...</p>
+      <a href="#" class="read-more">Read more →</a>
+    </div>
+
+    <div class="project-card">
+      <div class="project-thumb pt-gold">
+        <div class="pt-text gold">AMANoRA</div>
+      </div>
+      <h4>Amanora | Control Panel</h4>
+      <p>A custom control panel for Amanora beauty lounge, streamlining operations and client management...</p>
+      <a href="#" class="read-more">Read more →</a>
+    </div>
+
+  </div>
+</section>
+
+<!-- ======================== STORIES PAGE ======================== -->
+<section id="stories" class="page">
+  <h2 class="page-title">Stories</h2>
+  <p class="page-sub">Thoughts, learnings, and insights from the intersection of technology and innovation.</p>
+  <div class="stories-grid">
+    <div class="story-card featured">
+      <div class="story-tag">Featured</div>
+      <h3>Chaos of Traditional Job Hunting</h3>
+      <p>Discover how an AI-powered Job Application Tracker transformed my job search, streamlining organization and analyzing job descriptions...</p>
+      <a href="#" class="read-more">Read more →</a>
+    </div>
+    <div class="story-card">
+      <div class="story-tag">Strategy</div>
+      <h3>Visualizing Strategic Positioning</h3>
+      <p>How a custom React and ApexCharts app visualizes strategic differentiation using Blue Ocean Strategy...</p>
+      <a href="#" class="read-more">Read more →</a>
+    </div>
+    <div class="story-card">
+      <div class="story-tag">AI & ML</div>
+      <h3>How I used Google's Antigravity AI Tool</h3>
+      <p>Explore the reality of Google's Antigravity AI tool and how this powerful technology amplifies human potential...</p>
+      <a href="#" class="read-more">Read more →</a>
+    </div>
+    <div class="story-card">
+      <div class="story-tag">Engineering</div>
+      <h3>Building the Digital Backbone for Soil Carbon Innovation</h3>
+      <p>The three core technological assets powering the Tierrasphere initiative...</p>
+      <a href="#" class="read-more">Read more →</a>
+    </div>
+  </div>
+</section>
+
+<!-- ======================== CONTACT PAGE ======================== -->
+<section id="contact" class="page">
+  <div class="contact-grid">
+    <div class="contact-left">
+      <p class="contact-top-label">GET IN TOUCH</p>
+      <h2 class="contact-heading">Let's build something <span class="cyan">great together.</span></h2>
+      <p class="contact-desc">Whether you have a project in mind, want to collaborate, or just want to say hi — my inbox is always open. I'll do my best to get back to you promptly.</p>
+      <div class="contact-btns">
+        <a href="mailto:gulgermallik@gmail.com" class="btn-solid">✉ Send an Email</a>
+        <a href="#" class="btn-outline">in Connect on LinkedIn</a>
+      </div>
+    </div>
+    <div class="contact-right">
+      <div class="available-badge"><span class="green-dot"></span> AVAILABLE FOR WORK</div>
+      <p>Delivered projects for clients across <strong>6 cities</strong> in <strong>4 countries</strong>. Open to freelance, consulting, and full-time roles in software engineering, web, or AI/ML.</p>
+      <div class="world-map">
+        <div class="map-placeholder">
+          <span class="map-dot" style="left:28%;top:40%"></span>
+          <span class="map-dot" style="left:46%;top:32%"></span>
+          <span class="map-dot" style="left:52%;top:35%"></span>
+          <span class="map-dot" style="left:60%;top:38%"></span>
+          <div class="map-labels">
+            <span style="left:10%;top:40%">North America</span>
+            <span style="left:43%;top:22%">Europe</span>
+            <span style="left:60%;top:30%">Asia</span>
+            <span style="left:20%;top:65%">South America</span>
+            <span style="left:42%;top:60%">Africa</span>
+            <span style="left:75%;top:65%">Oceania</span>
+          </div>
+        </div>
+      </div>
+      <p>📍 Cosmokode Ltd London, United Kingdom</p>
+      <p>⏱ Usually responds within 24 hours</p>
+    </div>
+  </div>
+
+  <div class="contact-cards-row">
+    <div class="contact-channel-card">
+      <div class="cc-icon gmail-icon">M</div>
+      <div class="cc-label">EMAIL</div>
+      <div class="cc-value">gulgermallik@gmail.com</div>
+      <div class="cc-desc">Best for project discussions & consulting</div>
+    </div>
+    <div class="contact-channel-card">
+      <div class="cc-icon li-icon">in</div>
+      <div class="cc-label">LINKEDIN</div>
+      <div class="cc-value">Gulger Mallik</div>
+      <div class="cc-desc">Professional network & career updates</div>
+    </div>
+    <div class="contact-channel-card">
+      <div class="cc-icon gh-icon">
+        <svg width="22" height="22" viewBox="0 0 24 24" fill="currentColor"><path d="M12 0C5.37 0 0 5.37 0 12c0 5.3 3.438 9.8 8.205 11.385.6.113.82-.258.82-.577 0-.285-.01-1.04-.015-2.04-3.338.724-4.042-1.61-4.042-1.61C4.422 18.07 3.633 17.7 3.633 17.7c-1.087-.744.084-.729.084-.729 1.205.084 1.838 1.236 1.838 1.236 1.07 1.835 2.809 1.305 3.495.998.108-.776.417-1.305.76-1.605-2.665-.3-5.466-1.332-5.466-5.93 0-1.31.465-2.38 1.235-3.22-.135-.303-.54-1.523.105-3.176 0 0 1.005-.322 3.3 1.23.96-.267 1.98-.399 3-.405 1.02.006 2.04.138 3 .405 2.28-1.552 3.285-1.23 3.285-1.23.645 1.653.24 2.873.12 3.176.765.84 1.23 1.91 1.23 3.22 0 4.61-2.805 5.625-5.475 5.92.42.36.81 1.096.81 2.22 0 1.606-.015 2.896-.015 3.286 0 .315.21.69.825.57C20.565 21.795 24 17.295 24 12c0-6.63-5.37-12-12-12"/></svg>
+      </div>
+      <div class="cc-label">GITHUB</div>
+      <div class="cc-value">mr-mallik</div>
+      <div class="cc-desc">Open source work & code samples</div>
+    </div>
+    <div class="contact-channel-card">
+      <div class="cc-icon med-icon">M</div>
+      <div class="cc-label">MEDIUM</div>
+      <div class="cc-value">@mrmallik</div>
+      <div class="cc-desc">Articles on tech, ML & software craft</div>
+    </div>
+  </div>
+
+  <div class="contact-cta-bar">
+    <div>
+      <h3>Have a project in mind?</h3>
+      <p>Drop me an email and let's get the conversation started.</p>
+    </div>
+    <a href="mailto:gulgermallik@gmail.com" class="btn-solid">✈ gulgermallik@gmail.com</a>
+  </div>
+</section>
+
+<!-- ======================== FOOTER (COMMON) ======================== -->
+<footer id="footer">
+  <div class="footer-links">
+    <a href="#home" onclick="showPage('home')">Home</a>
+    <a href="#about" onclick="showPage('about')">About</a>
+    <a href="#work" onclick="showPage('work')">Projects</a>
+    <a href="#stories" onclick="showPage('stories')">Blog</a>
+    <a href="#">LinkedIn</a>
+    <a href="#">GitHub</a>
+    <a href="#">ORCID</a>
+    <a href="#">Medium</a>
+  </div>
+  <p class="footer-copy">Design and Develop by <a href="#" class="cyan-link">Gulger Mallik</a>. © 2026 All Rights Reserved.</p>
+</footer>
+
+<script src="script.js"></script>
+</body>
+</html>
