@@ -1055,13 +1055,13 @@ body.light-mode .gmail-icon { background: #f0f0f5; }
 
 /* India — cyan (matches your theme) */
 .map-tooltip-india {
-  border: 1px solid #00d4ff !important;
-  color: #00d4ff !important;
+  border: 1px solid #ff0000 !important;
+  color: #ff0000 !important;
 }
 
-/* Middle East — amber */
+Middle East — amber
 .map-tooltip-middle-east {
-  border: 1px solid #f59e0b !important;
+  border: 1px solid #f59f0b !important;
   color: #f59e0b !important;
 }
 
