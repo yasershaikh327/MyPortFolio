@@ -392,6 +392,40 @@
       color: white;
     }
   </style>
+  <style>
+  /* Make map labels bright and visible */
+  .visible-map-label {
+    font-family: 'Inter', 'Space Grotesk', sans-serif !important;
+    font-weight: 700 !important;
+    font-size: 13px !important;
+    background: rgba(0, 0, 0, 0.85) !important;
+    backdrop-filter: blur(4px);
+    border: 1.5px solid #00d4ff !important;
+    border-radius: 30px !important;
+    color: #ffffff !important;
+    padding: 5px 14px !important;
+    white-space: nowrap !important;
+    box-shadow: 0 2px 12px rgba(0, 212, 255, 0.3) !important;
+    letter-spacing: 0.3px !important;
+  }
+  
+  /* Hover effect for markers */
+  .leaflet-marker-icon:hover {
+    transform: scale(1.2);
+    transition: transform 0.2s;
+  }
+  
+  /* Legend styling */
+  .legend-item {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    background: var(--bg-elevated);
+    padding: 5px 12px;
+    border-radius: 40px;
+    font-size: 12px;
+  }
+</style>
 </head>
 <body>
 
@@ -492,6 +526,7 @@
 </div>
 
 <!-- CONTACT + MAP (global presence) -->
+<!-- REPLACE the entire CONTACT + MAP section with this improved version -->
 <div class="container" style="margin-top: 70px;">
   <h2 class="section-title">Connect</h2>
   <div class="contact-duo">
@@ -505,13 +540,28 @@
       </div>
     </div>
     <div class="contact-panel">
-      <div style="display: flex; align-items: center; gap: 8px; margin-bottom: 16px;"><span class="green-dot" style="width:10px; height:10px; background:#4ade80; border-radius:50%; box-shadow:0 0 6px #4ade80; display:inline-block;"></span> <span style="font-weight:700;">AVAILABLE FOR WORK</span></div>
-      <div id="contact-map" style="height: 200px; border-radius: 24px;"></div>
-      <p style="margin-top: 16px;">📍 Goa, India · Global timezone friendly</p>
+      <div style="display: flex; align-items: center; gap: 8px; margin-bottom: 16px;">
+        <span class="green-dot" style="width:10px; height:10px; background:#4ade80; border-radius:50%; box-shadow:0 0 6px #4ade80; display:inline-block;"></span> 
+        <span style="font-weight:700;">AVAILABLE FOR WORK WORLDWIDE</span>
+      </div>
+      <div id="contact-map" style="height: 260px; border-radius: 24px; overflow: hidden; border: 1px solid var(--border-light);"></div>
+      
+      <!-- LEGEND: Countries visible on map -->
+      <div style="margin-top: 20px; display: flex; flex-wrap: wrap; gap: 16px; justify-content: center;">
+        <div style="display: flex; align-items: center; gap: 8px;"><span style="width:10px; height:10px; background:#00d4ff; border-radius:50%; box-shadow:0 0 6px #00d4ff;"></span><span style="font-size:12px;">🇮🇳 India (HQ)</span></div>
+        <div style="display: flex; align-items: center; gap: 8px;"><span style="width:10px; height:10px; background:#00d4ff; border-radius:50%; box-shadow:0 0 6px #00d4ff;"></span><span style="font-size:12px;">🇦🇪 Middle East</span></div>
+        <div style="display: flex; align-items: center; gap: 8px;"><span style="width:10px; height:10px; background:#00d4ff; border-radius:50%; box-shadow:0 0 6px #00d4ff;"></span><span style="font-size:12px;">🇬🇧 United Kingdom</span></div>
+        <div style="display: flex; align-items: center; gap: 8px;"><span style="width:10px; height:10px; background:#00d4ff; border-radius:50%; box-shadow:0 0 6px #00d4ff;"></span><span style="font-size:12px;">🇺🇸 North America</span></div>
+      </div>
+      
+      <p style="margin-top: 20px;">📍 Goa, India · Global timezone friendly</p>
       <p>⏱ Response within 24 hours</p>
     </div>
   </div>
 </div>
+
+
+
 
 <footer>
   <div class="footer-links">
@@ -523,10 +573,106 @@
   </div>
   <p>© 2026 Yaser Shaikh — Senior Software Engineer. Built with precision.</p>
 </footer>
+<script>
+  // IMPROVED MAP with VISIBLE COUNTRY LABELS
+  let worldMap = null;
+  function initMap() {
+    const mapDiv = document.getElementById('contact-map');
+    if (!mapDiv) return;
+    if (worldMap) { 
+      worldMap.invalidateSize(); 
+      return;
+    }
+    
+    // Use lighter map tiles for better contrast with labels
+    worldMap = L.map('contact-map').setView([20.5937, 78.9629], 2.5);
+    
+    // Lighter tile layer so tooltips pop
+    L.tileLayer('https://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}{r}.png', {
+      attribution: '©CartoDB',
+      maxZoom: 6,
+      subdomains: 'abcd'
+    }).addTo(worldMap);
+    
+    // Custom marker icon with glow
+    const pinIcon = L.divIcon({
+      html: '<div style="background:#00d4ff; width:14px; height:14px; border-radius:50%; box-shadow:0 0 14px #00d4ff, 0 0 4px white; border:2px solid white;"></div>',
+      iconSize: [14, 14],
+      iconAnchor: [7, 7]
+    });
+    
+    // Locations with clear, bold labels
+    const locations = [
+      { latlng: [20.5937, 78.9629], label: '🇮🇳 INDIA ★', offset: [0, -15] },
+      { latlng: [25.2048, 45.0000], label: '🇦🇪 MIDDLE EAST', offset: [0, -15] },
+      { latlng: [55.3781, -3.4360], label: '🇬🇧 UNITED KINGDOM', offset: [0, -15] },
+      { latlng: [39.8283, -98.5795], label: '🇺🇸 NORTH AMERICA', offset: [0, -15] }
+    ];
+    
+    locations.forEach(loc => {
+      const marker = L.marker(loc.latlng, { icon: pinIcon }).addTo(worldMap);
+      
+      // Bind tooltip with custom styling - ALWAYS VISIBLE
+      marker.bindTooltip(loc.label, {
+        permanent: true,
+        direction: 'top',
+        offset: loc.offset,
+        className: 'visible-map-label'
+      });
+    });
+    
+    // Add a subtle circle overlay to highlight regions
+    const indiaCircle = L.circle([20.5937, 78.9629], {
+      color: '#00d4ff',
+      weight: 1,
+      opacity: 0.3,
+      fillOpacity: 0.05,
+      radius: 800000
+    }).addTo(worldMap);
+    
+    const meCircle = L.circle([25.2048, 45.0000], {
+      color: '#00d4ff',
+      weight: 1,
+      opacity: 0.3,
+      fillOpacity: 0.05,
+      radius: 1200000
+    }).addTo(worldMap);
+    
+    const ukCircle = L.circle([55.3781, -3.4360], {
+      color: '#00d4ff',
+      weight: 1,
+      opacity: 0.3,
+      fillOpacity: 0.05,
+      radius: 500000
+    }).addTo(worldMap);
+    
+    const usCircle = L.circle([39.8283, -98.5795], {
+      color: '#00d4ff',
+      weight: 1,
+      opacity: 0.3,
+      fillOpacity: 0.05,
+      radius: 1500000
+    }).addTo(worldMap);
+    
+    setTimeout(() => worldMap.invalidateSize(), 200);
+  }
+  
+  function scrollToContact() {
+    const contactEl = document.querySelector('.contact-duo');
+    if (contactEl) contactEl.scrollIntoView({ behavior: 'smooth' });
+  }
+  
+  window.addEventListener('load', () => {
+    initMap();
+  });
+  window.addEventListener('resize', () => {
+    if (worldMap) worldMap.invalidateSize();
+  });
+</script>
 
 <script>
   // Map initialization (global presence)
-  let worldMap = null;
+ // let worldMap = null;
   function initMap() {
     const mapDiv = document.getElementById('contact-map');
     if (!mapDiv) return;
