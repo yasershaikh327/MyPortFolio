@@ -1,245 +1,110 @@
-// ===== PAGE COLOR THEMES =====
-const pageColors = {
-  home:    '#00d4ff',
-  about:   '#a855f7',
-  work:    '#ef4444',
-  stories: '#f97316',
-  contact: '#4ade80',
-};
-
-// ===== SHOW PAGE (single definition) =====
-function showPage(pageId) {
-  const validPages = ['home', 'about', 'work', 'stories', 'contact'];
-  if (!validPages.includes(pageId)) pageId = 'home';
-
-  // Hide all pages, show target
-  document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
-  document.getElementById(pageId)?.classList.add('active');
-
-  // Update nav links
-  document.querySelectorAll('.nav-link, .mobile-nav-link').forEach(link => {
-    link.classList.toggle('active', link.dataset.page === pageId);
-  });
-
-  // Apply page color
-  document.documentElement.style.setProperty('--cyan', pageColors[pageId]);
-
-  // Apply body class
-  document.body.className = document.body.className.replace(/page-\w+/g, '').trim();
-  document.body.classList.add(`page-${pageId}`);
-
-  // Close mobile nav
-  document.getElementById('hamburger')?.classList.remove('open');
-  document.getElementById('mobileNav')?.classList.remove('open');
-
-  // Update URL hash
-  history.pushState(null, null, '#' + pageId);
-
-  // Scroll to top
-  window.scrollTo({ top: 0, behavior: 'smooth' });
-
-  // Init map when contact tab is opened
-  if (pageId === 'contact') {
-    setTimeout(initContactMap, 150);
-  }
-}
-
-// ===== NAV LINK CLICKS =====
-document.querySelectorAll('.nav-link, .mobile-nav-link').forEach(link => {
-  link.addEventListener('click', (e) => {
-    e.preventDefault();
-    if (link.dataset.page) showPage(link.dataset.page);
-  });
-});
-
-// ===== LET'S TALK BUTTON =====
-document.querySelector('.btn-talk')?.addEventListener('click', (e) => {
-  e.preventDefault();
-  showPage('contact');
-});
-
-// ===== FOOTER LINKS =====
-document.querySelectorAll('#footer a[href^="#"]').forEach(link => {
-  link.addEventListener('click', (e) => {
-    const hash = link.getAttribute('href').replace('#', '');
-    const validPages = ['home', 'about', 'work', 'stories', 'contact'];
-    if (validPages.includes(hash)) {
-      e.preventDefault();
-      showPage(hash);
+  let worldMap = null;
+  
+  function initMap() {
+    const mapDiv = document.getElementById('contact-map');
+    if (!mapDiv) return;
+    if (worldMap) { 
+      worldMap.invalidateSize(); 
+      return;
     }
-  });
-});
-
-// ===== HANDLE URL HASH =====
-function handleHash() {
-  const hash = window.location.hash.replace('#', '') || 'home';
-  showPage(hash);
-}
-handleHash();
-window.addEventListener('popstate', handleHash);
-
-// ===== THEME TOGGLE =====
-let isDark = true;
-document.getElementById('themeToggle')?.addEventListener('click', () => {
-  isDark = !isDark;
-  document.body.classList.toggle('light-mode', !isDark);
-  document.getElementById('themeToggle').textContent = isDark ? '☀' : '🌙';
-  document.getElementById('navbar').style.background = isDark
-    ? 'rgba(10,10,14,0.88)'
-    : 'rgba(240,240,245,0.92)';
-});
-
-// ===== HAMBURGER =====
-document.getElementById('hamburger')?.addEventListener('click', () => {
-  document.getElementById('hamburger').classList.toggle('open');
-  document.getElementById('mobileNav').classList.toggle('open');
-});
-
-// Close mobile nav on outside click
-document.addEventListener('click', (e) => {
-  const hamburger = document.getElementById('hamburger');
-  const mobileNav = document.getElementById('mobileNav');
-  if (mobileNav?.classList.contains('open') &&
-      !mobileNav.contains(e.target) &&
-      !hamburger.contains(e.target)) {
-    hamburger.classList.remove('open');
-    mobileNav.classList.remove('open');
-  }
-});
-
-// ===== TIMELINE ACCORDION =====
-function toggleTimeline(header) {
-  const card = header.closest('.timeline-card');
-  const body = card.querySelector('.timeline-card-body');
-  const arrow = header.querySelector('.tl-arrow');
-  const isOpen = body.style.display !== 'none';
-  body.style.display = isOpen ? 'none' : 'block';
-  arrow.textContent = isOpen ? '›' : '▾';
-  card.classList.toggle('expanded', !isOpen);
-}
-
-// ===== SCROLL ANIMATION =====
-const observer = new IntersectionObserver((entries) => {
-  entries.forEach(entry => {
-    if (entry.isIntersecting) {
-      entry.target.style.opacity = '1';
-      entry.target.style.transform = 'translateY(0)';
-    }
-  });
-}, { threshold: 0.1 });
-
-document.querySelectorAll('.timeline-item, .project-card, .story-card').forEach(el => {
-  el.style.opacity = '0';
-  el.style.transform = 'translateY(20px)';
-  el.style.transition = 'opacity 0.5s ease, transform 0.5s ease';
-  observer.observe(el);
-});
-
-// ===== HOVER GLOW EFFECT =====
-document.querySelectorAll('.card, .project-card, .story-card, .contact-channel-card').forEach(card => {
-  card.addEventListener('mousemove', (e) => {
-    const rect = card.getBoundingClientRect();
-    card.style.setProperty('--glow-x', ((e.clientX - rect.left) / rect.width * 100) + '%');
-    card.style.setProperty('--glow-y', ((e.clientY - rect.top) / rect.height * 100) + '%');
-  });
-});
-
-// ===== STAT COUNTER ANIMATION =====
-function animateCounter(el, target, suffix = '') {
-  const duration = 1500;
-  const startTime = performance.now();
-  function update(currentTime) {
-    const progress = Math.min((currentTime - startTime) / duration, 1);
-    const eased = 1 - Math.pow(1 - progress, 3);
-    el.textContent = Math.round(target * eased) + suffix;
-    if (progress < 1) requestAnimationFrame(update);
-  }
-  requestAnimationFrame(update);
-}
-
-const statsObserver = new IntersectionObserver((entries) => {
-  entries.forEach(entry => {
-    if (entry.isIntersecting) {
-      const statNums = entry.target.querySelectorAll('.stat-num');
-      const targets = [4, 100, 12775];
-      const suffixes = ['+', '%', ''];
-      statNums.forEach((el, i) => animateCounter(el, targets[i], suffixes[i]));
-      statsObserver.unobserve(entry.target);
-    }
-  });
-}, { threshold: 0.5 });
-
-const statsCard = document.querySelector('.stats-card');
-if (statsCard) statsObserver.observe(statsCard);
-
-// ===== CONTACT MAP (Leaflet) =====
-let contactMap = null;
-
-function initContactMap() {
-  const container = document.getElementById('contact-map');
-  if (!container) return;
-  if (contactMap) {
-    contactMap.invalidateSize();
-    return;
-  }
-
-  contactMap = L.map('contact-map', {
-    center: [20, 30],
-    zoom: 1,
-    zoomControl: false,
-    scrollWheelZoom: false,
-    dragging: false,
-    doubleClickZoom: false,
-    attributionControl: false
-  });
-
-  L.tileLayer('https://{s}.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}{r}.png', {
-    subdomains: 'abcd',
-    maxZoom: 4
-  }).addTo(contactMap);
-
-  const pinIcon = L.divIcon({
-    className: '',
-    html: `<div class="map-pin-wrap"><span class="map-pin-pulse"></span><span class="map-pin-dot"></span></div>`,
-    iconSize: [14, 14],
-    iconAnchor: [7, 7]
-  });
-
-  // const locations = [
-  //   { latlng: [15.4909, 73.8278], label: 'India ★' },
-  //   { latlng: [25.2048, 45.0000], label: 'Middle East' },
-  //   { latlng: [51.5074, -0.1278], label: 'UK' },
-  //   { latlng: [37.0902, -95.7129], label: 'N. America' },
-  // ];
-
-  // locations.forEach(loc => {
-  //   L.marker(loc.latlng, { icon: pinIcon })
-  //     .addTo(contactMap)
-  //     .bindTooltip(loc.label, {
-  //       permanent: true,
-  //       direction: 'top',
-  //       className: 'map-tooltip',
-  //       offset: [0, -10]
-  //     });
-  // });
-  const locations = [
-    { latlng: [15.4909, 93.8278], label: 'India ★',   tooltipClass: 'map-tooltip map-tooltip-india' },
-    { latlng: [25.2048, 45.0000], label: 'Middle East', tooltipClass: 'map-tooltip map-tooltip-middle-east' },
-    { latlng: [51.5074, -0.1278], label: 'UK',          tooltipClass: 'map-tooltip map-tooltip-uk' },
-    { latlng: [37.0902, -95.7129], label: 'N. America', tooltipClass: 'map-tooltip map-tooltip-america' },
-  ];
-
-  locations.forEach(loc => {
-    L.marker(loc.latlng, { icon: pinIcon })
-      .addTo(contactMap)
-      .bindTooltip(loc.label, {
+    
+    // Create map centered on world view
+    worldMap = L.map('contact-map').setView([20.5937, 78.9629], 2);
+    
+    // RELIABLE MAP TILES (OpenStreetMap - always works)
+    L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+      attribution: '© OpenStreetMap contributors',
+      maxZoom: 6,
+      className: 'map-tiles'
+    }).addTo(worldMap);
+    
+    // Custom glowing marker icon
+    const customIcon = L.divIcon({
+      html: '<div style="background: #00d4ff; width: 14px; height: 14px; border-radius: 50%; box-shadow: 0 0 14px #00d4ff, 0 0 4px white; border: 2px solid white;"></div>',
+      iconSize: [14, 14],
+      iconAnchor: [7, 7]
+    });
+    
+    // Country locations with tooltip labels
+    const locations = [
+      { latlng: [20.5937, 78.9629], label: '🇮🇳 INDIA' },
+      { latlng: [25.2048, 45.0000], label: '🇦🇪 MIDDLE EAST' },
+      { latlng: [55.3781, -3.4360], label: '🇬🇧 UNITED KINGDOM' },
+      { latlng: [39.8283, -98.5795], label: '🇺🇸 NORTH AMERICA' }
+    ];
+    
+    locations.forEach(loc => {
+      const marker = L.marker(loc.latlng, { icon: customIcon }).addTo(worldMap);
+      
+      // PERMANENT VISIBLE TOOLTIP
+      marker.bindTooltip(loc.label, {
         permanent: true,
         direction: 'top',
-        className: loc.tooltipClass,
-        offset: [0, -10]
-      });
-  });
+        offset: [0, -12],
+        className: 'custom-map-label'
+      }).openTooltip();
+    });
+    
+    // Optional: Add subtle highlight circles around regions
+    L.circle([20.5937, 78.9629], { color: '#00d4ff', weight: 1, opacity: 0.3, fillOpacity: 0.05, radius: 700000 }).addTo(worldMap);
+    L.circle([25.2048, 45.0000], { color: '#00d4ff', weight: 1, opacity: 0.3, fillOpacity: 0.05, radius: 1000000 }).addTo(worldMap);
+    L.circle([55.3781, -3.4360], { color: '#00d4ff', weight: 1, opacity: 0.3, fillOpacity: 0.05, radius: 400000 }).addTo(worldMap);
+    L.circle([39.8283, -98.5795], { color: '#00d4ff', weight: 1, opacity: 0.3, fillOpacity: 0.05, radius: 1200000 }).addTo(worldMap);
+    
+    // Fix map size after load
+    setTimeout(() => worldMap.invalidateSize(), 200);
+  }
+  
+  // Initialize map when page loads
+  window.addEventListener('load', initMap);
+  window.addEventListener('resize', () => { if (worldMap) worldMap.invalidateSize(); });
 
-  // Critical: recalculate size after tiles load
-  setTimeout(() => contactMap.invalidateSize(), 200);
+  function updateClock() {
+    const now = new Date();
+    let hours = now.getHours();
+    const minutes = String(now.getMinutes()).padStart(2, '0');
+    const seconds = String(now.getSeconds()).padStart(2, '0');
+    const ampm = hours >= 12 ? 'PM' : 'AM';
+    
+    // Convert to 12-hour format
+    hours = hours % 12;
+    hours = hours ? hours : 12; // 12 should be 12, not 0
+    const formattedHours = String(hours).padStart(2, '0');
+    
+    document.getElementById('liveClock').innerHTML = `🕒 ${formattedHours}:${minutes}:${seconds} ${ampm}`;
 }
+
+// Update immediately and then every second
+updateClock();
+setInterval(updateClock, 1000);
+
+let worldMap = null;
+  function initMap() {
+    const mapDiv = document.getElementById('contact-map');
+    if (!mapDiv) return;
+    if (worldMap) { worldMap.invalidateSize(); return; }
+    worldMap = L.map('contact-map').setView([20.5937, 78.9629], 2.2);
+    L.tileLayer('https://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}{r}.png', {
+      attribution: '© OpenStreetMap',
+      subdomains: 'abcd',
+      maxZoom: 6
+    }).addTo(worldMap);
+    const pinIcon = L.divIcon({
+      html: '<div style="background:#00d4ff; width:12px; height:12px; border-radius:50%; box-shadow:0 0 10px #00d4ff; border:2px solid white;"></div>',
+      iconSize: [12,12], iconAnchor: [6,6]
+    });
+    const locations = [
+      { latlng: [20.5937, 78.9629], label: '🇮🇳 INDIA', offset: [0, -14] },
+      { latlng: [25.2048, 45.0000], label: '🇦🇪 MIDDLE EAST', offset: [0, -14] },
+      { latlng: [55.3781, -3.4360], label: '🇬🇧 UK', offset: [0, -14] },
+      { latlng: [39.8283, -98.5795], label: '🇺🇸 N. AMERICA', offset: [0, -14] }
+    ];
+    locations.forEach(loc => {
+      L.marker(loc.latlng, { icon: pinIcon }).addTo(worldMap)
+        .bindTooltip(loc.label, { permanent: true, direction: 'top', offset: loc.offset, className: 'visible-map-label' });
+    });
+    setTimeout(() => worldMap.invalidateSize(), 200);
+  }
+  function scrollToContact() { document.querySelector('.contact-duo')?.scrollIntoView({ behavior: 'smooth' }); }
+  window.addEventListener('load', initMap);
+  window.addEventListener('resize', () => worldMap?.invalidateSize());
