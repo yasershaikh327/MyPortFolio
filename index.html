@@ -1,306 +1,570 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
-<title>Yaser Shaikh | Software Engineer & Fullstack Architect</title>
-<link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"/>
-<script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=DM+Sans:ital,wght@0,300;0,400;0,500;0,600;0,700;1,400&family=Space+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet">
-<style>
-  * {
-    margin: 0;
-    padding: 0;
-    box-sizing: border-box;
-  }
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+  <title>Yaser Shaikh · Senior Software Engineer</title>
+  <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
+  <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,300;14..32,400;14..32,500;14..32,600;14..32,700;14..32,800&family=Space+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
 
-  /* STRICTLY DARK THEME — NO LIGHT MODE */
-  :root {
-    --bg-deep: #0a0a0c;
-    --bg-surface: #111216;
-    --bg-card: #15171e;
-    --bg-elevated: #1c1f2a;
-    --border-subtle: rgba(66, 71, 100, 0.45);
-    --border-glow: rgba(0, 212, 255, 0.35);
-    --text-primary: #edf2f8;
-    --text-secondary: #b4bdda;
-    --text-muted: #7a82a0;
-    --cyan: #00d4ff;
-    --cyan-glow: rgba(0, 212, 255, 0.25);
-    --radius-lg: 24px;
-    --radius-md: 16px;
-    --nav-height: 74px;
-    --transition: cubic-bezier(0.2, 0.9, 0.4, 1.1);
-  }
+    /* STRICTLY DARK · SENIOR ENGINEER AESTHETIC */
+    :root {
+      --bg-primary: #0a0a0c;
+      --bg-secondary: #0f1117;
+      --bg-card: #15171e;
+      --bg-elevated: #1c1f2a;
+      --border-light: rgba(66, 71, 100, 0.35);
+      --border-cyan: rgba(0, 212, 255, 0.4);
+      --text-primary: #edf2f8;
+      --text-secondary: #b4bdda;
+      --text-muted: #6c7289;
+      --cyan: #00d4ff;
+      --cyan-glow: rgba(0, 212, 255, 0.2);
+      --radius-xl: 32px;
+      --radius-lg: 24px;
+      --transition: cubic-bezier(0.2, 0.9, 0.4, 1.1);
+    }
 
-  body {
-    background-color: var(--bg-deep);
-    color: var(--text-primary);
-    font-family: 'DM Sans', 'Syne', system-ui, sans-serif;
-    line-height: 1.55;
-    scroll-behavior: smooth;
-  }
+    body {
+      background-color: var(--bg-primary);
+      color: var(--text-primary);
+      font-family: 'Inter', 'Space Grotesk', system-ui, sans-serif;
+      line-height: 1.55;
+      scroll-behavior: smooth;
+    }
 
-  h1, h2, h3, h4, .hero-name, .page-title, .section-heading {
-    font-family: 'Syne', 'Space Grotesk', sans-serif;
-    font-weight: 700;
-    letter-spacing: -0.02em;
-  }
+    /* TYPOGRAPHY */
+    h1, h2, h3, h4, .heading-heavy {
+      font-family: 'Space Grotesk', 'Inter', sans-serif;
+      font-weight: 600;
+      letter-spacing: -0.02em;
+    }
 
-  .glow-text {
-    background: linear-gradient(135deg, #ffffff 20%, var(--cyan) 80%);
-    background-clip: text;
-    -webkit-background-clip: text;
-    color: transparent;
-  }
+    .gradient-cyan {
+      background: linear-gradient(135deg, #ffffff 25%, var(--cyan) 85%);
+      background-clip: text;
+      -webkit-background-clip: text;
+      color: transparent;
+    }
 
-  ::-webkit-scrollbar { width: 5px; }
-  ::-webkit-scrollbar-track { background: var(--bg-surface); }
-  ::-webkit-scrollbar-thumb { background: var(--cyan); border-radius: 12px; }
+    .section-title {
+      font-size: 3.2rem;
+      font-weight: 700;
+      margin-bottom: 2.5rem;
+      position: relative;
+      display: inline-block;
+    }
+    .section-title::after {
+      content: '';
+      position: absolute;
+      bottom: -12px;
+      left: 0;
+      width: 60px;
+      height: 3px;
+      background: var(--cyan);
+      border-radius: 4px;
+    }
 
-  /* Navigation */
-  #navbar {
-    position: fixed; top: 0; left: 0; right: 0; z-index: 1000;
-    height: var(--nav-height); padding: 0 40px;
-    display: flex; align-items: center; justify-content: space-between;
-    backdrop-filter: blur(20px);
-    background: rgba(10, 10, 12, 0.92);
-    border-bottom: 1px solid var(--border-subtle);
-  }
-  .nav-logo { display: flex; align-items: center; gap: 12px; }
-  .logo-icon svg polygon { stroke: var(--cyan); }
-  .logo-text {
-    font-family: 'Syne', sans-serif;
-    font-weight: 700; font-size: 18px;
-    background: linear-gradient(135deg, #fff, var(--cyan));
-    background-clip: text; -webkit-background-clip: text; color: transparent;
-  }
-  .nav-links {
-    display: flex; gap: 8px;
-    background: var(--bg-elevated); padding: 6px 12px;
-    border-radius: 60px; border: 1px solid var(--border-subtle);
-  }
-  .nav-link {
-    padding: 8px 20px; font-size: 13px; font-weight: 600;
-    font-family: 'DM Sans', sans-serif;
-    color: var(--text-secondary); border-radius: 40px;
-    cursor: pointer; transition: 0.2s;
-  }
-  .nav-link.active {
-    background: var(--cyan);
-    color: #0a0a0c; box-shadow: 0 4px 12px var(--cyan-glow);
-  }
-  .btn-talk {
-    background: var(--cyan);
-    color: #0a0a0c; padding: 8px 22px;
-    border-radius: 40px; font-weight: 700;
-    font-size: 13px; cursor: pointer; transition: 0.2s;
-  }
-  .theme-toggle { display: none; }
-  .hamburger { display: none; font-size: 28px; background: none; border: none; color: var(--text-primary); cursor: pointer; }
-  .mobile-nav {
-    display: none; position: fixed; top: var(--nav-height); left: 0; right: 0;
-    background: var(--bg-card); backdrop-filter: blur(28px); z-index: 999;
-    padding: 24px; flex-direction: column; gap: 12px;
-    border-bottom: 1px solid var(--cyan);
-  }
-  .page {
-    display: none; min-height: 100vh;
-    padding: calc(var(--nav-height) + 40px) 40px 70px;
-    animation: fadeUp 0.45s ease;
-  }
-  .page.active { display: block; }
-  @keyframes fadeUp { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
+    .container {
+      max-width: 1280px;
+      margin: 0 auto;
+      padding: 0 32px;
+    }
 
-  /* Home Grid */
-  .home-grid { max-width: 1280px; margin: 0 auto; display: grid; grid-template-columns: repeat(3, 1fr); gap: 22px; }
-  .card {
-    background: var(--bg-card); border: 1px solid var(--border-subtle);
-    border-radius: var(--radius-lg); transition: all 0.3s var(--transition);
-    overflow: hidden;
-  }
-  .card:hover { transform: translateY(-5px); border-color: var(--cyan); box-shadow: 0 20px 35px -12px rgba(0,0,0,0.5); }
-  .hero-card { grid-column: span 1; background: radial-gradient(circle at 30% 20%, rgba(0,212,255,0.08), var(--bg-card)); padding: 32px; }
-  .hero-name { font-size: 48px; margin: 12px 0; }
-  .greeting { font-size: 13px; letter-spacing: 3px; color: var(--cyan); font-weight: 600; }
-  .card-meta { padding: 20px; background: var(--bg-elevated); }
-  .card-label { font-size: 10px; letter-spacing: 2px; font-weight: 700; color: var(--cyan); }
-  .stat-num { font-size: 36px; font-weight: 800; color: var(--cyan); }
-  .services-icons { display: flex; flex-wrap: wrap; padding: 24px; gap: 18px; }
-  .service-item { flex: 1; text-align: center; font-weight: 600; font-size: 13px; }
-  .social-icons { display: flex; gap: 12px; padding: 20px; justify-content: center; }
-  .social-btn {
-    width: 44px; height: 44px; background: var(--bg-elevated); border-radius: 40px;
-    display: flex; align-items: center; justify-content: center; transition: 0.2s;
-    font-weight: 700; font-size: 18px; color: var(--cyan);
-  }
-  .social-btn:hover { background: var(--cyan); color: #0a0a0c; }
+    /* HERO SECTION — NO NAVBAR */
+    .hero {
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      padding: 80px 0 60px;
+      position: relative;
+    }
+    .hero-content {
+      max-width: 800px;
+    }
+    .hero-badge {
+      font-size: 13px;
+      letter-spacing: 3px;
+      color: var(--cyan);
+      text-transform: uppercase;
+      font-weight: 600;
+      margin-bottom: 20px;
+    }
+    .hero-name {
+      font-size: 5rem;
+      font-weight: 700;
+      line-height: 1.1;
+      margin-bottom: 24px;
+    }
+    .hero-tagline {
+      font-size: 1.4rem;
+      color: var(--text-secondary);
+      margin-bottom: 16px;
+      font-weight: 500;
+    }
+    .hero-desc {
+      font-size: 1.1rem;
+      color: var(--text-muted);
+      max-width: 600px;
+      margin-bottom: 40px;
+    }
+    .cta-group {
+      display: flex;
+      gap: 20px;
+      flex-wrap: wrap;
+    }
+    .btn-primary {
+      background: var(--cyan);
+      color: #0a0a0c;
+      padding: 12px 32px;
+      border-radius: 60px;
+      font-weight: 700;
+      font-size: 15px;
+      transition: 0.25s;
+      border: none;
+      cursor: pointer;
+      text-decoration: none;
+      display: inline-block;
+    }
+    .btn-outline-cyan {
+      border: 1.5px solid var(--cyan);
+      color: var(--cyan);
+      background: transparent;
+      padding: 12px 32px;
+      border-radius: 60px;
+      font-weight: 700;
+      font-size: 15px;
+      transition: 0.25s;
+      cursor: pointer;
+      text-decoration: none;
+    }
+    .btn-outline-cyan:hover {
+      background: rgba(0, 212, 255, 0.1);
+      transform: translateY(-2px);
+    }
+    .btn-primary:hover {
+      transform: translateY(-2px);
+      filter: brightness(1.05);
+    }
 
-  /* About Page */
-  .about-top-grid { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 24px; max-width: 1200px; margin: 0 auto; }
-  .about-left, .about-center, .about-right { background: var(--bg-card); border-radius: var(--radius-lg); padding: 28px; border: 1px solid var(--border-subtle); }
-  .about-profile-image { width: 100%; border-radius: 20px; aspect-ratio: 1/1; object-fit: cover; border: 2px solid var(--cyan); }
-  .about-section-label { font-size: 10px; letter-spacing: 2px; color: var(--cyan); margin-bottom: 12px; font-weight: 700; }
-  .skill-badge { background: var(--bg-elevated); padding: 6px 16px; border-radius: 40px; font-size: 12px; font-weight: 600; display: inline-block; margin: 4px; border: 1px solid var(--border-subtle); }
-  .cred-stats { display: flex; gap: 24px; margin: 16px 0; }
-  .cred-num { font-size: 38px; font-weight: 800; color: var(--cyan); }
+    /* CARDS & GRID */
+    .grid-3 {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 28px;
+      margin: 48px 0;
+    }
+    .card {
+      background: var(--bg-card);
+      border: 1px solid var(--border-light);
+      border-radius: var(--radius-lg);
+      padding: 28px;
+      transition: all 0.3s var(--transition);
+    }
+    .card:hover {
+      border-color: var(--border-cyan);
+      transform: translateY(-6px);
+      box-shadow: 0 20px 35px -12px rgba(0,0,0,0.6);
+    }
+    .card-icon {
+      font-size: 2.4rem;
+      margin-bottom: 20px;
+    }
+    .stat-number {
+      font-size: 3rem;
+      font-weight: 800;
+      color: var(--cyan);
+      line-height: 1;
+    }
+    .skill-pill {
+      background: var(--bg-elevated);
+      border: 1px solid var(--border-light);
+      border-radius: 60px;
+      padding: 6px 18px;
+      font-size: 13px;
+      font-weight: 500;
+      display: inline-block;
+      margin: 5px;
+    }
 
-  /* Timeline */
-  .timeline { max-width: 1000px; margin: 0 auto; }
-  .timeline-item { margin-bottom: 16px; position: relative; padding-left: 28px; }
-  .timeline-dot { position: absolute; left: -8px; top: 24px; width: 14px; height: 14px; background: var(--cyan); border-radius: 20px; box-shadow: 0 0 10px var(--cyan-glow); }
-  .timeline-card { background: var(--bg-card); border-radius: 20px; overflow: hidden; border: 1px solid var(--border-subtle); }
-  .timeline-card-header { padding: 18px 24px; cursor: pointer; display: flex; justify-content: space-between; background: var(--bg-elevated); font-weight: 700; }
-  .timeline-card-body { padding: 20px 24px; display: none; border-top: 1px solid var(--border-subtle); }
-  .timeline-card-body ul { padding-left: 20px; margin-top: 10px; }
-  .timeline-card-body li { margin-bottom: 8px; color: var(--text-secondary); }
-  .tl-period { color: var(--cyan); font-weight: 600; margin-bottom: 10px; }
+    /* ABOUT LAYOUT */
+    .about-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 48px;
+      align-items: start;
+    }
+    .about-text p {
+      color: var(--text-secondary);
+      font-size: 1.05rem;
+      margin-bottom: 24px;
+    }
+    .info-row {
+      display: flex;
+      gap: 32px;
+      margin: 28px 0;
+      flex-wrap: wrap;
+    }
+    .info-item span:first-child {
+      color: var(--cyan);
+      font-weight: 600;
+      display: block;
+      font-size: 13px;
+      letter-spacing: 1px;
+    }
 
-  /* Projects & Stories */
-  .projects-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(290px, 1fr)); gap: 24px; max-width: 1200px; margin: 0 auto; }
-  .project-card { background: var(--bg-card); border-radius: 24px; padding: 24px; border: 1px solid var(--border-subtle); transition: 0.2s; }
-  .project-card:hover { border-color: var(--cyan); transform: translateY(-4px); }
-  .project-thumb { width: 56px; height: 56px; background: rgba(0,212,255,0.1); border-radius: 18px; display: flex; align-items: center; justify-content: center; font-size: 28px; margin-bottom: 20px; }
-  .stories-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 24px; max-width: 1000px; margin: 0 auto; }
-  .story-card { background: var(--bg-card); border-radius: 28px; padding: 28px; border: 1px solid var(--border-subtle); transition: 0.2s; }
-  .story-card:hover { border-color: var(--cyan); }
-  .story-tag { color: var(--cyan); font-size: 11px; font-weight: 700; letter-spacing: 1px; margin-bottom: 12px; display: block; }
+    /* TIMELINE (Senior level) */
+    .timeline {
+      margin: 56px 0 40px;
+    }
+    .timeline-item {
+      display: flex;
+      gap: 24px;
+      margin-bottom: 32px;
+      position: relative;
+    }
+    .timeline-year {
+      min-width: 100px;
+      font-weight: 700;
+      color: var(--cyan);
+      font-size: 1rem;
+    }
+    .timeline-dot-line {
+      position: relative;
+      width: 24px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    }
+    .timeline-dot {
+      width: 12px;
+      height: 12px;
+      background: var(--cyan);
+      border-radius: 50%;
+      box-shadow: 0 0 10px var(--cyan-glow);
+      margin-top: 6px;
+    }
+    .timeline-line {
+      width: 2px;
+      flex: 1;
+      background: linear-gradient(to bottom, var(--cyan), transparent);
+      margin-top: 8px;
+    }
+    .timeline-content {
+      flex: 1;
+      background: var(--bg-card);
+      border-radius: 20px;
+      padding: 20px 24px;
+      border: 1px solid var(--border-light);
+      margin-bottom: 8px;
+    }
+    .timeline-content h4 {
+      font-size: 1.2rem;
+      margin-bottom: 6px;
+    }
+    .timeline-content .company {
+      color: var(--cyan);
+      font-weight: 500;
+      font-size: 0.85rem;
+      margin-bottom: 12px;
+    }
+    .timeline-content ul {
+      padding-left: 20px;
+      color: var(--text-secondary);
+      font-size: 0.9rem;
+    }
+    .timeline-content li {
+      margin-bottom: 8px;
+    }
 
-  /* Contact & Map */
-  .contact-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 24px; max-width: 1100px; margin: 0 auto; }
-  .contact-left, .contact-right { background: var(--bg-card); border-radius: var(--radius-lg); padding: 32px; border: 1px solid var(--border-subtle); }
-  .contact-heading { font-size: 34px; margin: 16px 0; }
-  .cyan { color: var(--cyan); }
-  .btn-solid, .btn-outline { display: inline-block; padding: 12px 24px; border-radius: 40px; font-weight: 700; margin-right: 12px; transition: 0.2s; }
-  .btn-solid { background: var(--cyan); color: #0a0a0c; }
-  .btn-outline { border: 1px solid var(--cyan); color: var(--cyan); background: transparent; }
-  .contact-cards-row { display: flex; gap: 20px; max-width: 1100px; margin: 24px auto; flex-wrap: wrap; }
-  .contact-channel-card { background: var(--bg-elevated); border-radius: 24px; padding: 24px; flex: 1; border: 1px solid var(--border-subtle); }
-  .cc-icon { font-size: 32px; margin-bottom: 12px; }
-  #contact-map { height: 220px; border-radius: 20px; overflow: hidden; margin-top: 12px; border: 1px solid var(--border-subtle); }
-  .map-tooltip { font-family: 'DM Sans', sans-serif !important; font-weight: 600 !important; background: #0a0c15dd !important; border: 1px solid var(--cyan) !important; color: white !important; border-radius: 40px !important; padding: 4px 14px !important; }
-  .green-dot { width: 8px; height: 8px; background: #4ade80; border-radius: 50%; display: inline-block; margin-right: 8px; box-shadow: 0 0 6px #4ade80; }
-  .available-badge { font-weight: 700; margin-bottom: 16px; }
+    /* PROJECTS & STORIES */
+    .projects-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+      gap: 28px;
+      margin: 48px 0;
+    }
+    .project-card {
+      background: var(--bg-card);
+      border-radius: 24px;
+      padding: 28px;
+      border: 1px solid var(--border-light);
+      transition: 0.25s;
+    }
+    .project-emoji {
+      font-size: 2.8rem;
+      margin-bottom: 20px;
+    }
+    .stories-grid {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 28px;
+    }
+    .story-card {
+      background: var(--bg-elevated);
+      border-radius: 28px;
+      padding: 32px;
+      border: 1px solid var(--border-light);
+    }
 
-  footer { background: var(--bg-surface); border-top: 1px solid var(--border-subtle); text-align: center; padding: 32px 20px; margin-top: 40px; }
-  .footer-links { display: flex; justify-content: center; gap: 28px; flex-wrap: wrap; margin-bottom: 16px; }
-  .footer-links a { color: var(--text-secondary); text-decoration: none; font-weight: 500; }
-  .footer-links a:hover { color: var(--cyan); }
+    /* MAP + CONTACT */
+    .contact-duo {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 32px;
+      margin-bottom: 48px;
+    }
+    .contact-panel {
+      background: var(--bg-card);
+      border-radius: 32px;
+      padding: 40px;
+      border: 1px solid var(--border-light);
+    }
+    #contact-map {
+      height: 240px;
+      border-radius: 24px;
+      overflow: hidden;
+      margin-top: 20px;
+    }
+    .contact-links {
+      display: flex;
+      gap: 20px;
+      flex-wrap: wrap;
+      margin-top: 28px;
+    }
+    .social-link {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      background: var(--bg-elevated);
+      padding: 10px 22px;
+      border-radius: 60px;
+      color: var(--text-primary);
+      text-decoration: none;
+      font-weight: 500;
+      border: 1px solid var(--border-light);
+    }
 
-  @media (max-width: 860px) {
-    .home-grid, .about-top-grid, .stories-grid, .contact-grid { grid-template-columns: 1fr; }
-    .nav-links { display: none; }
-    .hamburger { display: flex; }
-    .page { padding: 100px 20px 40px; }
-    .hero-name { font-size: 36px; }
-  }
-</style>
+    footer {
+      margin-top: 80px;
+      padding: 40px 0;
+      text-align: center;
+      border-top: 1px solid var(--border-light);
+      color: var(--text-muted);
+    }
+    .footer-links {
+      display: flex;
+      justify-content: center;
+      gap: 32px;
+      margin-bottom: 24px;
+      flex-wrap: wrap;
+    }
+    .footer-links a {
+      color: var(--text-secondary);
+      text-decoration: none;
+      font-weight: 500;
+      cursor: pointer;
+    }
+
+    @media (max-width: 860px) {
+      .container { padding: 0 24px; }
+      .hero-name { font-size: 3rem; }
+      .grid-3, .about-grid, .contact-duo, .stories-grid { grid-template-columns: 1fr; }
+      .section-title { font-size: 2.4rem; }
+      .timeline-item { flex-direction: column; gap: 12px; }
+      .timeline-year { margin-bottom: 4px; }
+      .timeline-dot-line { display: none; }
+    }
+    .cyan-text { color: var(--cyan); }
+    .map-tooltip {
+      font-family: 'Inter', monospace;
+      font-weight: 600;
+      background: #0a0c15dd;
+      border: 1px solid var(--cyan);
+      border-radius: 40px;
+      color: white;
+    }
+  </style>
 </head>
 <body>
 
-<nav id="navbar">
-  <div class="nav-logo">
-    <div class="logo-icon"><svg width="36" height="36" viewBox="0 0 36 36" fill="none"><polygon points="18,2 34,10 34,26 18,34 2,26 2,10" stroke="#00d4ff" stroke-width="1.5" fill="none"/></svg></div>
-    <span class="logo-text">mr shaikh</span>
-  </div>
-  <ul class="nav-links">
-    <li><a class="nav-link active" data-page="home">Home</a></li>
-    <li><a class="nav-link" data-page="about">About</a></li>
-    <li><a class="nav-link" data-page="work">Work</a></li>
-    <li><a class="nav-link" data-page="stories">Stories</a></li>
-    <li><a class="nav-link" data-page="contact">Contact</a></li>
-  </ul>
-  <div class="nav-actions"><a class="btn-talk">Let's Talk</a><button class="hamburger" id="hamburger">☰</button></div>
-</nav>
-<div class="mobile-nav" id="mobileNav"></div>
-
-<!-- HOME -->
-<section id="home" class="page active">
-  <div class="home-grid">
-    <div class="card hero-card"><div class="greeting">Hello, I'm</div><h1 class="hero-name glow-text">Yaser Shaikh</h1><p class="hero-sub" style="font-size:18px; font-weight:500;">Software Engineer, Researcher & Fullstack Developer</p><p class="hero-desc" style="color:var(--text-secondary); margin-top:12px;">Passionate about building solutions that make a difference.</p></div>
-    <div class="card card-link" onclick="showPage('about')"><div class="card-meta"><span class="card-label">MORE ABOUT ME</span><h3>About Me</h3><p style="font-size:13px; margin-top:6px;">Master's in Computing, 4+ years exp</p></div></div>
-    <div class="card card-link" onclick="showPage('work')"><div class="card-meta"><span class="card-label">SHOWCASE</span><h3>Projects</h3><p style="font-size:13px;">7+ production-grade applications</p></div></div>
-    <div class="card card-link" onclick="showPage('stories')"><div class="card-meta"><span class="card-label">BLOG</span><h3>Stories</h3><p style="font-size:13px;">Engineering insights & lessons</p></div></div>
-    <div class="card"><div class="services-icons"><div class="service-item">🌐 Web Dev</div><div class="service-item">🔬 R&D</div><div class="service-item">⚙️ Software Eng</div></div><div class="card-meta"><span class="card-label">SERVICES</span><h3>Professional Services</h3></div></div>
-    <div class="card"><div class="social-icons"><a href="https://linkedin.com/in/yaser-shaikh-b0245614a" class="social-btn" target="_blank">in</a><a href="https://github.com/Yasershaikh327" class="social-btn" target="_blank">🐙</a><a href="https://www.instagram.com/ya5er_5haikh/" class="social-btn" target="_blank">📷</a></div><div class="card-meta"><span class="card-label">LET'S CONNECT</span><h3>Socials</h3></div></div>
-    <div class="card stats-card"><div class="card-meta"><span class="stat-num">04+</span> <span>Years Experience</span><div style="margin-top:12px;"><span class="stat-num">20+</span> <span>Projects Completed</span></div></div></div>
-    <div class="card cta-card" style="background:linear-gradient(145deg, var(--bg-elevated), var(--bg-card));"><div class="card-meta"><h3>Let's talk about your <span class="cyan">next</span> project.</h3><p class="cta-sub" style="margin-top:8px;">Send your ideas to <span class="cyan">syaser327@gmail.com</span></p></div></div>
-  </div>
-</section>
-
-<!-- ABOUT (FULL INFO) -->
-<section id="about" class="page">
-  <h2 class="page-title" style="font-size:48px; text-align:center;">About Me</h2>
-  <div class="about-top-grid">
-    <div class="about-left"><div class="about-section-label">BIOGRAPHY</div><p class="about-bio">Software engineer and fullstack developer with a Master's in Computing from Goa University. Passionate about building scalable backend systems, REST APIs, and full-stack applications using modern architectures.</p><div style="margin-top:24px;"><div class="about-section-label">CONTACT</div><p>📍 Goa, India</p><p>✉ syaser327@gmail.com</p></div><div style="margin-top:16px;"><div class="about-section-label">SERVICES</div><p>&lt;/&gt; Web Development</p><p>🧪 Research & Development</p></div></div>
-    <div class="about-center"><div class="about-photo-placeholder"><img src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 200 200'%3E%3Crect width='200' height='200' fill='%2311131c'/%3E%3Ctext x='50%25' y='50%25' text-anchor='middle' fill='%2300d4ff' font-size='18' font-weight='bold'%3EYS%3C/text%3E%3C/svg%3E" alt="Yaser Shaikh" class="about-profile-image"></div></div>
-    <div class="about-right"><div class="about-section-label cyan-label">CREDIBILITY</div><div class="cred-stats"><div><span class="cred-num">02</span><br><span class="cred-txt">PROFESSIONAL DEGREES</span></div><div><span class="cred-num">4+</span><br><span class="cred-txt">PROFESSIONAL CERTIFICATIONS</span></div></div><div class="about-section-label cyan-label" style="margin-top:20px;">TECHNICAL SKILLS</div><div class="skills-grid"><span class="skill-badge">⚙️ .NET Core</span><span class="skill-badge">⚛️ React.js</span><span class="skill-badge">🟢 Node.js</span><span class="skill-badge">🐘 PHP</span><span class="skill-badge">⚡ Laravel</span><span class="skill-badge">🔗 REST APIs</span><span class="skill-badge">🌐 HTML5/CSS3</span><span class="skill-badge">🟡 JavaScript</span><span class="skill-badge">🗄️ MySQL</span><span class="skill-badge">🐘 PostgreSQL</span><span class="skill-badge">🍃 MongoDB</span><span class="skill-badge">🐳 Docker</span><span class="skill-badge">☁️ AWS</span><span class="skill-badge">🐙 GitHub</span><span class="skill-badge">🏛️ SOLID</span><span class="skill-badge">🧹 Clean Arch</span><span class="skill-badge">💳 Payment Gateways</span><span class="skill-badge">📘 Swagger</span><span class="skill-badge">🤖 AI Tools</span></div></div>
-  </div>
-
-  <!-- COMPLETE TIMELINE with ALL experiences -->
-  <div class="exp-section" style="margin-top: 48px;"><h2 class="section-heading" style="font-size:32px; text-align:center; margin-bottom:32px;">Education & Experience</h2>
-    <div class="timeline">
-      <div class="timeline-item"><div class="timeline-dot"></div><div class="timeline-card"><div class="timeline-card-header" onclick="toggleTimeline(this)"><div><h4>Software Engineer</h4><p>TDSS - Software Convergent System, Panaji, Goa</p></div><span>▼</span></div><div class="timeline-card-body"><p class="tl-period">Feb 2026 – Present</p><p>Leading Linen Management System development including REST APIs, Admin Panel, Employee Mobile Module, Dashboard, reporting.</p><ul><li>Secure REST APIs using .NET Core, Clean Architecture, SOLID</li><li>Admin Panel with ASP.NET Web Forms (C# / VB.NET)</li><li>SQL Server optimization, stored procedures, Entity Framework</li><li>Azure deployment, debugging, code reviews</li></ul></div></div></div>
-      <div class="timeline-item"><div class="timeline-dot"></div><div class="timeline-card"><div class="timeline-card-header" onclick="toggleTimeline(this)"><div><h4>Software Engineer</h4><p>Team Inertia Technologies, Panaji, Goa</p></div><span>▼</span></div><div class="timeline-card-body"><p class="tl-period">Feb 2025 – Jan 2026</p><ul><li>Event Management, College Management, Pharma, Casino, Government apps</li><li>Core PHP, MySQL, REST APIs, Ajax/jQuery</li><li>Integrated HDFC/SBI payment gateways, WhatsApp, SMS, Email APIs</li><li>Docker, EasyPanel, cPanel, AWS S3, MinIO deployments</li><li>XSS & SQL Injection protection</li></ul></div></div></div>
-      <div class="timeline-item"><div class="timeline-dot"></div><div class="timeline-card"><div class="timeline-card-header" onclick="toggleTimeline(this)"><div><h4>Software Developer</h4><p>Team Inertia Technologies, Panaji, Goa</p></div><span>▼</span></div><div class="timeline-card-body"><p class="tl-period">Sep 2024 – Feb 2025</p><ul><li>Backend systems with Core PHP & MySQL</li><li>REST APIs, reporting modules, Ajax/jQuery interfaces</li><li>Event, education, government portals</li></ul></div></div></div>
-      <div class="timeline-item"><div class="timeline-dot"></div><div class="timeline-card"><div class="timeline-card-header" onclick="toggleTimeline(this)"><div><h4>Junior Software Engineer</h4><p>Anant Infomedia, Panaji, Goa</p></div><span>▼</span></div><div class="timeline-card-body"><p class="tl-period">Nov 2023 – Jun 2024</p><ul><li>NHA project – CLM, CRM, SFA modules</li><li>REST APIs with PHP, MySQL, Ajax, jQuery</li><li>Complex SQL reports & Excel exports, WhatsApp API integration</li></ul></div></div></div>
-      <div class="timeline-item"><div class="timeline-dot"></div><div class="timeline-card"><div class="timeline-card-header" onclick="toggleTimeline(this)"><div><h4>.NET Application Developer</h4><p>Zapcom Solution Pvt. Ltd., Bengaluru</p></div><span>▼</span></div><div class="timeline-card-body"><p class="tl-period">Jan 2023 – Aug 2023</p><ul><li>Lunch Booking App using .NET Core MVC</li><li>SOLID principles, Clean Architecture, Figma design</li><li>Secure authentication implementation</li></ul></div></div></div>
-      <div class="timeline-item"><div class="timeline-dot"></div><div class="timeline-card"><div class="timeline-card-header"><div><h4>Master of Computer Applications (MCA)</h4><p>Goa University, Goa — 2024</p></div></div></div></div>
-      <div class="timeline-item"><div class="timeline-dot"></div><div class="timeline-card"><div class="timeline-card-header"><div><h4>Bachelor of Computer Applications (BCA)</h4><p>Don Bosco College, Goa — 2022</p></div></div></div></div>
-      <div class="timeline-item"><div class="timeline-dot"></div><div class="timeline-card"><div class="timeline-card-header"><div><h4>Higher Secondary Certificate (12th Science)</h4><p>Green Valley National School, Goa — 2019</p></div></div></div></div>
+<!-- HERO SECTION — NO NAVBAR, PURE SENIOR PORTFOLIO -->
+<section class="hero">
+  <div class="container">
+    <div class="hero-content">
+      <div class="hero-badge">✦ SOFTWARE ENGINEER</div>
+      <h1 class="hero-name gradient-cyan">Yaser Shaikh</h1>
+      <p class="hero-tagline">Building resilient systems · Fullstack Architect · R&D</p>
+      <p class="hero-desc">9+ years of engineering expertise (4+ professional) — .NET Core, cloud-native, scalable APIs, and enterprise-grade platforms. I turn complex requirements into maintainable, production-ready software.</p>
+      <div class="cta-group">
+        <a href="mailto:syaser327@gmail.com" class="btn-primary">✉  syaser327@gmail.com</a>
+        <a href="#" class="btn-outline-cyan" onclick="scrollToContact()">Let's talk →</a>
+      </div>
     </div>
   </div>
 </section>
 
-<!-- WORK (ALL PROJECTS) -->
-<section id="work" class="page"><h2 class="page-title" style="text-align:center;">My Projects</h2><div class="projects-grid"><div class="project-card"><div class="project-thumb">💰</div><h4>Expenses Tracker</h4><p>Personal finance management with spending patterns, reports, budgeting.</p></div><div class="project-card"><div class="project-thumb">🍱</div><h4>Lunch Booking Application</h4><p>.NET Core MVC, Clean Architecture, menu scheduling, order tracking.</p></div><div class="project-card"><div class="project-thumb">🎂</div><h4>Custom Cake Ordering</h4><p>E-commerce platform, delivery scheduling, payment processing.</p></div><div class="project-card"><div class="project-thumb">🎓</div><h4>Online Learning Platform</h4><p>Course management, video streaming, certifications, analytics.</p></div><div class="project-card"><div class="project-thumb">🚗</div><h4>Vehicle Booking System</h4><p>Real-time availability, calendar scheduling, payment integration.</p></div><div class="project-card"><div class="project-thumb">🎵</div><h4>Music Streaming Application</h4><p>Playlists, real-time audio player, user profiles, advanced search.</p></div><div class="project-card"><div class="project-thumb">🏠</div><h4>RealEstate Booking Platform</h4><p>Property management, filters, admin dashboard, payment gateway.</p></div></div></section>
+<!-- STATS & SERVICE OVERVIEW -->
+<div class="container">
+  <div class="grid-3">
+    <div class="card"><div class="card-icon">⚙️</div><div class="stat-number">04+</div><div style="font-weight:600;">Years of Experience</div><div style="color:var(--text-muted); font-size:14px;">Full-cycle development</div></div>
+    <div class="card"><div class="card-icon">📦</div><div class="stat-number">20+</div><div style="font-weight:600;">Projects Delivered</div><div style="color:var(--text-muted); font-size:14px;">Enterprise & SaaS</div></div>
+    <div class="card"><div class="card-icon">🌍</div><div class="stat-number">Global</div><div style="font-weight:600;">Remote / Relocation</div><div style="color:var(--text-muted); font-size:14px;">Open worldwide</div></div>
+  </div>
+</div>
 
-<!-- STORIES -->
-<section id="stories" class="page"><h2 class="page-title" style="text-align:center;">Stories</h2><p class="page-sub" style="text-align:center; margin-bottom:32px;">Insights, engineering lessons, and real-world problem-solving experiences.</p><div class="stories-grid"><div class="story-card"><span class="story-tag">Featured</span><h3>From Idea to Production: Building Complete Web Systems</h3><p>Transforming business ideas into secure, scalable apps using PHP, .NET, Docker, cloud.</p></div><div class="story-card"><span class="story-tag">Backend Engineering</span><h3>Designing Secure & Scalable Backend Architectures</h3><p>Core PHP, .NET Core, SOLID, Clean Architecture for enterprise apps.</p></div><div class="story-card"><span class="story-tag">Performance</span><h3>Optimizing Slow MySQL Reports from Minutes to Seconds</h3><p>Indexing, query refactoring reduced report time from 3min to 8sec.</p></div><div class="story-card"><span class="story-tag">Cloud Storage</span><h3>Engineering Reliable 10GB File Uploads with S3 & MinIO</h3><p>Multipart uploads and presigned URLs for large files.</p></div><div class="story-card"><span class="story-tag">API Integration</span><h3>Integrating Payment Gateways & Communication APIs</h3><p>Razorpay, SBIePay, HDFC, WhatsApp, SMS, Email automation.</p></div><div class="story-card"><span class="story-tag">DevOps</span><h3>Deploying with Docker, EasyPanel & cPanel</h3><p>Containerization and environment management for staging/prod.</p></div><div class="story-card"><span class="story-tag">Security</span><h3>Building Security into Every Layer</h3><p>XSS, SQL injection prevention, secure file uploads, payment verification.</p></div><div class="story-card"><span class="story-tag">Career Journey</span><h3>My Evolution from Junior Developer to Software Engineer</h3><p>Growth across .NET, PHP, React, Docker, enterprise architecture.</p></div></div></section>
+<!-- ABOUT + SKILLS (Senior profile) -->
+<section style="padding: 60px 0;">
+  <div class="container">
+    <h2 class="section-title">About</h2>
+    <div class="about-grid">
+      <div class="about-text">
+        <p>Master's in Computing (Goa University) · Fullstack software engineer with deep expertise in .NET Core, PHP, React, and cloud infrastructure. I architect systems that scale, from Linen Management ERP to high-traffic booking platforms. Passionate about clean architecture, developer ergonomics, and delivering business value.</p>
+        <p>Currently leading backend & API development at TDSS, previously at Team Inertia and Zapcom. I bridge the gap between product vision and technical execution.</p>
+        <div class="info-row">
+          <div class="info-item"><span>📍 LOCATION</span>Goa, India (Open to remote)</div>
+          <div class="info-item"><span>📧 CONTACT</span>syaser327@gmail.com</div>
+          <div class="info-item"><span>🧪 SERVICES</span>Web Dev · R&D · Software Architecture</div>
+        </div>
+      </div>
+      <div class="skills-highlight">
+        <div style="background: var(--bg-card); border-radius: 32px; padding: 32px; border: 1px solid var(--border-light);">
+          <h3 style="margin-bottom: 20px;">Core competencies</h3>
+          <div>
+            <span class="skill-pill">.NET Core / C#</span><span class="skill-pill">React.js</span><span class="skill-pill">Node.js</span><span class="skill-pill">PHP / Laravel</span>
+            <span class="skill-pill">REST / GraphQL</span><span class="skill-pill">SQL Server / MySQL</span><span class="skill-pill">MongoDB</span>
+            <span class="skill-pill">Docker / AWS</span><span class="skill-pill">Clean Architecture</span><span class="skill-pill">SOLID</span>
+            <span class="skill-pill">Payment Gateways</span><span class="skill-pill">Azure / S3</span><span class="skill-pill">GitHub Actions</span>
+          </div>
+          <div class="cred-stats" style="display: flex; gap: 32px; margin-top: 28px;">
+            <div><span class="stat-number">02</span><br><span style="font-size:12px;">PROFESSIONAL DEGREES</span></div>
+            <div><span class="stat-number">4+</span><br><span style="font-size:12px;">CERTIFICATIONS</span></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
 
-<!-- CONTACT + MAP -->
-<section id="contact" class="page"><div class="contact-grid"><div class="contact-left"><p class="contact-top-label" style="color:var(--cyan);">GET IN TOUCH</p><h2 class="contact-heading">Let's build something <span class="cyan">great together.</span></h2><p class="contact-desc">Whether you have a project in mind, want to collaborate, or just want to say hi — my inbox is always open. I'll do my best to get back to you promptly.</p><div class="contact-btns"><a href="mailto:syaser327@gmail.com" class="btn-solid">✉ Send an Email</a><a href="https://linkedin.com/in/yaser-shaikh-b0245614a" class="btn-outline" target="_blank">in Connect on LinkedIn</a></div></div><div class="contact-right"><div class="available-badge"><span class="green-dot"></span> AVAILABLE FOR WORK</div><div id="contact-map" style="height:200px; border-radius:16px; margin:14px 0;"></div><p>📍 GOA, INDIA</p><p>⏱ Usually responds within 24 hours</p></div></div><div class="contact-cards-row"><div class="contact-channel-card"><div class="cc-icon">📧</div><div class="cc-label">EMAIL</div><a class="cc-value" href="mailto:syaser327@gmail.com" style="color:var(--cyan);">syaser327@gmail.com</a><div class="cc-desc">Best for project discussions</div></div><div class="contact-channel-card"><div class="cc-icon">in</div><div class="cc-label">LINKEDIN</div><a class="cc-value" href="https://linkedin.com/in/yaser-shaikh-b0245614a" target="_blank" style="color:var(--cyan);">Yaser Shaikh</a><div class="cc-desc">Professional network</div></div><div class="contact-channel-card"><div class="cc-icon">🐙</div><div class="cc-label">GITHUB</div><a class="cc-value" href="https://github.com/Yasershaikh327" target="_blank" style="color:var(--cyan);">yasershaikh327</a><div class="cc-desc">Open source & code samples</div></div></div><div class="contact-cta-bar" style="background:var(--bg-elevated); border-radius:24px; padding:28px; text-align:center; margin-top:20px;"><h3>Have a project in mind?</h3><p>Drop me an email and let's get the conversation started.</p><a href="mailto:syaser327@gmail.com" class="btn-solid" style="display:inline-block; margin-top:16px;">✈ syaser327@gmail.com</a></div></section>
+<!-- EXPERIENCE TIMELINE (complete) -->
+<div class="container">
+  <h2 class="section-title">Experience & Education</h2>
+  <div class="timeline">
+    <div class="timeline-item"><div class="timeline-year">2026 – present</div><div class="timeline-dot-line"><div class="timeline-dot"></div><div class="timeline-line"></div></div><div class="timeline-content"><h4>Senior Software Engineer</h4><div class="company">TDSS · Panaji, Goa</div><ul><li>Leading Linen Management System: .NET Core, Clean Architecture, REST APIs, SQL Server</li><li>Admin dashboard (ASP.NET Web Forms) + Azure deployment</li><li>Code reviews, performance tuning, mentoring juniors</li></ul></div></div>
+    <div class="timeline-item"><div class="timeline-year">2025 – 2026</div><div class="timeline-dot-line"><div class="timeline-dot"></div><div class="timeline-line"></div></div><div class="timeline-content"><h4>Software Engineer</h4><div class="company">Team Inertia Technologies</div><ul><li>Full-stack development: Core PHP, Laravel, MySQL, Docker, AWS S3</li><li>Integrated HDFC, SBI payment gateways + WhatsApp / SMS APIs</li><li>Built event management & government portals</li></ul></div></div>
+    <div class="timeline-item"><div class="timeline-year">2024 – 2025</div><div class="timeline-dot-line"><div class="timeline-dot"></div><div class="timeline-line"></div></div><div class="timeline-content"><h4>Software Developer</h4><div class="company">Team Inertia Technologies</div><ul><li>Core PHP, Ajax, jQuery, REST APIs, reporting modules</li><li>Database optimization, complex SQL reporting</li></ul></div></div>
+    <div class="timeline-item"><div class="timeline-year">2023 – 2024</div><div class="timeline-dot-line"><div class="timeline-dot"></div><div class="timeline-line"></div></div><div class="timeline-content"><h4>Junior Software Engineer</h4><div class="company">Anant Infomedia</div><ul><li>NHA project: CRM, CLM, SFA modules, PHP & MySQL</li><li>WhatsApp API, bulk CSV uploads, advanced SQL reports</li></ul></div></div>
+    <div class="timeline-item"><div class="timeline-year">2023</div><div class="timeline-dot-line"><div class="timeline-dot"></div><div class="timeline-line"></div></div><div class="timeline-content"><h4>.NET Application Developer</h4><div class="company">Zapcom Solutions, Bengaluru</div><ul><li>Lunch Booking App (.NET Core MVC) · SOLID principles</li><li>Figma to UI, secure authentication, Clean Architecture</li></ul></div></div>
+    <div class="timeline-item"><div class="timeline-year">2024</div><div class="timeline-dot-line"><div class="timeline-dot"></div><div class="timeline-line"></div></div><div class="timeline-content"><h4>Master of Computer Applications (MCA)</h4><div class="company">Goa University</div></div></div>
+    <div class="timeline-item"><div class="timeline-year">2022</div><div class="timeline-dot-line"><div class="timeline-dot"></div><div class="timeline-line"></div></div><div class="timeline-content"><h4>Bachelor of Computer Applications (BCA)</h4><div class="company">Don Bosco College, Goa</div></div></div>
+  </div>
+</div>
 
-<footer><div class="footer-links"><a href="#" data-page="home">Home</a><a href="#" data-page="about">About</a><a href="#" data-page="work">Projects</a><a href="#" data-page="stories">Stories</a><a href="https://linkedin.com/in/yaser-shaikh-b0245614a" target="_blank">LinkedIn</a><a href="https://github.com/Yasershaikh327" target="_blank">GitHub</a></div><p class="footer-copy">Design and Develop by <span class="cyan">Yaser Shaikh</span>. © 2026 All Rights Reserved.</p></footer>
+<!-- PROJECTS SECTION -->
+<div class="container">
+  <h2 class="section-title">Key projects</h2>
+  <div class="projects-grid">
+    <div class="project-card"><div class="project-emoji">💰</div><h3>Expenses Tracker</h3><p>Personal finance with spending insights, reports, and budget automation. Full-stack dashboard.</p></div>
+    <div class="project-card"><div class="project-emoji">🍱</div><h3>Lunch Booking System</h3><p>Internal office meal mgmt: .NET Core, Clean Architecture, order tracking, menu scheduling.</p></div>
+    <div class="project-card"><div class="project-emoji">🎂</div><h3>Custom Cake Ordering</h3><p>E‑commerce platform with delivery scheduling, payment gateway, order management.</p></div>
+    <div class="project-card"><div class="project-emoji">🎓</div><h3>Online Learning Platform</h3><p>Course management, video streaming, certificates, analytics dashboard.</p></div>
+    <div class="project-card"><div class="project-emoji">🚗</div><h3>Vehicle Booking System</h3><p>Real‑time availability, calendar sync, payments, admin panel.</p></div>
+    <div class="project-card"><div class="project-emoji">🏠</div><h3>RealEstate Booking</h3><p>Property listing platform with advanced filters, auth, and dashboard.</p></div>
+  </div>
+</div>
+
+<!-- STORIES (engineering insights) -->
+<div class="container">
+  <h2 class="section-title">Insights</h2>
+  <div class="stories-grid">
+    <div class="story-card"><div style="color:var(--cyan); font-weight:700;">✦ FEATURED</div><h3 style="margin: 12px 0;">Building production-ready web systems</h3><p>From monolithic to microservices: how I design scalable backends with .NET Core, Docker, and cloud patterns.</p></div>
+    <div class="story-card"><div style="color:var(--cyan); font-weight:700;">⚡ PERFORMANCE</div><h3 style="margin: 12px 0;">Optimizing SQL reports: 3min → 8sec</h3><p>Strategic indexing, query refactoring and execution plans that saved infrastructure costs.</p></div>
+    <div class="story-card"><div style="color:var(--cyan); font-weight:700;">🔐 SECURITY</div><h3 style="margin: 12px 0;">Payment gateways & threat prevention</h3><p>XSS, SQLi, signature verification – security at every layer.</p></div>
+    <div class="story-card"><div style="color:var(--cyan); font-weight:700;">☁️ CLOUD</div><h3 style="margin: 12px 0;">10GB file uploads with S3 & MinIO</h3><p>Multipart uploads, presigned URLs, and resilient error handling.</p></div>
+  </div>
+</div>
+
+<!-- CONTACT + MAP (global presence) -->
+<div class="container" style="margin-top: 70px;">
+  <h2 class="section-title">Connect</h2>
+  <div class="contact-duo">
+    <div class="contact-panel">
+      <h3 style="font-size: 1.8rem;">Let's collaborate</h3>
+      <p style="color: var(--text-secondary); margin: 16px 0 24px;">Whether you need a software architect, technical advisor, or hands-on engineering — I'm available for freelance, full-time remote, or relocation worldwide.</p>
+      <div class="contact-links">
+        <a href="mailto:syaser327@gmail.com" class="social-link">📧 syaser327@gmail.com</a>
+        <a href="https://linkedin.com/in/yaser-shaikh-b0245614a" target="_blank" class="social-link">🔗 LinkedIn</a>
+        <a href="https://github.com/Yasershaikh327" target="_blank" class="social-link">🐙 GitHub</a>
+      </div>
+    </div>
+    <div class="contact-panel">
+      <div style="display: flex; align-items: center; gap: 8px; margin-bottom: 16px;"><span class="green-dot" style="width:10px; height:10px; background:#4ade80; border-radius:50%; box-shadow:0 0 6px #4ade80; display:inline-block;"></span> <span style="font-weight:700;">AVAILABLE FOR WORK</span></div>
+      <div id="contact-map" style="height: 200px; border-radius: 24px;"></div>
+      <p style="margin-top: 16px;">📍 Goa, India · Global timezone friendly</p>
+      <p>⏱ Response within 24 hours</p>
+    </div>
+  </div>
+</div>
+
+<footer>
+  <div class="footer-links">
+    <a onclick="window.scrollTo({top:0, behavior:'smooth'})">Home</a>
+    <a onclick="document.querySelector('.about-grid').scrollIntoView({behavior:'smooth'})">About</a>
+    <a onclick="document.querySelector('.projects-grid').scrollIntoView({behavior:'smooth'})">Work</a>
+    <a href="https://linkedin.com/in/yaser-shaikh-b0245614a" target="_blank">LinkedIn</a>
+    <a href="https://github.com/Yasershaikh327" target="_blank">GitHub</a>
+  </div>
+  <p>© 2026 Yaser Shaikh — Senior Software Engineer. Built with precision.</p>
+</footer>
 
 <script>
-  function showPage(pageId) {
-    document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
-    document.getElementById(pageId)?.classList.add('active');
-    document.querySelectorAll('.nav-link').forEach(l => l.classList.toggle('active', l.dataset.page === pageId));
-    history.pushState(null, null, '#' + pageId);
-    window.scrollTo({ top: 0, behavior: 'smooth' });
-    if (pageId === 'contact') setTimeout(initMap, 100);
-  }
-
-  function toggleTimeline(header) {
-    const body = header.parentElement.querySelector('.timeline-card-body');
-    if (body) body.style.display = body.style.display === 'none' ? 'block' : 'none';
-  }
-
-  let globalMap = null;
+  // Map initialization (global presence)
+  let worldMap = null;
   function initMap() {
     const mapDiv = document.getElementById('contact-map');
     if (!mapDiv) return;
-    if (globalMap) { globalMap.invalidateSize(); return; }
-    globalMap = L.map('contact-map').setView([20.5937, 78.9629], 3);
-    L.tileLayer('https://{s}.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}{r}.png', { attribution: '©CartoDB' }).addTo(globalMap);
-    const pinIcon = L.divIcon({ html: '<div style="background:#00d4ff; width:12px; height:12px; border-radius:50%; box-shadow:0 0 12px #00d4ff; border:2px solid white;"></div>', iconSize: [12,12], iconAnchor: [6,6] });
-    const locations = [{ latlng: [15.4909, 93.8278], label: 'India ★' }, { latlng: [25.2048, 45.0000], label: 'Middle East' }, { latlng: [51.5074, -0.1278], label: 'UK' }, { latlng: [37.0902, -95.7129], label: 'N. America' }];
-    locations.forEach(loc => { L.marker(loc.latlng, { icon: pinIcon }).addTo(globalMap).bindTooltip(loc.label, { permanent: true, direction: 'top', offset: [0, -10], className: 'map-tooltip' }); });
-    setTimeout(() => globalMap.invalidateSize(), 150);
+    if (worldMap) { worldMap.invalidateSize(); return; }
+    worldMap = L.map('contact-map').setView([20.5937, 78.9629], 2.8);
+    L.tileLayer('https://{s}.basemaps.cartodcdn.com/dark_all/{z}/{x}/{y}{r}.png', {
+      attribution: '©CartoDB',
+      maxZoom: 5
+    }).addTo(worldMap);
+    const pinIcon = L.divIcon({
+      html: '<div style="background:#00d4ff; width:12px; height:12px; border-radius:50%; box-shadow:0 0 12px #00d4ff; border:2px solid white;"></div>',
+      iconSize: [12,12],
+      iconAnchor: [6,6]
+    });
+    const locations = [
+      { latlng: [15.4909, 93.8278], label: 'India ★' },
+      { latlng: [25.2048, 45.0000], label: 'Middle East' },
+      { latlng: [51.5074, -0.1278], label: 'UK' },
+      { latlng: [37.0902, -95.7129], label: 'N. America' }
+    ];
+    locations.forEach(loc => {
+      L.marker(loc.latlng, { icon: pinIcon }).addTo(worldMap)
+        .bindTooltip(loc.label, { permanent: true, direction: 'top', offset: [0, -10], className: 'map-tooltip' });
+    });
+    setTimeout(() => worldMap.invalidateSize(), 200);
   }
 
-  document.querySelectorAll('.nav-link, [data-page]').forEach(el => { el.addEventListener('click', (e) => { e.preventDefault(); const pg = el.dataset.page || el.getAttribute('data-page'); if (pg) showPage(pg); }); });
-  document.querySelector('.btn-talk')?.addEventListener('click', () => showPage('contact'));
-  document.getElementById('hamburger')?.addEventListener('click', () => document.getElementById('mobileNav').classList.toggle('open'));
-  document.getElementById('mobileNav').innerHTML = ['home', 'about', 'work', 'stories', 'contact'].map(p => `<a class="mobile-nav-link" data-page="${p}" style="font-weight:600; color:var(--text-primary); padding:12px;">${p.toUpperCase()}</a>`).join('');
-  document.querySelectorAll('.mobile-nav-link').forEach(l => l.addEventListener('click', (e) => { showPage(l.dataset.page); document.getElementById('mobileNav').classList.remove('open'); }));
-  document.querySelectorAll('.footer-links a').forEach(a => a.addEventListener('click', (e) => { e.preventDefault(); const pg = a.dataset.page || a.getAttribute('data-page'); if (pg) showPage(pg); }));
-  if (window.location.hash) showPage(window.location.hash.slice(1) || 'home'); else showPage('home');
-  window.addEventListener('popstate', () => showPage(window.location.hash.slice(1) || 'home'));
-  document.querySelectorAll('.timeline-card-body').forEach(b => b.style.display = 'none');
+  function scrollToContact() {
+    const contactEl = document.querySelector('.contact-duo');
+    if (contactEl) contactEl.scrollIntoView({ behavior: 'smooth' });
+  }
+
+  window.addEventListener('load', () => {
+    initMap();
+  });
+  window.addEventListener('resize', () => {
+    if (worldMap) worldMap.invalidateSize();
+  });
 </script>
 </body>
 </html>
