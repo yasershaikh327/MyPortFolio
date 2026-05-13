@@ -3,10 +3,10 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
-  <title>Yaser Shaikh · Senior Software Engineer</title>
+  <title>Yaser Shaikh · Senior Software Engineer · Portfolio</title>
   <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
   <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
-  <link href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,300;14..32,400;14..32,500;14..32,600;14..32,700;14..32,800&family=Space+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Quicksand:wght@400;500;600;700&family=Space+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet">
   <style>
     * {
       margin: 0;
@@ -14,19 +14,19 @@
       box-sizing: border-box;
     }
 
-    /* STRICTLY DARK · SENIOR ENGINEER AESTHETIC */
+    /* STRICTLY DARK THEME · QUICKSAND SEMIBOLD FOCUS */
     :root {
-      --bg-primary: #0a0a0c;
-      --bg-secondary: #0f1117;
-      --bg-card: #15171e;
-      --bg-elevated: #1c1f2a;
-      --border-light: rgba(66, 71, 100, 0.35);
-      --border-cyan: rgba(0, 212, 255, 0.4);
+      --bg-primary: #050508;
+      --bg-secondary: #0c0d12;
+      --bg-card: #12131b;
+      --bg-elevated: #191d2a;
+      --border-light: rgba(66, 71, 100, 0.4);
+      --border-cyan: rgba(0, 212, 255, 0.5);
       --text-primary: #edf2f8;
-      --text-secondary: #b4bdda;
-      --text-muted: #6c7289;
+      --text-secondary: #cbd5e6;
+      --text-muted: #8b92b0;
       --cyan: #00d4ff;
-      --cyan-glow: rgba(0, 212, 255, 0.2);
+      --cyan-glow: rgba(0, 212, 255, 0.25);
       --radius-xl: 32px;
       --radius-lg: 24px;
       --transition: cubic-bezier(0.2, 0.9, 0.4, 1.1);
@@ -35,27 +35,27 @@
     body {
       background-color: var(--bg-primary);
       color: var(--text-primary);
-      font-family: 'Inter', 'Space Grotesk', system-ui, sans-serif;
+      font-family: 'Quicksand', 'Space Grotesk', system-ui, sans-serif;
+      font-weight: 600;
       line-height: 1.55;
       scroll-behavior: smooth;
     }
 
-    /* TYPOGRAPHY */
-    h1, h2, h3, h4, .heading-heavy {
-      font-family: 'Space Grotesk', 'Inter', sans-serif;
-      font-weight: 600;
+    h1, h2, h3, h4, .heading-heavy, .hero-name, .section-title {
+      font-family: 'Space Grotesk', 'Quicksand', sans-serif;
+      font-weight: 700;
       letter-spacing: -0.02em;
     }
 
     .gradient-cyan {
-      background: linear-gradient(135deg, #ffffff 25%, var(--cyan) 85%);
+      background: linear-gradient(135deg, #ffffff 20%, var(--cyan) 85%);
       background-clip: text;
       -webkit-background-clip: text;
       color: transparent;
     }
 
     .section-title {
-      font-size: 3.2rem;
+      font-size: 3rem;
       font-weight: 700;
       margin-bottom: 2.5rem;
       position: relative;
@@ -78,42 +78,51 @@
       padding: 0 32px;
     }
 
-    /* HERO SECTION — NO NAVBAR */
+    /* HERO SECTION — FULL SPACE ATTRACTIVE */
     .hero {
       min-height: 100vh;
       display: flex;
       align-items: center;
-      padding: 80px 0 60px;
+      padding: 100px 0 80px;
       position: relative;
+      background: radial-gradient(ellipse at 20% 30%, rgba(0,212,255,0.08), transparent 70%);
     }
     .hero-content {
-      max-width: 800px;
+      max-width: 850px;
     }
     .hero-badge {
-      font-size: 13px;
-      letter-spacing: 3px;
+      font-size: 14px;
+      letter-spacing: 4px;
       color: var(--cyan);
       text-transform: uppercase;
-      font-weight: 600;
-      margin-bottom: 20px;
+      font-weight: 700;
+      margin-bottom: 24px;
+      display: inline-block;
+      background: rgba(0,212,255,0.12);
+      padding: 6px 18px;
+      border-radius: 60px;
+      backdrop-filter: blur(4px);
     }
     .hero-name {
-      font-size: 5rem;
-      font-weight: 700;
-      line-height: 1.1;
+      font-size: 5.2rem;
+      font-weight: 800;
+      line-height: 1.08;
       margin-bottom: 24px;
     }
     .hero-tagline {
-      font-size: 1.4rem;
+      font-size: 1.5rem;
       color: var(--text-secondary);
-      margin-bottom: 16px;
-      font-weight: 500;
+      margin-bottom: 20px;
+      font-weight: 600;
+      letter-spacing: -0.3px;
     }
     .hero-desc {
-      font-size: 1.1rem;
+      font-size: 1.12rem;
       color: var(--text-muted);
-      max-width: 600px;
+      max-width: 620px;
       margin-bottom: 40px;
+      line-height: 1.65;
+      font-weight: 500;
     }
     .cta-group {
       display: flex;
@@ -123,7 +132,7 @@
     .btn-primary {
       background: var(--cyan);
       color: #0a0a0c;
-      padding: 12px 32px;
+      padding: 14px 36px;
       border-radius: 60px;
       font-weight: 700;
       font-size: 15px;
@@ -132,26 +141,30 @@
       cursor: pointer;
       text-decoration: none;
       display: inline-block;
+      font-family: 'Quicksand', sans-serif;
+      letter-spacing: 0.3px;
     }
     .btn-outline-cyan {
       border: 1.5px solid var(--cyan);
       color: var(--cyan);
       background: transparent;
-      padding: 12px 32px;
+      padding: 14px 36px;
       border-radius: 60px;
       font-weight: 700;
       font-size: 15px;
       transition: 0.25s;
       cursor: pointer;
       text-decoration: none;
+      font-family: 'Quicksand', sans-serif;
     }
     .btn-outline-cyan:hover {
       background: rgba(0, 212, 255, 0.1);
-      transform: translateY(-2px);
+      transform: translateY(-3px);
     }
     .btn-primary:hover {
-      transform: translateY(-2px);
-      filter: brightness(1.05);
+      transform: translateY(-3px);
+      filter: brightness(1.08);
+      box-shadow: 0 8px 20px var(--cyan-glow);
     }
 
     /* CARDS & GRID */
@@ -159,39 +172,42 @@
       display: grid;
       grid-template-columns: repeat(3, 1fr);
       gap: 28px;
-      margin: 48px 0;
+      margin: 60px 0 40px;
     }
     .card {
       background: var(--bg-card);
       border: 1px solid var(--border-light);
       border-radius: var(--radius-lg);
-      padding: 28px;
+      padding: 32px;
       transition: all 0.3s var(--transition);
+      backdrop-filter: blur(2px);
     }
     .card:hover {
       border-color: var(--border-cyan);
       transform: translateY(-6px);
-      box-shadow: 0 20px 35px -12px rgba(0,0,0,0.6);
+      box-shadow: 0 20px 35px -12px rgba(0,212,255,0.15);
     }
     .card-icon {
-      font-size: 2.4rem;
+      font-size: 2.5rem;
       margin-bottom: 20px;
     }
     .stat-number {
-      font-size: 3rem;
+      font-size: 3.2rem;
       font-weight: 800;
       color: var(--cyan);
       line-height: 1;
+      font-family: 'Space Grotesk', monospace;
     }
     .skill-pill {
       background: var(--bg-elevated);
       border: 1px solid var(--border-light);
       border-radius: 60px;
-      padding: 6px 18px;
+      padding: 8px 20px;
       font-size: 13px;
-      font-weight: 500;
+      font-weight: 600;
       display: inline-block;
-      margin: 5px;
+      margin: 6px;
+      font-family: 'Quicksand', sans-serif;
     }
 
     /* ABOUT LAYOUT */
@@ -200,11 +216,14 @@
       grid-template-columns: 1fr 1fr;
       gap: 48px;
       align-items: start;
+      margin: 40px 0;
     }
     .about-text p {
       color: var(--text-secondary);
       font-size: 1.05rem;
       margin-bottom: 24px;
+      font-weight: 500;
+      line-height: 1.65;
     }
     .info-row {
       display: flex;
@@ -214,13 +233,14 @@
     }
     .info-item span:first-child {
       color: var(--cyan);
-      font-weight: 600;
+      font-weight: 700;
       display: block;
       font-size: 13px;
       letter-spacing: 1px;
+      margin-bottom: 6px;
     }
 
-    /* TIMELINE (Senior level) */
+    /* TIMELINE */
     .timeline {
       margin: 56px 0 40px;
     }
@@ -235,6 +255,7 @@
       font-weight: 700;
       color: var(--cyan);
       font-size: 1rem;
+      font-family: 'Quicksand', monospace;
     }
     .timeline-dot-line {
       position: relative;
@@ -248,7 +269,7 @@
       height: 12px;
       background: var(--cyan);
       border-radius: 50%;
-      box-shadow: 0 0 10px var(--cyan-glow);
+      box-shadow: 0 0 12px var(--cyan-glow);
       margin-top: 6px;
     }
     .timeline-line {
@@ -261,17 +282,17 @@
       flex: 1;
       background: var(--bg-card);
       border-radius: 20px;
-      padding: 20px 24px;
+      padding: 22px 28px;
       border: 1px solid var(--border-light);
-      margin-bottom: 8px;
     }
     .timeline-content h4 {
       font-size: 1.2rem;
       margin-bottom: 6px;
+      font-weight: 700;
     }
     .timeline-content .company {
       color: var(--cyan);
-      font-weight: 500;
+      font-weight: 600;
       font-size: 0.85rem;
       margin-bottom: 12px;
     }
@@ -279,6 +300,7 @@
       padding-left: 20px;
       color: var(--text-secondary);
       font-size: 0.9rem;
+      font-weight: 500;
     }
     .timeline-content li {
       margin-bottom: 8px;
@@ -287,39 +309,44 @@
     /* PROJECTS & STORIES */
     .projects-grid {
       display: grid;
-      grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+      grid-template-columns: repeat(auto-fill, minmax(310px, 1fr));
       gap: 28px;
       margin: 48px 0;
     }
     .project-card {
       background: var(--bg-card);
-      border-radius: 24px;
+      border-radius: 28px;
       padding: 28px;
       border: 1px solid var(--border-light);
       transition: 0.25s;
     }
     .project-emoji {
-      font-size: 2.8rem;
+      font-size: 3rem;
       margin-bottom: 20px;
     }
     .stories-grid {
       display: grid;
       grid-template-columns: repeat(2, 1fr);
       gap: 28px;
+      margin-bottom: 40px;
     }
     .story-card {
       background: var(--bg-elevated);
       border-radius: 28px;
       padding: 32px;
       border: 1px solid var(--border-light);
+      transition: 0.2s;
+    }
+    .story-card:hover {
+      border-color: var(--cyan);
     }
 
-    /* MAP + CONTACT */
+    /* CONTACT + MAP */
     .contact-duo {
       display: grid;
       grid-template-columns: 1fr 1fr;
       gap: 32px;
-      margin-bottom: 48px;
+      margin: 40px 0 48px;
     }
     .contact-panel {
       background: var(--bg-card);
@@ -328,10 +355,12 @@
       border: 1px solid var(--border-light);
     }
     #contact-map {
-      height: 240px;
+      height: 260px;
       border-radius: 24px;
       overflow: hidden;
       margin-top: 20px;
+      border: 1px solid var(--border-light);
+      background: #12131b;
     }
     .contact-links {
       display: flex;
@@ -344,12 +373,35 @@
       align-items: center;
       gap: 8px;
       background: var(--bg-elevated);
-      padding: 10px 22px;
+      padding: 12px 26px;
       border-radius: 60px;
       color: var(--text-primary);
       text-decoration: none;
-      font-weight: 500;
+      font-weight: 700;
       border: 1px solid var(--border-light);
+      font-family: 'Quicksand', sans-serif;
+      transition: 0.2s;
+    }
+    .social-link:hover {
+      border-color: var(--cyan);
+      color: var(--cyan);
+      transform: translateY(-2px);
+    }
+
+    /* MAP LABELS */
+    .visible-map-label {
+      font-family: 'Quicksand', 'Space Grotesk', sans-serif !important;
+      font-weight: 700 !important;
+      font-size: 13px !important;
+      background: #05080cdd !important;
+      backdrop-filter: blur(8px);
+      border: 2px solid #00d4ff !important;
+      border-radius: 40px !important;
+      color: #ffffff !important;
+      padding: 6px 16px !important;
+      white-space: nowrap !important;
+      box-shadow: 0 4px 15px rgba(0, 212, 255, 0.5) !important;
+      letter-spacing: 0.3px;
     }
 
     footer {
@@ -358,6 +410,7 @@
       text-align: center;
       border-top: 1px solid var(--border-light);
       color: var(--text-muted);
+      font-weight: 500;
     }
     .footer-links {
       display: flex;
@@ -369,74 +422,50 @@
     .footer-links a {
       color: var(--text-secondary);
       text-decoration: none;
-      font-weight: 500;
+      font-weight: 600;
       cursor: pointer;
+      font-family: 'Quicksand', sans-serif;
+    }
+    .footer-links a:hover {
+      color: var(--cyan);
     }
 
+    /* RESPONSIVE (MOBILE FIRST) */
     @media (max-width: 860px) {
       .container { padding: 0 24px; }
-      .hero-name { font-size: 3rem; }
+      .hero-name { font-size: 2.8rem; }
+      .hero-tagline { font-size: 1.2rem; }
+      .hero-desc { font-size: 1rem; }
+      .hero { padding: 80px 0 60px; min-height: auto; }
       .grid-3, .about-grid, .contact-duo, .stories-grid { grid-template-columns: 1fr; }
-      .section-title { font-size: 2.4rem; }
+      .section-title { font-size: 2.2rem; }
       .timeline-item { flex-direction: column; gap: 12px; }
       .timeline-year { margin-bottom: 4px; }
       .timeline-dot-line { display: none; }
+      .visible-map-label { font-size: 10px !important; padding: 4px 10px !important; white-space: nowrap; }
+      .card { padding: 24px; }
+      .contact-panel { padding: 28px; }
+    }
+    @media (max-width: 480px) {
+      .hero-name { font-size: 2.2rem; }
+      .hero-badge { font-size: 11px; }
+      .btn-primary, .btn-outline-cyan { padding: 10px 24px; font-size: 13px; }
+      .stat-number { font-size: 2.5rem; }
+      .skill-pill { font-size: 11px; padding: 5px 14px; }
     }
     .cyan-text { color: var(--cyan); }
-    .map-tooltip {
-      font-family: 'Inter', monospace;
-      font-weight: 600;
-      background: #0a0c15dd;
-      border: 1px solid var(--cyan);
-      border-radius: 40px;
-      color: white;
-    }
   </style>
-  <style>
-  /* Make map labels bright and visible */
-  .visible-map-label {
-    font-family: 'Inter', 'Space Grotesk', sans-serif !important;
-    font-weight: 700 !important;
-    font-size: 13px !important;
-    background: rgba(0, 0, 0, 0.85) !important;
-    backdrop-filter: blur(4px);
-    border: 1.5px solid #00d4ff !important;
-    border-radius: 30px !important;
-    color: #ffffff !important;
-    padding: 5px 14px !important;
-    white-space: nowrap !important;
-    box-shadow: 0 2px 12px rgba(0, 212, 255, 0.3) !important;
-    letter-spacing: 0.3px !important;
-  }
-  
-  /* Hover effect for markers */
-  .leaflet-marker-icon:hover {
-    transform: scale(1.2);
-    transition: transform 0.2s;
-  }
-  
-  /* Legend styling */
-  .legend-item {
-    display: inline-flex;
-    align-items: center;
-    gap: 8px;
-    background: var(--bg-elevated);
-    padding: 5px 12px;
-    border-radius: 40px;
-    font-size: 12px;
-  }
-</style>
 </head>
 <body>
 
-<!-- HERO SECTION — NO NAVBAR, PURE SENIOR PORTFOLIO -->
+<!-- HERO SECTION — FULL ATTRACTIVE SPACE, QUICKSAND SEMIBOLD -->
 <section class="hero">
   <div class="container">
     <div class="hero-content">
       <div class="hero-badge">✦ SOFTWARE ENGINEER</div>
       <h1 class="hero-name gradient-cyan">Yaser Shaikh</h1>
       <p class="hero-tagline">Building resilient systems · Fullstack Architect · R&D</p>
-      <p class="hero-desc">9+ years of engineering expertise (4+ professional) — .NET Core, cloud-native, scalable APIs, and enterprise-grade platforms. I turn complex requirements into maintainable, production-ready software.</p>
+      <p class="hero-desc">4+ years of professional engineering expertise — .NET Core, cloud-native, scalable APIs, and enterprise-grade platforms. I turn complex requirements into maintainable, production-ready software.</p>
       <div class="cta-group">
         <a href="mailto:syaser327@gmail.com" class="btn-primary">✉  syaser327@gmail.com</a>
         <a href="#" class="btn-outline-cyan" onclick="scrollToContact()">Let's talk →</a>
@@ -445,17 +474,17 @@
   </div>
 </section>
 
-<!-- STATS & SERVICE OVERVIEW -->
+<!-- STATS CARDS -->
 <div class="container">
   <div class="grid-3">
-    <div class="card"><div class="card-icon">⚙️</div><div class="stat-number">04+</div><div style="font-weight:600;">Years of Experience</div><div style="color:var(--text-muted); font-size:14px;">Full-cycle development</div></div>
-    <div class="card"><div class="card-icon">📦</div><div class="stat-number">20+</div><div style="font-weight:600;">Projects Delivered</div><div style="color:var(--text-muted); font-size:14px;">Enterprise & SaaS</div></div>
-    <div class="card"><div class="card-icon">🌍</div><div class="stat-number">Global</div><div style="font-weight:600;">Remote / Relocation</div><div style="color:var(--text-muted); font-size:14px;">Open worldwide</div></div>
+    <div class="card"><div class="card-icon">⚙️</div><div class="stat-number">04+</div><div style="font-weight:700; margin-top:8px;">Years of Experience</div><div style="color:var(--text-muted); font-size:14px; font-weight:500;">Full-cycle development</div></div>
+    <div class="card"><div class="card-icon">📦</div><div class="stat-number">20+</div><div style="font-weight:700; margin-top:8px;">Projects Delivered</div><div style="color:var(--text-muted); font-size:14px; font-weight:500;">Enterprise & SaaS</div></div>
+    <div class="card"><div class="card-icon">🌍</div><div class="stat-number">Global</div><div style="font-weight:700; margin-top:8px;">Remote / Relocation</div><div style="color:var(--text-muted); font-size:14px; font-weight:500;">Open worldwide</div></div>
   </div>
 </div>
 
-<!-- ABOUT + SKILLS (Senior profile) -->
-<section style="padding: 60px 0;">
+<!-- ABOUT SECTION -->
+<section style="padding: 40px 0;">
   <div class="container">
     <h2 class="section-title">About</h2>
     <div class="about-grid">
@@ -470,16 +499,16 @@
       </div>
       <div class="skills-highlight">
         <div style="background: var(--bg-card); border-radius: 32px; padding: 32px; border: 1px solid var(--border-light);">
-          <h3 style="margin-bottom: 20px;">Core competencies</h3>
+          <h3 style="margin-bottom: 24px; font-weight:700;">Core competencies</h3>
           <div>
             <span class="skill-pill">.NET Core / C#</span><span class="skill-pill">React.js</span><span class="skill-pill">Node.js</span><span class="skill-pill">PHP / Laravel</span>
             <span class="skill-pill">REST / GraphQL</span><span class="skill-pill">SQL Server / MySQL</span><span class="skill-pill">MongoDB</span>
             <span class="skill-pill">Docker / AWS</span><span class="skill-pill">Clean Architecture</span><span class="skill-pill">SOLID</span>
             <span class="skill-pill">Payment Gateways</span><span class="skill-pill">Azure / S3</span><span class="skill-pill">GitHub Actions</span>
           </div>
-          <div class="cred-stats" style="display: flex; gap: 32px; margin-top: 28px;">
-            <div><span class="stat-number">02</span><br><span style="font-size:12px;">PROFESSIONAL DEGREES</span></div>
-            <div><span class="stat-number">4+</span><br><span style="font-size:12px;">CERTIFICATIONS</span></div>
+          <div class="cred-stats" style="display: flex; gap: 40px; margin-top: 32px;">
+            <div><span class="stat-number">02</span><br><span style="font-size:12px; font-weight:600;">PROFESSIONAL DEGREES</span></div>
+            <div><span class="stat-number">4+</span><br><span style="font-size:12px; font-weight:600;">CERTIFICATIONS</span></div>
           </div>
         </div>
       </div>
@@ -487,7 +516,7 @@
   </div>
 </section>
 
-<!-- EXPERIENCE TIMELINE (complete) -->
+<!-- EXPERIENCE TIMELINE (COMPLETE) -->
 <div class="container">
   <h2 class="section-title">Experience & Education</h2>
   <div class="timeline">
@@ -514,25 +543,24 @@
   </div>
 </div>
 
-<!-- STORIES (engineering insights) -->
+<!-- STORIES -->
 <div class="container">
   <h2 class="section-title">Insights</h2>
   <div class="stories-grid">
-    <div class="story-card"><div style="color:var(--cyan); font-weight:700;">✦ FEATURED</div><h3 style="margin: 12px 0;">Building production-ready web systems</h3><p>From monolithic to microservices: how I design scalable backends with .NET Core, Docker, and cloud patterns.</p></div>
-    <div class="story-card"><div style="color:var(--cyan); font-weight:700;">⚡ PERFORMANCE</div><h3 style="margin: 12px 0;">Optimizing SQL reports: 3min → 8sec</h3><p>Strategic indexing, query refactoring and execution plans that saved infrastructure costs.</p></div>
-    <div class="story-card"><div style="color:var(--cyan); font-weight:700;">🔐 SECURITY</div><h3 style="margin: 12px 0;">Payment gateways & threat prevention</h3><p>XSS, SQLi, signature verification – security at every layer.</p></div>
-    <div class="story-card"><div style="color:var(--cyan); font-weight:700;">☁️ CLOUD</div><h3 style="margin: 12px 0;">10GB file uploads with S3 & MinIO</h3><p>Multipart uploads, presigned URLs, and resilient error handling.</p></div>
+    <div class="story-card"><div style="color:var(--cyan); font-weight:800;">✦ FEATURED</div><h3 style="margin: 14px 0; font-weight:700;">Building production-ready web systems</h3><p style="font-weight:500;">From monolithic to microservices: how I design scalable backends with .NET Core, Docker, and cloud patterns.</p></div>
+    <div class="story-card"><div style="color:var(--cyan); font-weight:800;">⚡ PERFORMANCE</div><h3 style="margin: 14px 0; font-weight:700;">Optimizing SQL reports: 3min → 8sec</h3><p style="font-weight:500;">Strategic indexing, query refactoring and execution plans that saved infrastructure costs.</p></div>
+    <div class="story-card"><div style="color:var(--cyan); font-weight:800;">🔐 SECURITY</div><h3 style="margin: 14px 0; font-weight:700;">Payment gateways & threat prevention</h3><p style="font-weight:500;">XSS, SQLi, signature verification – security at every layer.</p></div>
+    <div class="story-card"><div style="color:var(--cyan); font-weight:800;">☁️ CLOUD</div><h3 style="margin: 14px 0; font-weight:700;">10GB file uploads with S3 & MinIO</h3><p style="font-weight:500;">Multipart uploads, presigned URLs, and resilient error handling.</p></div>
   </div>
 </div>
 
-<!-- CONTACT + MAP (global presence) -->
-<!-- REPLACE the entire CONTACT + MAP section with this improved version -->
-<div class="container" style="margin-top: 70px;">
+<!-- CONTACT + MAP (FULL VISIBLE LABELS) -->
+<div class="container" style="margin-top: 40px;">
   <h2 class="section-title">Connect</h2>
   <div class="contact-duo">
     <div class="contact-panel">
-      <h3 style="font-size: 1.8rem;">Let's collaborate</h3>
-      <p style="color: var(--text-secondary); margin: 16px 0 24px;">Whether you need a software architect, technical advisor, or hands-on engineering — I'm available for freelance, full-time remote, or relocation worldwide.</p>
+      <h3 style="font-size: 1.8rem; font-weight:700;">Let's collaborate</h3>
+      <p style="color: var(--text-secondary); margin: 18px 0 24px; font-weight:500;">Whether you need a software architect, technical advisor, or hands-on engineering — I'm available for freelance, full-time remote, or relocation worldwide.</p>
       <div class="contact-links">
         <a href="mailto:syaser327@gmail.com" class="social-link">📧 syaser327@gmail.com</a>
         <a href="https://linkedin.com/in/yaser-shaikh-b0245614a" target="_blank" class="social-link">🔗 LinkedIn</a>
@@ -540,28 +568,23 @@
       </div>
     </div>
     <div class="contact-panel">
-      <div style="display: flex; align-items: center; gap: 8px; margin-bottom: 16px;">
-        <span class="green-dot" style="width:10px; height:10px; background:#4ade80; border-radius:50%; box-shadow:0 0 6px #4ade80; display:inline-block;"></span> 
-        <span style="font-weight:700;">AVAILABLE FOR WORK WORLDWIDE</span>
+      <div style="display: flex; align-items: center; gap: 10px; margin-bottom: 18px;">
+        <span class="green-dot" style="width:10px; height:10px; background:#4ade80; border-radius:50%; box-shadow:0 0 8px #4ade80;"></span> 
+        <span style="font-weight:800;">AVAILABLE FOR WORK WORLDWIDE</span>
       </div>
-      <div id="contact-map" style="height: 260px; border-radius: 24px; overflow: hidden; border: 1px solid var(--border-light);"></div>
-      
-      <!-- LEGEND: Countries visible on map -->
-      <div style="margin-top: 20px; display: flex; flex-wrap: wrap; gap: 16px; justify-content: center;">
-        <div style="display: flex; align-items: center; gap: 8px;"><span style="width:10px; height:10px; background:#00d4ff; border-radius:50%; box-shadow:0 0 6px #00d4ff;"></span><span style="font-size:12px;">🇮🇳 India (HQ)</span></div>
-        <div style="display: flex; align-items: center; gap: 8px;"><span style="width:10px; height:10px; background:#00d4ff; border-radius:50%; box-shadow:0 0 6px #00d4ff;"></span><span style="font-size:12px;">🇦🇪 Middle East</span></div>
-        <div style="display: flex; align-items: center; gap: 8px;"><span style="width:10px; height:10px; background:#00d4ff; border-radius:50%; box-shadow:0 0 6px #00d4ff;"></span><span style="font-size:12px;">🇬🇧 United Kingdom</span></div>
-        <div style="display: flex; align-items: center; gap: 8px;"><span style="width:10px; height:10px; background:#00d4ff; border-radius:50%; box-shadow:0 0 6px #00d4ff;"></span><span style="font-size:12px;">🇺🇸 North America</span></div>
+      <div id="contact-map" style="height: 260px; border-radius: 24px; overflow: hidden;"></div>
+      <!-- Legend with flags -->
+      <div style="margin-top: 22px; display: flex; flex-wrap: wrap; gap: 18px; justify-content: center;">
+        <div style="display: flex; align-items: center; gap: 8px;"><span style="width:12px; height:12px; background:#00d4ff; border-radius:50%; box-shadow:0 0 8px #00d4ff;"></span><span style="font-size:13px; font-weight:700;">🇮🇳 India (HQ)</span></div>
+        <div style="display: flex; align-items: center; gap: 8px;"><span style="width:12px; height:12px; background:#00d4ff; border-radius:50%; box-shadow:0 0 8px #00d4ff;"></span><span style="font-size:13px; font-weight:700;">🇦🇪 Middle East</span></div>
+        <div style="display: flex; align-items: center; gap: 8px;"><span style="width:12px; height:12px; background:#00d4ff; border-radius:50%; box-shadow:0 0 8px #00d4ff;"></span><span style="font-size:13px; font-weight:700;">🇬🇧 United Kingdom</span></div>
+        <div style="display: flex; align-items: center; gap: 8px;"><span style="width:12px; height:12px; background:#00d4ff; border-radius:50%; box-shadow:0 0 8px #00d4ff;"></span><span style="font-size:13px; font-weight:700;">🇺🇸 North America</span></div>
       </div>
-      
-      <p style="margin-top: 20px;">📍 Goa, India · Global timezone friendly</p>
-      <p>⏱ Response within 24 hours</p>
+      <p style="margin-top: 22px; font-weight:500;">📍 Goa, India · Global timezone friendly</p>
+      <p style="font-weight:500;">⏱ Response within 24 hours</p>
     </div>
   </div>
 </div>
-
-
-
 
 <footer>
   <div class="footer-links">
@@ -571,146 +594,40 @@
     <a href="https://linkedin.com/in/yaser-shaikh-b0245614a" target="_blank">LinkedIn</a>
     <a href="https://github.com/Yasershaikh327" target="_blank">GitHub</a>
   </div>
-  <p>© 2026 Yaser Shaikh — Senior Software Engineer. Built with precision.</p>
+  <p style="font-weight:500;">© 2026 Yaser Shaikh — Senior Software Engineer. Built with precision & Quicksand.</p>
 </footer>
+
 <script>
-  // IMPROVED MAP with VISIBLE COUNTRY LABELS
   let worldMap = null;
   function initMap() {
     const mapDiv = document.getElementById('contact-map');
     if (!mapDiv) return;
-    if (worldMap) { 
-      worldMap.invalidateSize(); 
-      return;
-    }
-    
-    // Use lighter map tiles for better contrast with labels
-    worldMap = L.map('contact-map').setView([20.5937, 78.9629], 2.5);
-    
-    // Lighter tile layer so tooltips pop
+    if (worldMap) { worldMap.invalidateSize(); return; }
+    worldMap = L.map('contact-map').setView([20.5937, 78.9629], 2.2);
     L.tileLayer('https://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}{r}.png', {
-      attribution: '©CartoDB',
-      maxZoom: 6,
-      subdomains: 'abcd'
+      attribution: '&copy; OpenStreetMap & CartoDB',
+      subdomains: 'abcd',
+      maxZoom: 6
     }).addTo(worldMap);
-    
-    // Custom marker icon with glow
     const pinIcon = L.divIcon({
-      html: '<div style="background:#00d4ff; width:14px; height:14px; border-radius:50%; box-shadow:0 0 14px #00d4ff, 0 0 4px white; border:2px solid white;"></div>',
-      iconSize: [14, 14],
-      iconAnchor: [7, 7]
+      html: '<div style="background:#00d4ff; width:14px; height:14px; border-radius:50%; box-shadow:0 0 14px #00d4ff; border:2px solid white;"></div>',
+      iconSize: [14,14], iconAnchor: [7,7]
     });
-    
-    // Locations with clear, bold labels
     const locations = [
-      { latlng: [20.5937, 78.9629], label: '🇮🇳 INDIA ★', offset: [0, -15] },
-      { latlng: [25.2048, 45.0000], label: '🇦🇪 MIDDLE EAST', offset: [0, -15] },
-      { latlng: [55.3781, -3.4360], label: '🇬🇧 UNITED KINGDOM', offset: [0, -15] },
-      { latlng: [39.8283, -98.5795], label: '🇺🇸 NORTH AMERICA', offset: [0, -15] }
+      { latlng: [20.5937, 78.9629], label: '🇮🇳 INDIA ★', offset: [0, -18] },
+      { latlng: [25.2048, 45.0000], label: '🇦🇪 MIDDLE EAST', offset: [0, -18] },
+      { latlng: [55.3781, -3.4360], label: '🇬🇧 UNITED KINGDOM', offset: [0, -18] },
+      { latlng: [39.8283, -98.5795], label: '🇺🇸 NORTH AMERICA', offset: [0, -18] }
     ];
-    
     locations.forEach(loc => {
       const marker = L.marker(loc.latlng, { icon: pinIcon }).addTo(worldMap);
-      
-      // Bind tooltip with custom styling - ALWAYS VISIBLE
-      marker.bindTooltip(loc.label, {
-        permanent: true,
-        direction: 'top',
-        offset: loc.offset,
-        className: 'visible-map-label'
-      });
-    });
-    
-    // Add a subtle circle overlay to highlight regions
-    const indiaCircle = L.circle([20.5937, 78.9629], {
-      color: '#00d4ff',
-      weight: 1,
-      opacity: 0.3,
-      fillOpacity: 0.05,
-      radius: 800000
-    }).addTo(worldMap);
-    
-    const meCircle = L.circle([25.2048, 45.0000], {
-      color: '#00d4ff',
-      weight: 1,
-      opacity: 0.3,
-      fillOpacity: 0.05,
-      radius: 1200000
-    }).addTo(worldMap);
-    
-    const ukCircle = L.circle([55.3781, -3.4360], {
-      color: '#00d4ff',
-      weight: 1,
-      opacity: 0.3,
-      fillOpacity: 0.05,
-      radius: 500000
-    }).addTo(worldMap);
-    
-    const usCircle = L.circle([39.8283, -98.5795], {
-      color: '#00d4ff',
-      weight: 1,
-      opacity: 0.3,
-      fillOpacity: 0.05,
-      radius: 1500000
-    }).addTo(worldMap);
-    
-    setTimeout(() => worldMap.invalidateSize(), 200);
-  }
-  
-  function scrollToContact() {
-    const contactEl = document.querySelector('.contact-duo');
-    if (contactEl) contactEl.scrollIntoView({ behavior: 'smooth' });
-  }
-  
-  window.addEventListener('load', () => {
-    initMap();
-  });
-  window.addEventListener('resize', () => {
-    if (worldMap) worldMap.invalidateSize();
-  });
-</script>
-
-<script>
-  // Map initialization (global presence)
- // let worldMap = null;
-  function initMap() {
-    const mapDiv = document.getElementById('contact-map');
-    if (!mapDiv) return;
-    if (worldMap) { worldMap.invalidateSize(); return; }
-    worldMap = L.map('contact-map').setView([20.5937, 78.9629], 2.8);
-    L.tileLayer('https://{s}.basemaps.cartodcdn.com/dark_all/{z}/{x}/{y}{r}.png', {
-      attribution: '©CartoDB',
-      maxZoom: 5
-    }).addTo(worldMap);
-    const pinIcon = L.divIcon({
-      html: '<div style="background:#00d4ff; width:12px; height:12px; border-radius:50%; box-shadow:0 0 12px #00d4ff; border:2px solid white;"></div>',
-      iconSize: [12,12],
-      iconAnchor: [6,6]
-    });
-    const locations = [
-      { latlng: [15.4909, 93.8278], label: 'India ★' },
-      { latlng: [25.2048, 45.0000], label: 'Middle East' },
-      { latlng: [51.5074, -0.1278], label: 'UK' },
-      { latlng: [37.0902, -95.7129], label: 'N. America' }
-    ];
-    locations.forEach(loc => {
-      L.marker(loc.latlng, { icon: pinIcon }).addTo(worldMap)
-        .bindTooltip(loc.label, { permanent: true, direction: 'top', offset: [0, -10], className: 'map-tooltip' });
+      marker.bindTooltip(loc.label, { permanent: true, direction: 'top', offset: loc.offset, className: 'visible-map-label' });
     });
     setTimeout(() => worldMap.invalidateSize(), 200);
   }
-
-  function scrollToContact() {
-    const contactEl = document.querySelector('.contact-duo');
-    if (contactEl) contactEl.scrollIntoView({ behavior: 'smooth' });
-  }
-
-  window.addEventListener('load', () => {
-    initMap();
-  });
-  window.addEventListener('resize', () => {
-    if (worldMap) worldMap.invalidateSize();
-  });
+  function scrollToContact() { document.querySelector('.contact-duo')?.scrollIntoView({ behavior: 'smooth' }); }
+  window.addEventListener('load', initMap);
+  window.addEventListener('resize', () => worldMap?.invalidateSize());
 </script>
 </body>
 </html>
