@@ -2,721 +2,305 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Mr. Shaikh – Yaser Shaikh</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<title>Yaser Shaikh | Software Engineer & Fullstack Architect</title>
 <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"/>
 <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
 <link rel="preconnect" href="https://fonts.googleapis.com">
-<link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=DM+Sans:ital,wght@0,300;0,400;0,500;1,300&family=Caveat:wght@600&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="style.css">
-</head>
-<body class="dark-mode">
+<link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=DM+Sans:ital,wght@0,300;0,400;0,500;0,600;0,700;1,400&family=Space+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  * {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+  }
 
-<!-- NAV -->
+  /* STRICTLY DARK THEME — NO LIGHT MODE */
+  :root {
+    --bg-deep: #0a0a0c;
+    --bg-surface: #111216;
+    --bg-card: #15171e;
+    --bg-elevated: #1c1f2a;
+    --border-subtle: rgba(66, 71, 100, 0.45);
+    --border-glow: rgba(0, 212, 255, 0.35);
+    --text-primary: #edf2f8;
+    --text-secondary: #b4bdda;
+    --text-muted: #7a82a0;
+    --cyan: #00d4ff;
+    --cyan-glow: rgba(0, 212, 255, 0.25);
+    --radius-lg: 24px;
+    --radius-md: 16px;
+    --nav-height: 74px;
+    --transition: cubic-bezier(0.2, 0.9, 0.4, 1.1);
+  }
+
+  body {
+    background-color: var(--bg-deep);
+    color: var(--text-primary);
+    font-family: 'DM Sans', 'Syne', system-ui, sans-serif;
+    line-height: 1.55;
+    scroll-behavior: smooth;
+  }
+
+  h1, h2, h3, h4, .hero-name, .page-title, .section-heading {
+    font-family: 'Syne', 'Space Grotesk', sans-serif;
+    font-weight: 700;
+    letter-spacing: -0.02em;
+  }
+
+  .glow-text {
+    background: linear-gradient(135deg, #ffffff 20%, var(--cyan) 80%);
+    background-clip: text;
+    -webkit-background-clip: text;
+    color: transparent;
+  }
+
+  ::-webkit-scrollbar { width: 5px; }
+  ::-webkit-scrollbar-track { background: var(--bg-surface); }
+  ::-webkit-scrollbar-thumb { background: var(--cyan); border-radius: 12px; }
+
+  /* Navigation */
+  #navbar {
+    position: fixed; top: 0; left: 0; right: 0; z-index: 1000;
+    height: var(--nav-height); padding: 0 40px;
+    display: flex; align-items: center; justify-content: space-between;
+    backdrop-filter: blur(20px);
+    background: rgba(10, 10, 12, 0.92);
+    border-bottom: 1px solid var(--border-subtle);
+  }
+  .nav-logo { display: flex; align-items: center; gap: 12px; }
+  .logo-icon svg polygon { stroke: var(--cyan); }
+  .logo-text {
+    font-family: 'Syne', sans-serif;
+    font-weight: 700; font-size: 18px;
+    background: linear-gradient(135deg, #fff, var(--cyan));
+    background-clip: text; -webkit-background-clip: text; color: transparent;
+  }
+  .nav-links {
+    display: flex; gap: 8px;
+    background: var(--bg-elevated); padding: 6px 12px;
+    border-radius: 60px; border: 1px solid var(--border-subtle);
+  }
+  .nav-link {
+    padding: 8px 20px; font-size: 13px; font-weight: 600;
+    font-family: 'DM Sans', sans-serif;
+    color: var(--text-secondary); border-radius: 40px;
+    cursor: pointer; transition: 0.2s;
+  }
+  .nav-link.active {
+    background: var(--cyan);
+    color: #0a0a0c; box-shadow: 0 4px 12px var(--cyan-glow);
+  }
+  .btn-talk {
+    background: var(--cyan);
+    color: #0a0a0c; padding: 8px 22px;
+    border-radius: 40px; font-weight: 700;
+    font-size: 13px; cursor: pointer; transition: 0.2s;
+  }
+  .theme-toggle { display: none; }
+  .hamburger { display: none; font-size: 28px; background: none; border: none; color: var(--text-primary); cursor: pointer; }
+  .mobile-nav {
+    display: none; position: fixed; top: var(--nav-height); left: 0; right: 0;
+    background: var(--bg-card); backdrop-filter: blur(28px); z-index: 999;
+    padding: 24px; flex-direction: column; gap: 12px;
+    border-bottom: 1px solid var(--cyan);
+  }
+  .page {
+    display: none; min-height: 100vh;
+    padding: calc(var(--nav-height) + 40px) 40px 70px;
+    animation: fadeUp 0.45s ease;
+  }
+  .page.active { display: block; }
+  @keyframes fadeUp { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
+
+  /* Home Grid */
+  .home-grid { max-width: 1280px; margin: 0 auto; display: grid; grid-template-columns: repeat(3, 1fr); gap: 22px; }
+  .card {
+    background: var(--bg-card); border: 1px solid var(--border-subtle);
+    border-radius: var(--radius-lg); transition: all 0.3s var(--transition);
+    overflow: hidden;
+  }
+  .card:hover { transform: translateY(-5px); border-color: var(--cyan); box-shadow: 0 20px 35px -12px rgba(0,0,0,0.5); }
+  .hero-card { grid-column: span 1; background: radial-gradient(circle at 30% 20%, rgba(0,212,255,0.08), var(--bg-card)); padding: 32px; }
+  .hero-name { font-size: 48px; margin: 12px 0; }
+  .greeting { font-size: 13px; letter-spacing: 3px; color: var(--cyan); font-weight: 600; }
+  .card-meta { padding: 20px; background: var(--bg-elevated); }
+  .card-label { font-size: 10px; letter-spacing: 2px; font-weight: 700; color: var(--cyan); }
+  .stat-num { font-size: 36px; font-weight: 800; color: var(--cyan); }
+  .services-icons { display: flex; flex-wrap: wrap; padding: 24px; gap: 18px; }
+  .service-item { flex: 1; text-align: center; font-weight: 600; font-size: 13px; }
+  .social-icons { display: flex; gap: 12px; padding: 20px; justify-content: center; }
+  .social-btn {
+    width: 44px; height: 44px; background: var(--bg-elevated); border-radius: 40px;
+    display: flex; align-items: center; justify-content: center; transition: 0.2s;
+    font-weight: 700; font-size: 18px; color: var(--cyan);
+  }
+  .social-btn:hover { background: var(--cyan); color: #0a0a0c; }
+
+  /* About Page */
+  .about-top-grid { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 24px; max-width: 1200px; margin: 0 auto; }
+  .about-left, .about-center, .about-right { background: var(--bg-card); border-radius: var(--radius-lg); padding: 28px; border: 1px solid var(--border-subtle); }
+  .about-profile-image { width: 100%; border-radius: 20px; aspect-ratio: 1/1; object-fit: cover; border: 2px solid var(--cyan); }
+  .about-section-label { font-size: 10px; letter-spacing: 2px; color: var(--cyan); margin-bottom: 12px; font-weight: 700; }
+  .skill-badge { background: var(--bg-elevated); padding: 6px 16px; border-radius: 40px; font-size: 12px; font-weight: 600; display: inline-block; margin: 4px; border: 1px solid var(--border-subtle); }
+  .cred-stats { display: flex; gap: 24px; margin: 16px 0; }
+  .cred-num { font-size: 38px; font-weight: 800; color: var(--cyan); }
+
+  /* Timeline */
+  .timeline { max-width: 1000px; margin: 0 auto; }
+  .timeline-item { margin-bottom: 16px; position: relative; padding-left: 28px; }
+  .timeline-dot { position: absolute; left: -8px; top: 24px; width: 14px; height: 14px; background: var(--cyan); border-radius: 20px; box-shadow: 0 0 10px var(--cyan-glow); }
+  .timeline-card { background: var(--bg-card); border-radius: 20px; overflow: hidden; border: 1px solid var(--border-subtle); }
+  .timeline-card-header { padding: 18px 24px; cursor: pointer; display: flex; justify-content: space-between; background: var(--bg-elevated); font-weight: 700; }
+  .timeline-card-body { padding: 20px 24px; display: none; border-top: 1px solid var(--border-subtle); }
+  .timeline-card-body ul { padding-left: 20px; margin-top: 10px; }
+  .timeline-card-body li { margin-bottom: 8px; color: var(--text-secondary); }
+  .tl-period { color: var(--cyan); font-weight: 600; margin-bottom: 10px; }
+
+  /* Projects & Stories */
+  .projects-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(290px, 1fr)); gap: 24px; max-width: 1200px; margin: 0 auto; }
+  .project-card { background: var(--bg-card); border-radius: 24px; padding: 24px; border: 1px solid var(--border-subtle); transition: 0.2s; }
+  .project-card:hover { border-color: var(--cyan); transform: translateY(-4px); }
+  .project-thumb { width: 56px; height: 56px; background: rgba(0,212,255,0.1); border-radius: 18px; display: flex; align-items: center; justify-content: center; font-size: 28px; margin-bottom: 20px; }
+  .stories-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 24px; max-width: 1000px; margin: 0 auto; }
+  .story-card { background: var(--bg-card); border-radius: 28px; padding: 28px; border: 1px solid var(--border-subtle); transition: 0.2s; }
+  .story-card:hover { border-color: var(--cyan); }
+  .story-tag { color: var(--cyan); font-size: 11px; font-weight: 700; letter-spacing: 1px; margin-bottom: 12px; display: block; }
+
+  /* Contact & Map */
+  .contact-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 24px; max-width: 1100px; margin: 0 auto; }
+  .contact-left, .contact-right { background: var(--bg-card); border-radius: var(--radius-lg); padding: 32px; border: 1px solid var(--border-subtle); }
+  .contact-heading { font-size: 34px; margin: 16px 0; }
+  .cyan { color: var(--cyan); }
+  .btn-solid, .btn-outline { display: inline-block; padding: 12px 24px; border-radius: 40px; font-weight: 700; margin-right: 12px; transition: 0.2s; }
+  .btn-solid { background: var(--cyan); color: #0a0a0c; }
+  .btn-outline { border: 1px solid var(--cyan); color: var(--cyan); background: transparent; }
+  .contact-cards-row { display: flex; gap: 20px; max-width: 1100px; margin: 24px auto; flex-wrap: wrap; }
+  .contact-channel-card { background: var(--bg-elevated); border-radius: 24px; padding: 24px; flex: 1; border: 1px solid var(--border-subtle); }
+  .cc-icon { font-size: 32px; margin-bottom: 12px; }
+  #contact-map { height: 220px; border-radius: 20px; overflow: hidden; margin-top: 12px; border: 1px solid var(--border-subtle); }
+  .map-tooltip { font-family: 'DM Sans', sans-serif !important; font-weight: 600 !important; background: #0a0c15dd !important; border: 1px solid var(--cyan) !important; color: white !important; border-radius: 40px !important; padding: 4px 14px !important; }
+  .green-dot { width: 8px; height: 8px; background: #4ade80; border-radius: 50%; display: inline-block; margin-right: 8px; box-shadow: 0 0 6px #4ade80; }
+  .available-badge { font-weight: 700; margin-bottom: 16px; }
+
+  footer { background: var(--bg-surface); border-top: 1px solid var(--border-subtle); text-align: center; padding: 32px 20px; margin-top: 40px; }
+  .footer-links { display: flex; justify-content: center; gap: 28px; flex-wrap: wrap; margin-bottom: 16px; }
+  .footer-links a { color: var(--text-secondary); text-decoration: none; font-weight: 500; }
+  .footer-links a:hover { color: var(--cyan); }
+
+  @media (max-width: 860px) {
+    .home-grid, .about-top-grid, .stories-grid, .contact-grid { grid-template-columns: 1fr; }
+    .nav-links { display: none; }
+    .hamburger { display: flex; }
+    .page { padding: 100px 20px 40px; }
+    .hero-name { font-size: 36px; }
+  }
+</style>
+</head>
+<body>
+
 <nav id="navbar">
   <div class="nav-logo">
-    <div class="logo-icon">
-      <svg width="36" height="36" viewBox="0 0 36 36" fill="none"><polygon points="18,2 34,10 34,26 18,34 2,26 2,10" stroke="#00d4ff" stroke-width="1.5" fill="none"/><text x="50%" y="55%" dominant-baseline="middle" text-anchor="middle" fill="#fff" font-size="10" font-family="Syne" font-weight="700"></text></svg>
-    </div>
+    <div class="logo-icon"><svg width="36" height="36" viewBox="0 0 36 36" fill="none"><polygon points="18,2 34,10 34,26 18,34 2,26 2,10" stroke="#00d4ff" stroke-width="1.5" fill="none"/></svg></div>
     <span class="logo-text">mr shaikh</span>
   </div>
   <ul class="nav-links">
-    <li><a href="#home" class="nav-link active" data-page="home">Home</a></li>
-    <li><a href="#about" class="nav-link" data-page="about">About</a></li>
-    <li><a href="#work" class="nav-link" data-page="work">Work</a></li>
-    <li><a href="#stories" class="nav-link" data-page="stories">Stories</a></li>
-    <li><a href="#contact" class="nav-link" data-page="contact">Contact</a></li>
+    <li><a class="nav-link active" data-page="home">Home</a></li>
+    <li><a class="nav-link" data-page="about">About</a></li>
+    <li><a class="nav-link" data-page="work">Work</a></li>
+    <li><a class="nav-link" data-page="stories">Stories</a></li>
+    <li><a class="nav-link" data-page="contact">Contact</a></li>
   </ul>
-  <div class="nav-actions">
-    <button class="theme-toggle" id="themeToggle" title="Toggle theme">☀</button>
-    <a href="#contact" class="btn-talk" onclick="showPage('contact')">Let's Talk</a>
-    <button class="hamburger" id="hamburger" aria-label="Menu">
-      <span></span><span></span><span></span>
-    </button>
-  </div>
+  <div class="nav-actions"><a class="btn-talk">Let's Talk</a><button class="hamburger" id="hamburger">☰</button></div>
 </nav>
+<div class="mobile-nav" id="mobileNav"></div>
 
-<!-- Mobile Nav Drawer -->
-<div class="mobile-nav" id="mobileNav">
-  <a href="#home"    class="mobile-nav-link active" data-page="home">Home</a>
-  <a href="#about"   class="mobile-nav-link" data-page="about">About</a>
-  <a href="#work"    class="mobile-nav-link" data-page="work">Work</a>
-  <a href="#stories" class="mobile-nav-link" data-page="stories">Stories</a>
-  <a href="#contact" class="mobile-nav-link" data-page="contact">Contact</a>
-  <a href="#contact" class="mobile-nav-link" data-page="contact" style="margin-top:8px;background:var(--cyan);color:#000;font-weight:700;">Let's Talk</a>
-</div>
-
-<!-- ======================== HOME PAGE ======================== -->
+<!-- HOME -->
 <section id="home" class="page active">
   <div class="home-grid">
-    <!-- Hero Card -->
-    <div class="card hero-card">
-      <div class="hero-text">
-        <p class="greeting">Hello, I'm</p>
-        <h1 class="hero-name">Yaser Shaikh</h1>
-        <p class="hero-sub">I am a Software Engineer, Researcher and a Fullstack developer.</p>
-        <p class="hero-desc">Passionate about building solutions that make a difference.</p>
-      </div>
-    </div>
-
-    <!-- About Me Card -->
-    <div class="card about-card card-link" onclick="showPage('about')">
-      <div class="card-img anime-img anime-desk"></div>
-      <div class="card-meta">
-        <span class="card-label">MORE ABOUT ME</span>
-        <h3>About Me</h3>
-      </div>
-    </div>
-
-    <!-- Projects Card -->
-    <div class="card projects-card card-link" onclick="showPage('work')">
-      <div class="card-img anime-img anime-present"></div>
-      <div class="card-meta">
-        <span class="card-label">SHOWCASE</span>
-        <h3>Projects</h3>
-      </div>
-    </div>
-
-    <!-- Stories Card -->
-    <div class="card stories-card card-link" onclick="showPage('stories')">
-      <div class="card-img stories-bg"></div>
-      <div class="card-meta">
-        <span class="card-label">BLOG</span>
-        <h3>Stories</h3>
-      </div>
-    </div>
-
-    <!-- Services Card -->
-    <div class="card services-card">
-      <div class="services-icons">
-        <div class="service-item">
-          <div class="svc-icon">
-            <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="18" height="14" rx="2"/><path d="M8 21h8M12 17v4"/></svg>
-          </div>
-          <span>Web Development</span>
-        </div>
-        <!-- <div class="service-item">
-          <div class="svc-icon">
-            <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><rect x="7" y="2" width="10" height="20" rx="2"/><circle cx="12" cy="18" r="1" fill="currentColor" stroke="none"/></svg>
-          </div>
-          <span>Mobile Development</span>
-        </div>
-        <div class="service-item">
-          <div class="svc-icon">
-            <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2a7 7 0 0 1 7 7c0 3-1.5 5-3.5 6.5V17a1 1 0 0 1-1 1h-5a1 1 0 0 1-1-1v-1.5C6.5 14 5 12 5 9a7 7 0 0 1 7-7z"/><path d="M9 21h6M10 17v4M14 17v4"/></svg>
-          </div>
-          <span>AI & ML</span>
-        </div> -->
-        <div class="service-item">
-          <div class="svc-icon">
-            <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M9 3H5a2 2 0 0 0-2 2v4m6-6h10a2 2 0 0 1 2 2v4M9 3v18m0 0h10a2 2 0 0 0 2-2v-4M9 21H5a2 2 0 0 1-2-2v-4m0 0h18"/></svg>
-          </div>
-          <span>R&D</span>
-        </div>
-        <div class="service-item">
-          <div class="svc-icon">
-            <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="3"/><path d="M12 1v4M12 19v4M4.22 4.22l2.83 2.83M16.95 16.95l2.83 2.83M1 12h4M19 12h4M4.22 19.78l2.83-2.83M16.95 7.05l2.83-2.83"/></svg>
-          </div>
-          <span>Software Engineering</span>
-        </div>
-      </div>
-      <div class="card-meta">
-        <span class="card-label">SERVICES</span>
-        <h3>Professional Services Offered</h3>
-      </div>
-    </div>
-
-    <!-- Socials Card -->
-    <div class="card socials-card">
-      <div class="social-icons">
-        <a href="https://linkedin.com/in/yaser-shaikh-b0245614a" class="social-btn" title="LinkedIn" target="_blank">in</a>
-        <a href="https://github.com/Yasershaikh327" class="social-btn" title="GitHub" target="_blank">
-          <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><path d="M12 0C5.37 0 0 5.37 0 12c0 5.3 3.438 9.8 8.205 11.385.6.113.82-.258.82-.577 0-.285-.01-1.04-.015-2.04-3.338.724-4.042-1.61-4.042-1.61C4.422 18.07 3.633 17.7 3.633 17.7c-1.087-.744.084-.729.084-.729 1.205.084 1.838 1.236 1.838 1.236 1.07 1.835 2.809 1.305 3.495.998.108-.776.417-1.305.76-1.605-2.665-.3-5.466-1.332-5.466-5.93 0-1.31.465-2.38 1.235-3.22-.135-.303-.54-1.523.105-3.176 0 0 1.005-.322 3.3 1.23.96-.267 1.98-.399 3-.405 1.02.006 2.04.138 3 .405 2.28-1.552 3.285-1.23 3.285-1.23.645 1.653.24 2.873.12 3.176.765.84 1.23 1.91 1.23 3.22 0 4.61-2.805 5.625-5.475 5.92.42.36.81 1.096.81 2.22 0 1.606-.015 2.896-.015 3.286 0 .315.21.69.825.57C20.565 21.795 24 17.295 24 12c0-6.63-5.37-12-12-12"/></svg>
-        </a>
-       
-        <a href="https://www.instagram.com/ya5er_5haikh/" class="social-btn" title="Instagram" target="_blank">
-          <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.163 6.162 6.163 6.162-2.759 6.162-6.163c0-3.403-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.79-4-4 0-2.209 1.791-4 4-4s4 1.791 4 4c0 2.21-1.791 4-4 4zm6.406-11.845c-.796 0-1.441.645-1.441 1.44s.645 1.44 1.441 1.44c.795 0 1.439-.645 1.439-1.44s-.644-1.44-1.439-1.44z"/></svg>
-        </a>
-      </div>
-      <div class="card-meta">
-        <span class="card-label">LET'S CONNECT</span>
-        <h3>Socials</h3>
-      </div>
-    </div>
-
-    <!-- Stats Card -->
-    <div class="card stats-card">
-      <div class="stats-row">
-        <div class="stat-box">
-          <div class="stat-num">04+</div>
-          <div class="stat-label">Years of<br>Experience</div>
-        </div>
-      </div>
-    </div>
-
-    <!-- CTA Card -->
-    <div class="card cta-card">
-      <div class="cta-text">
-        <p>Let's</p>
-        <p>talk about your <span class="cyan">next</span> project.</p>
-        <p class="cta-sub">Send your ideas to <span class="cyan underline">syaser327@gmail.com</span></p>
-      </div>
-    </div>
+    <div class="card hero-card"><div class="greeting">Hello, I'm</div><h1 class="hero-name glow-text">Yaser Shaikh</h1><p class="hero-sub" style="font-size:18px; font-weight:500;">Software Engineer, Researcher & Fullstack Developer</p><p class="hero-desc" style="color:var(--text-secondary); margin-top:12px;">Passionate about building solutions that make a difference.</p></div>
+    <div class="card card-link" onclick="showPage('about')"><div class="card-meta"><span class="card-label">MORE ABOUT ME</span><h3>About Me</h3><p style="font-size:13px; margin-top:6px;">Master's in Computing, 4+ years exp</p></div></div>
+    <div class="card card-link" onclick="showPage('work')"><div class="card-meta"><span class="card-label">SHOWCASE</span><h3>Projects</h3><p style="font-size:13px;">7+ production-grade applications</p></div></div>
+    <div class="card card-link" onclick="showPage('stories')"><div class="card-meta"><span class="card-label">BLOG</span><h3>Stories</h3><p style="font-size:13px;">Engineering insights & lessons</p></div></div>
+    <div class="card"><div class="services-icons"><div class="service-item">🌐 Web Dev</div><div class="service-item">🔬 R&D</div><div class="service-item">⚙️ Software Eng</div></div><div class="card-meta"><span class="card-label">SERVICES</span><h3>Professional Services</h3></div></div>
+    <div class="card"><div class="social-icons"><a href="https://linkedin.com/in/yaser-shaikh-b0245614a" class="social-btn" target="_blank">in</a><a href="https://github.com/Yasershaikh327" class="social-btn" target="_blank">🐙</a><a href="https://www.instagram.com/ya5er_5haikh/" class="social-btn" target="_blank">📷</a></div><div class="card-meta"><span class="card-label">LET'S CONNECT</span><h3>Socials</h3></div></div>
+    <div class="card stats-card"><div class="card-meta"><span class="stat-num">04+</span> <span>Years Experience</span><div style="margin-top:12px;"><span class="stat-num">20+</span> <span>Projects Completed</span></div></div></div>
+    <div class="card cta-card" style="background:linear-gradient(145deg, var(--bg-elevated), var(--bg-card));"><div class="card-meta"><h3>Let's talk about your <span class="cyan">next</span> project.</h3><p class="cta-sub" style="margin-top:8px;">Send your ideas to <span class="cyan">syaser327@gmail.com</span></p></div></div>
   </div>
 </section>
 
-<!-- ======================== ABOUT PAGE ======================== -->
+<!-- ABOUT (FULL INFO) -->
 <section id="about" class="page">
-  <h2 class="page-title">About Me</h2>
+  <h2 class="page-title" style="font-size:48px; text-align:center;">About Me</h2>
   <div class="about-top-grid">
-    <div class="about-left">
-      <div class="about-section-label">BIOGRAPHY</div>
-      <p class="about-bio">Software engineer and fullstack developer with a Master's in Computing from the Goa University. </p>
-      <div class="about-contact-block">
-        <div class="about-section-label">CONTACT</div>
-        <p>📍Goa, India</p>
-        <p>✉ syaser327@gmail.com</p>
-      </div>
-      <div class="about-services-block">
-        <div class="about-section-label">SERVICES</div>
-        <p>&lt;/&gt; Web Development</p>
-        <!-- <p>🔶 AI & Machine Learning</p> -->
-        <p>🧪 Research & Development</p>
-      </div>
-    </div>
-    <div class="about-center">
-     <div class="about-photo-placeholder">
-      <img
-        src="Screenshot 2026-03-29 145400.png"
-        alt="Yaser Shaikh"
-        class="about-profile-image"
-        style="height: inherit;"
-      />
-    </div>
-    </div>
-    <div class="about-right">
-      <div class="credibility-block">
-        <div class="about-section-label cyan-label">CREDIBILITY</div>
-        <div class="cred-stats">
-          <div class="cred-item"><span class="cred-num">02</span><span class="cred-txt">PROFESSIONAL<br>DEGREES</span></div>
-          <div class="cred-item"><span class="cred-num">4+</span><span class="cred-txt">PROFESSIONAL<br>CERTIFICATIONS</span></div>
-        </div>
-      </div>
-      <div class="skills-block">
-        <div class="about-section-label cyan-label">TECHNICAL SKILLS</div>
-         <div class="skills-grid">
-            <!-- Most In-Demand Web Development Skills (2026) -->
-              <div class="skill-badge">⚙️ .NET Core</div>
-              <div class="skill-badge">⚛️ React.js</div>
-              <div class="skill-badge">🟢 Node.js</div>
-              <div class="skill-badge">🐘 PHP</div>
-              <div class="skill-badge">⚡ Laravel</div>
-              <div class="skill-badge">🔗 REST APIs</div>
-
-              <div class="skill-badge">🌐 HTML5</div>
-              <div class="skill-badge">🎨 CSS3</div>
-              <div class="skill-badge">🟡 JavaScript</div>
-
-              <div class="skill-badge">🗄️ MySQL</div>
-              <div class="skill-badge">🐘 PostgreSQL</div>
-              <div class="skill-badge">🍃 MongoDB</div>
-
-              <div class="skill-badge">🐳 Docker</div>
-              <div class="skill-badge">☁️ AWS</div>
-              <div class="skill-badge">🐙 GitHub</div>
-
-              <div class="skill-badge">🏛️ SOLID</div>
-              <div class="skill-badge">🧹 Clean Architecture</div>
-              <div class="skill-badge">💳 Payment Gateways</div>
-              <div class="skill-badge">📘 Swagger</div>
-              <div class="skill-badge">🤖 AI Tools</div>
-          </div>
-      </div>
-    </div>
+    <div class="about-left"><div class="about-section-label">BIOGRAPHY</div><p class="about-bio">Software engineer and fullstack developer with a Master's in Computing from Goa University. Passionate about building scalable backend systems, REST APIs, and full-stack applications using modern architectures.</p><div style="margin-top:24px;"><div class="about-section-label">CONTACT</div><p>📍 Goa, India</p><p>✉ syaser327@gmail.com</p></div><div style="margin-top:16px;"><div class="about-section-label">SERVICES</div><p>&lt;/&gt; Web Development</p><p>🧪 Research & Development</p></div></div>
+    <div class="about-center"><div class="about-photo-placeholder"><img src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 200 200'%3E%3Crect width='200' height='200' fill='%2311131c'/%3E%3Ctext x='50%25' y='50%25' text-anchor='middle' fill='%2300d4ff' font-size='18' font-weight='bold'%3EYS%3C/text%3E%3C/svg%3E" alt="Yaser Shaikh" class="about-profile-image"></div></div>
+    <div class="about-right"><div class="about-section-label cyan-label">CREDIBILITY</div><div class="cred-stats"><div><span class="cred-num">02</span><br><span class="cred-txt">PROFESSIONAL DEGREES</span></div><div><span class="cred-num">4+</span><br><span class="cred-txt">PROFESSIONAL CERTIFICATIONS</span></div></div><div class="about-section-label cyan-label" style="margin-top:20px;">TECHNICAL SKILLS</div><div class="skills-grid"><span class="skill-badge">⚙️ .NET Core</span><span class="skill-badge">⚛️ React.js</span><span class="skill-badge">🟢 Node.js</span><span class="skill-badge">🐘 PHP</span><span class="skill-badge">⚡ Laravel</span><span class="skill-badge">🔗 REST APIs</span><span class="skill-badge">🌐 HTML5/CSS3</span><span class="skill-badge">🟡 JavaScript</span><span class="skill-badge">🗄️ MySQL</span><span class="skill-badge">🐘 PostgreSQL</span><span class="skill-badge">🍃 MongoDB</span><span class="skill-badge">🐳 Docker</span><span class="skill-badge">☁️ AWS</span><span class="skill-badge">🐙 GitHub</span><span class="skill-badge">🏛️ SOLID</span><span class="skill-badge">🧹 Clean Arch</span><span class="skill-badge">💳 Payment Gateways</span><span class="skill-badge">📘 Swagger</span><span class="skill-badge">🤖 AI Tools</span></div></div>
   </div>
 
-
- <!-- Education & Experience Timeline -->
-<div class="exp-section">
-  <h2 class="section-heading">Education & Experience</h2>
-  <div class="timeline">
-
-    <!-- Current Position -->
-    <div class="timeline-item">
-      <div class="timeline-date"><span>Feb</span><span>2026</span></div>
-      <div class="timeline-dot"></div>
-      <div class="timeline-card expanded">
-        <div class="timeline-card-header" onclick="toggleTimeline(this)">
-          <div>
-            <h4>Software Engineer</h4>
-            <p class="tl-org">TDSS - Software Convergent System, Panaji, Goa</p>
-          </div>
-          <span class="tl-arrow">▾</span>
-        </div>
-        <div class="timeline-card-body">
-          <p class="tl-period">Feb 2026 – Present</p>
-          <p>
-            Leading development and maintenance of a comprehensive Linen Management System,
-            including REST APIs, Admin Panel, Employee Mobile Module, Management Dashboard,
-            and reporting modules.
-          </p>
-          <div class="tl-project-label">LINEN MANAGEMENT SYSTEM</div>
-          <ul>
-            <li>Developed secure REST APIs using .NET Core following Clean Architecture and SOLID principles.</li>
-            <li>Built and maintained Admin Panel using ASP.NET Web Forms (ASPX) with C# and VB.NET.</li>
-            <li>Designed and optimized SQL Server queries, stored procedures, and database structures.</li>
-            <li>Worked with Entity Framework and Microsoft Azure for deployment and hosting.</li>
-            <li>Performed testing, debugging, code reviews, UI enhancements, and system optimization.</li>
-          </ul>
-        </div>
-      </div>
+  <!-- COMPLETE TIMELINE with ALL experiences -->
+  <div class="exp-section" style="margin-top: 48px;"><h2 class="section-heading" style="font-size:32px; text-align:center; margin-bottom:32px;">Education & Experience</h2>
+    <div class="timeline">
+      <div class="timeline-item"><div class="timeline-dot"></div><div class="timeline-card"><div class="timeline-card-header" onclick="toggleTimeline(this)"><div><h4>Software Engineer</h4><p>TDSS - Software Convergent System, Panaji, Goa</p></div><span>▼</span></div><div class="timeline-card-body"><p class="tl-period">Feb 2026 – Present</p><p>Leading Linen Management System development including REST APIs, Admin Panel, Employee Mobile Module, Dashboard, reporting.</p><ul><li>Secure REST APIs using .NET Core, Clean Architecture, SOLID</li><li>Admin Panel with ASP.NET Web Forms (C# / VB.NET)</li><li>SQL Server optimization, stored procedures, Entity Framework</li><li>Azure deployment, debugging, code reviews</li></ul></div></div></div>
+      <div class="timeline-item"><div class="timeline-dot"></div><div class="timeline-card"><div class="timeline-card-header" onclick="toggleTimeline(this)"><div><h4>Software Engineer</h4><p>Team Inertia Technologies, Panaji, Goa</p></div><span>▼</span></div><div class="timeline-card-body"><p class="tl-period">Feb 2025 – Jan 2026</p><ul><li>Event Management, College Management, Pharma, Casino, Government apps</li><li>Core PHP, MySQL, REST APIs, Ajax/jQuery</li><li>Integrated HDFC/SBI payment gateways, WhatsApp, SMS, Email APIs</li><li>Docker, EasyPanel, cPanel, AWS S3, MinIO deployments</li><li>XSS & SQL Injection protection</li></ul></div></div></div>
+      <div class="timeline-item"><div class="timeline-dot"></div><div class="timeline-card"><div class="timeline-card-header" onclick="toggleTimeline(this)"><div><h4>Software Developer</h4><p>Team Inertia Technologies, Panaji, Goa</p></div><span>▼</span></div><div class="timeline-card-body"><p class="tl-period">Sep 2024 – Feb 2025</p><ul><li>Backend systems with Core PHP & MySQL</li><li>REST APIs, reporting modules, Ajax/jQuery interfaces</li><li>Event, education, government portals</li></ul></div></div></div>
+      <div class="timeline-item"><div class="timeline-dot"></div><div class="timeline-card"><div class="timeline-card-header" onclick="toggleTimeline(this)"><div><h4>Junior Software Engineer</h4><p>Anant Infomedia, Panaji, Goa</p></div><span>▼</span></div><div class="timeline-card-body"><p class="tl-period">Nov 2023 – Jun 2024</p><ul><li>NHA project – CLM, CRM, SFA modules</li><li>REST APIs with PHP, MySQL, Ajax, jQuery</li><li>Complex SQL reports & Excel exports, WhatsApp API integration</li></ul></div></div></div>
+      <div class="timeline-item"><div class="timeline-dot"></div><div class="timeline-card"><div class="timeline-card-header" onclick="toggleTimeline(this)"><div><h4>.NET Application Developer</h4><p>Zapcom Solution Pvt. Ltd., Bengaluru</p></div><span>▼</span></div><div class="timeline-card-body"><p class="tl-period">Jan 2023 – Aug 2023</p><ul><li>Lunch Booking App using .NET Core MVC</li><li>SOLID principles, Clean Architecture, Figma design</li><li>Secure authentication implementation</li></ul></div></div></div>
+      <div class="timeline-item"><div class="timeline-dot"></div><div class="timeline-card"><div class="timeline-card-header"><div><h4>Master of Computer Applications (MCA)</h4><p>Goa University, Goa — 2024</p></div></div></div></div>
+      <div class="timeline-item"><div class="timeline-dot"></div><div class="timeline-card"><div class="timeline-card-header"><div><h4>Bachelor of Computer Applications (BCA)</h4><p>Don Bosco College, Goa — 2022</p></div></div></div></div>
+      <div class="timeline-item"><div class="timeline-dot"></div><div class="timeline-card"><div class="timeline-card-header"><div><h4>Higher Secondary Certificate (12th Science)</h4><p>Green Valley National School, Goa — 2019</p></div></div></div></div>
     </div>
-
-    <!-- Team Inertia - Software Engineer -->
-    <div class="timeline-item">
-      <div class="timeline-date"><span>Feb</span><span>2025</span></div>
-      <div class="timeline-dot"></div>
-      <div class="timeline-card">
-        <div class="timeline-card-header" onclick="toggleTimeline(this)">
-          <div>
-            <h4>Software Engineer</h4>
-            <p class="tl-org">Team Inertia Technologies, Panaji, Goa</p>
-          </div>
-          <span class="tl-arrow">›</span>
-        </div>
-        <div class="timeline-card-body" style="display:none">
-          <p class="tl-period">Feb 2025 – Jan 2026</p>
-          <p>
-            Worked on Event Management, College Management, Pharmaceutical,
-            Casino, and Government applications.
-          </p>
-          <ul>
-            <li>Developed backend systems using Core PHP, and MySQL.</li>
-            <li>Built APIs, reports, and dynamic modules with Ajax and jQuery.</li>
-            <li>Integrated HDFC and SBI payment gateways, WhatsApp, SMS, and Email APIs.</li>
-            <li>Deployed applications using Docker, EasyPanel, cPanel, AWS S3, and MinIO.</li>
-            <li>Implemented XSS and SQL Injection protection mechanisms.</li>
-          </ul>
-        </div>
-      </div>
-    </div>
-
-    <!-- Team Inertia - Software Developer -->
-    <div class="timeline-item">
-      <div class="timeline-date"><span>Sep</span><span>2024</span></div>
-      <div class="timeline-dot"></div>
-      <div class="timeline-card">
-        <div class="timeline-card-header" onclick="toggleTimeline(this)">
-          <div>
-            <h4>Software Developer</h4>
-            <p class="tl-org">Team Inertia Technologies, Panaji, Goa</p>
-          </div>
-          <span class="tl-arrow">›</span>
-        </div>
-        <div class="timeline-card-body" style="display:none">
-          <p class="tl-period">Sep 2024 – Feb 2025</p>
-          <ul>
-            <li>Developed and maintained backend systems using Core PHP and MySQL.</li>
-            <li>Built REST APIs and reporting modules.</li>
-            <li>Implemented Ajax and jQuery-based dynamic interfaces.</li>
-            <li>Worked on diverse applications including events, education, and government portals.</li>
-          </ul>
-        </div>
-      </div>
-    </div>
-
-    <!-- Anant Infomedia -->
-    <div class="timeline-item">
-      <div class="timeline-date"><span>Nov</span><span>2023</span></div>
-      <div class="timeline-dot"></div>
-      <div class="timeline-card">
-        <div class="timeline-card-header" onclick="toggleTimeline(this)">
-          <div>
-            <h4>Junior Software Engineer</h4>
-            <p class="tl-org">Anant Infomedia, Panaji, Goa</p>
-          </div>
-          <span class="tl-arrow">›</span>
-        </div>
-        <div class="timeline-card-body" style="display:none">
-          <p class="tl-period">Nov 2023 – Jun 2024</p>
-          <ul>
-            <li>Worked on NHA project with CLM, CRM, and SFA modules.</li>
-            <li>Developed REST APIs using PHP, MySQL, Ajax, and jQuery.</li>
-            <li>Designed complex SQL reports and Excel exports.</li>
-            <li>Integrated WhatsApp API and CSV bulk upload modules.</li>
-          </ul>
-        </div>
-      </div>
-    </div>
-
-    <!-- Zapcom -->
-    <div class="timeline-item">
-      <div class="timeline-date"><span>Jan</span><span>2023</span></div>
-      <div class="timeline-dot"></div>
-      <div class="timeline-card">
-        <div class="timeline-card-header" onclick="toggleTimeline(this)">
-          <div>
-            <h4>.NET Application Developer</h4>
-            <p class="tl-org">Zapcom Solution Pvt. Ltd., Bengaluru</p>
-          </div>
-          <span class="tl-arrow">›</span>
-        </div>
-        <div class="timeline-card-body" style="display:none">
-          <p class="tl-period">Jan 2023 – Aug 2023</p>
-          <ul>
-            <li>Developed Lunch Booking Application using .NET Core MVC.</li>
-            <li>Applied SOLID principles and Clean Architecture.</li>
-            <li>Designed UI/UX in Figma and implemented secure authentication.</li>
-          </ul>
-        </div>
-      </div>
-    </div>
-
-    <!-- Education - MCA -->
-    <div class="timeline-item">
-      <div class="timeline-date"><span>2024</span></div>
-      <div class="timeline-dot education"></div>
-      <div class="timeline-card">
-        <div class="timeline-card-header" onclick="toggleTimeline(this)">
-          <div>
-            <h4>Master of Computer Applications (MCA)</h4>
-            <p class="tl-org">Goa University, Goa</p>
-          </div>
-          <span class="tl-arrow">›</span>
-        </div>
-        <div class="timeline-card-body" style="display:none"></div>
-      </div>
-    </div>
-
-    <!-- Education - BCA -->
-    <div class="timeline-item">
-      <div class="timeline-date"><span>2022</span></div>
-      <div class="timeline-dot education"></div>
-      <div class="timeline-card">
-        <div class="timeline-card-header" onclick="toggleTimeline(this)">
-          <div>
-            <h4>Bachelor of Computer Applications (BCA)</h4>
-            <p class="tl-org">Don Bosco College, Goa</p>
-          </div>
-          <span class="tl-arrow">›</span>
-        </div>
-        <div class="timeline-card-body" style="display:none"></div>
-      </div>
-    </div>
-
-    <!-- Education - HSC -->
-    <div class="timeline-item">
-      <div class="timeline-date"><span>2019</span></div>
-      <div class="timeline-dot education"></div>
-      <div class="timeline-card">
-        <div class="timeline-card-header" onclick="toggleTimeline(this)">
-          <div>
-            <h4>Higher Secondary Certificate (12th Science)</h4>
-            <p class="tl-org">Green Valley National School, Goa</p>
-          </div>
-          <span class="tl-arrow">›</span>
-        </div>
-        <div class="timeline-card-body" style="display:none"></div>
-      </div>
-    </div>
-
-  </div>
-</div>
-</section>
-
-<!-- ======================== WORK PAGE ======================== -->
-<section id="work" class="page">
-  <h2 class="page-title">My Projects</h2>
-  <div class="projects-grid">
-
-    <!-- Expenses Tracker -->
-    <div class="project-card">
-      <div class="project-thumb pt-green">
-        <div class="pt-icon">💰</div>
-      </div>
-      <h4>Expenses Tracker</h4>
-      <p>
-        A personal finance management application to track expenses, monitor spending patterns,
-        and generate insightful reports for better budgeting and financial planning.
-      </p>
-      <!--<a href="#" class="read-more">Read more →</a>-->
-    </div>
-
-    <!-- Lunch Booking Application -->
-    <div class="project-card">
-      <div class="project-thumb pt-blue">
-        <div class="pt-icon">🍱</div>
-      </div>
-      <h4>Lunch Booking Application</h4>
-      <p>
-        Internal office meal management system with menu scheduling, order tracking,
-        and automated notifications built using Clean Architecture and SOLID principles.
-      </p>
-      <!--<a href="#" class="read-more">Read more →</a>-->
-    </div>
-
-    <!-- Custom Cake Ordering -->
-    <div class="project-card">
-      <div class="project-thumb pt-pink">
-        <div class="pt-icon">🎂</div>
-      </div>
-      <h4>Custom Cake Ordering</h4>
-      <p>
-        E-commerce platform for custom cake design, delivery scheduling,
-        payment processing, order tracking, and customer reviews.
-      </p>
-      <!--<a href="#" class="read-more">Read more →</a>-->
-    </div>
-
-    <!-- Online Learning Platform -->
-    <div class="project-card">
-      <div class="project-thumb pt-purple">
-        <div class="pt-icon">🎓</div>
-      </div>
-      <h4>Online Learning Platform</h4>
-      <p>
-        Comprehensive e-learning system featuring course management, video streaming,
-        progress tracking, certifications, and analytics dashboards.
-      </p>
-      <!--<a href="#" class="read-more">Read more →</a>-->
-    </div>
-
-    <!-- Vehicle Booking System -->
-    <div class="project-card">
-      <div class="project-thumb pt-yellow">
-        <div class="pt-icon">🚗</div>
-      </div>
-      <h4>Vehicle Booking System</h4>
-      <p>
-        Vehicle rental solution with real-time availability tracking,
-        booking management, calendar scheduling, and payment integration.
-      </p>
-      <!--<a href="#" class="read-more">Read more →</a>-->
-    </div>
-
-    <!-- Music Streaming Application -->
-    <div class="project-card">
-      <div class="project-thumb pt-dark">
-        <div class="pt-icon">🎵</div>
-      </div>
-      <h4>Music Streaming Application</h4>
-      <p>
-        Full-featured music streaming platform with playlists, favorites,
-        real-time audio player, user profiles, and advanced search.
-      </p>
-      <!--<a href="#" class="read-more">Read more →</a>-->
-    </div>
-
-    <!-- RealEstate Booking Platform -->
-    <div class="project-card">
-      <div class="project-thumb pt-gray">
-        <div class="pt-icon">🏠</div>
-      </div>
-      <h4>RealEstate Booking Platform</h4>
-      <p>
-        Property management and booking platform with advanced search filters,
-        authentication, admin dashboard, and payment integration.
-      </p>
-      <!--<a href="#" class="read-more">Read more →</a>-->
-    </div>
-
   </div>
 </section>
 
-<!-- ======================== STORIES PAGE ======================== -->
-<section id="stories" class="page">
-  <h2 class="page-title">Stories</h2>
-  <p class="page-sub">
-    Insights, engineering lessons, and real-world problem-solving experiences from my journey as a Software Engineer.
-  </p>
+<!-- WORK (ALL PROJECTS) -->
+<section id="work" class="page"><h2 class="page-title" style="text-align:center;">My Projects</h2><div class="projects-grid"><div class="project-card"><div class="project-thumb">💰</div><h4>Expenses Tracker</h4><p>Personal finance management with spending patterns, reports, budgeting.</p></div><div class="project-card"><div class="project-thumb">🍱</div><h4>Lunch Booking Application</h4><p>.NET Core MVC, Clean Architecture, menu scheduling, order tracking.</p></div><div class="project-card"><div class="project-thumb">🎂</div><h4>Custom Cake Ordering</h4><p>E-commerce platform, delivery scheduling, payment processing.</p></div><div class="project-card"><div class="project-thumb">🎓</div><h4>Online Learning Platform</h4><p>Course management, video streaming, certifications, analytics.</p></div><div class="project-card"><div class="project-thumb">🚗</div><h4>Vehicle Booking System</h4><p>Real-time availability, calendar scheduling, payment integration.</p></div><div class="project-card"><div class="project-thumb">🎵</div><h4>Music Streaming Application</h4><p>Playlists, real-time audio player, user profiles, advanced search.</p></div><div class="project-card"><div class="project-thumb">🏠</div><h4>RealEstate Booking Platform</h4><p>Property management, filters, admin dashboard, payment gateway.</p></div></div></section>
 
-  <div class="stories-grid">
+<!-- STORIES -->
+<section id="stories" class="page"><h2 class="page-title" style="text-align:center;">Stories</h2><p class="page-sub" style="text-align:center; margin-bottom:32px;">Insights, engineering lessons, and real-world problem-solving experiences.</p><div class="stories-grid"><div class="story-card"><span class="story-tag">Featured</span><h3>From Idea to Production: Building Complete Web Systems</h3><p>Transforming business ideas into secure, scalable apps using PHP, .NET, Docker, cloud.</p></div><div class="story-card"><span class="story-tag">Backend Engineering</span><h3>Designing Secure & Scalable Backend Architectures</h3><p>Core PHP, .NET Core, SOLID, Clean Architecture for enterprise apps.</p></div><div class="story-card"><span class="story-tag">Performance</span><h3>Optimizing Slow MySQL Reports from Minutes to Seconds</h3><p>Indexing, query refactoring reduced report time from 3min to 8sec.</p></div><div class="story-card"><span class="story-tag">Cloud Storage</span><h3>Engineering Reliable 10GB File Uploads with S3 & MinIO</h3><p>Multipart uploads and presigned URLs for large files.</p></div><div class="story-card"><span class="story-tag">API Integration</span><h3>Integrating Payment Gateways & Communication APIs</h3><p>Razorpay, SBIePay, HDFC, WhatsApp, SMS, Email automation.</p></div><div class="story-card"><span class="story-tag">DevOps</span><h3>Deploying with Docker, EasyPanel & cPanel</h3><p>Containerization and environment management for staging/prod.</p></div><div class="story-card"><span class="story-tag">Security</span><h3>Building Security into Every Layer</h3><p>XSS, SQL injection prevention, secure file uploads, payment verification.</p></div><div class="story-card"><span class="story-tag">Career Journey</span><h3>My Evolution from Junior Developer to Software Engineer</h3><p>Growth across .NET, PHP, React, Docker, enterprise architecture.</p></div></div></section>
 
-    <!-- Featured Story -->
-    <div class="story-card featured">
-      <div class="story-tag">Featured</div>
-      <h3>From Idea to Production: Building Complete Web Systems</h3>
-      <p>
-        My journey as a Software Engineer has been focused on transforming business ideas into secure,
-        scalable, production-ready applications using PHP, .NET, MySQL, Docker, and cloud technologies.
-        From architecture and development to deployment and support, I build complete digital systems.
-      </p>
-      <!--<a href="#" class="read-more">Read more →</a>-->
-    </div>
+<!-- CONTACT + MAP -->
+<section id="contact" class="page"><div class="contact-grid"><div class="contact-left"><p class="contact-top-label" style="color:var(--cyan);">GET IN TOUCH</p><h2 class="contact-heading">Let's build something <span class="cyan">great together.</span></h2><p class="contact-desc">Whether you have a project in mind, want to collaborate, or just want to say hi — my inbox is always open. I'll do my best to get back to you promptly.</p><div class="contact-btns"><a href="mailto:syaser327@gmail.com" class="btn-solid">✉ Send an Email</a><a href="https://linkedin.com/in/yaser-shaikh-b0245614a" class="btn-outline" target="_blank">in Connect on LinkedIn</a></div></div><div class="contact-right"><div class="available-badge"><span class="green-dot"></span> AVAILABLE FOR WORK</div><div id="contact-map" style="height:200px; border-radius:16px; margin:14px 0;"></div><p>📍 GOA, INDIA</p><p>⏱ Usually responds within 24 hours</p></div></div><div class="contact-cards-row"><div class="contact-channel-card"><div class="cc-icon">📧</div><div class="cc-label">EMAIL</div><a class="cc-value" href="mailto:syaser327@gmail.com" style="color:var(--cyan);">syaser327@gmail.com</a><div class="cc-desc">Best for project discussions</div></div><div class="contact-channel-card"><div class="cc-icon">in</div><div class="cc-label">LINKEDIN</div><a class="cc-value" href="https://linkedin.com/in/yaser-shaikh-b0245614a" target="_blank" style="color:var(--cyan);">Yaser Shaikh</a><div class="cc-desc">Professional network</div></div><div class="contact-channel-card"><div class="cc-icon">🐙</div><div class="cc-label">GITHUB</div><a class="cc-value" href="https://github.com/Yasershaikh327" target="_blank" style="color:var(--cyan);">yasershaikh327</a><div class="cc-desc">Open source & code samples</div></div></div><div class="contact-cta-bar" style="background:var(--bg-elevated); border-radius:24px; padding:28px; text-align:center; margin-top:20px;"><h3>Have a project in mind?</h3><p>Drop me an email and let's get the conversation started.</p><a href="mailto:syaser327@gmail.com" class="btn-solid" style="display:inline-block; margin-top:16px;">✈ syaser327@gmail.com</a></div></section>
 
-    <!-- Story 1 -->
-    <div class="story-card">
-      <div class="story-tag">Backend Engineering</div>
-      <h3>Designing Secure & Scalable Backend Architectures</h3>
-      <p>
-        How I use Core PHP, .NET Core, SOLID principles, and Clean Architecture to build maintainable
-        REST APIs, admin panels, and enterprise applications across multiple industries.
-      </p>
-      <!--<a href="#" class="read-more">Read more →</a>-->
-    </div>
+<footer><div class="footer-links"><a href="#" data-page="home">Home</a><a href="#" data-page="about">About</a><a href="#" data-page="work">Projects</a><a href="#" data-page="stories">Stories</a><a href="https://linkedin.com/in/yaser-shaikh-b0245614a" target="_blank">LinkedIn</a><a href="https://github.com/Yasershaikh327" target="_blank">GitHub</a></div><p class="footer-copy">Design and Develop by <span class="cyan">Yaser Shaikh</span>. © 2026 All Rights Reserved.</p></footer>
 
-    <!-- Story 2 -->
-    <div class="story-card">
-      <div class="story-tag">Performance</div>
-      <h3>Optimizing Slow MySQL Reports from Minutes to Seconds</h3>
-      <p>
-        A deep dive into how strategic indexing, query refactoring, and database optimization reduced
-        report generation times from over 3 minutes to under 8 seconds.
-      </p>
-      <!--<a href="#" class="read-more">Read more →</a>-->
-    </div>
+<script>
+  function showPage(pageId) {
+    document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
+    document.getElementById(pageId)?.classList.add('active');
+    document.querySelectorAll('.nav-link').forEach(l => l.classList.toggle('active', l.dataset.page === pageId));
+    history.pushState(null, null, '#' + pageId);
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+    if (pageId === 'contact') setTimeout(initMap, 100);
+  }
 
-    <!-- Story 3 -->
-    <div class="story-card">
-      <div class="story-tag">Cloud Storage</div>
-      <h3>Engineering Reliable 10GB File Uploads with S3 & MinIO</h3>
-      <p>
-        Solving large file upload failures using multipart uploads and presigned URLs to enable secure
-        and efficient uploads directly to AWS S3 and MinIO object storage.
-      </p>
-      <!--<a href="#" class="read-more">Read more →</a>-->
-    </div>
+  function toggleTimeline(header) {
+    const body = header.parentElement.querySelector('.timeline-card-body');
+    if (body) body.style.display = body.style.display === 'none' ? 'block' : 'none';
+  }
 
-    <!-- Story 4 -->
-    <div class="story-card">
-      <div class="story-tag">API Integration</div>
-      <h3>Integrating Payment Gateways & Communication APIs</h3>
-      <p>
-        My experience integrating Razorpay, SBIePay, HDFC, WhatsApp, SMS, and Email APIs to automate
-        payments, notifications, and business workflows.
-      </p>
-      <!--<a href="#" class="read-more">Read more →</a>-->
-    </div>
+  let globalMap = null;
+  function initMap() {
+    const mapDiv = document.getElementById('contact-map');
+    if (!mapDiv) return;
+    if (globalMap) { globalMap.invalidateSize(); return; }
+    globalMap = L.map('contact-map').setView([20.5937, 78.9629], 3);
+    L.tileLayer('https://{s}.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}{r}.png', { attribution: '©CartoDB' }).addTo(globalMap);
+    const pinIcon = L.divIcon({ html: '<div style="background:#00d4ff; width:12px; height:12px; border-radius:50%; box-shadow:0 0 12px #00d4ff; border:2px solid white;"></div>', iconSize: [12,12], iconAnchor: [6,6] });
+    const locations = [{ latlng: [15.4909, 93.8278], label: 'India ★' }, { latlng: [25.2048, 45.0000], label: 'Middle East' }, { latlng: [51.5074, -0.1278], label: 'UK' }, { latlng: [37.0902, -95.7129], label: 'N. America' }];
+    locations.forEach(loc => { L.marker(loc.latlng, { icon: pinIcon }).addTo(globalMap).bindTooltip(loc.label, { permanent: true, direction: 'top', offset: [0, -10], className: 'map-tooltip' }); });
+    setTimeout(() => globalMap.invalidateSize(), 150);
+  }
 
-    <!-- Story 5 -->
-    <div class="story-card">
-      <div class="story-tag">DevOps</div>
-      <h3>Deploying Applications with Docker, EasyPanel & cPanel</h3>
-      <p>
-        Lessons learned from containerizing applications, configuring environments, and managing
-        deployments for staging and production systems.
-      </p>
-      <!--<a href="#" class="read-more">Read more →</a>-->
-    </div>
-
-    <!-- Story 6 -->
-    <div class="story-card">
-      <div class="story-tag">Security</div>
-      <h3>Building Security into Every Layer of Development</h3>
-      <p>
-        How I implement input sanitization, SQL injection prevention, XSS protection, secure file
-        uploads, and payment signature verification from day one.
-      </p>
-      <!--<a href="#" class="read-more">Read more →</a>-->
-    </div>
-
-    <!-- Story 7 -->
-    <div class="story-card">
-      <div class="story-tag">Problem Solving</div>
-      <h3>Real Engineering Challenges I've Solved</h3>
-      <p>
-        From disposed DbContext crashes and SMTP failures to AJAX race conditions and deployment issues,
-        explore practical solutions to real-world software engineering problems.
-      </p>
-      <!--<a href="#" class="read-more">Read more →</a>-->
-    </div>
-
-    <!-- Story 8 -->
-    <div class="story-card">
-      <div class="story-tag">Career Journey</div>
-      <h3>My Evolution from Junior Developer to Software Engineer</h3>
-      <p>
-        A reflection on my growth across .NET, PHP, React, Docker, cloud storage, and enterprise
-        architecture while working in education, government, pharma, and event management.
-      </p>
-      <!--<a href="#" class="read-more">Read more →</a>-->
-    </div>
-
-    <!-- Story 9 -->
-    <div class="story-card">
-      <div class="story-tag">AI & Automation</div>
-      <h3>Using AI Tools to Accelerate Development</h3>
-      <p>
-        How tools like ChatGPT, Claude, DeepSeek, and Make.com help me design systems faster,
-        automate workflows, and improve software delivery.
-      </p>
-      <!--<a href="#" class="read-more">Read more →</a>-->
-    </div>
-
-  </div>
-</section>
-
-<!-- ======================== CONTACT PAGE ======================== -->
-<section id="contact" class="page">
-  <div class="contact-grid">
-    <div class="contact-left">
-      <p class="contact-top-label">GET IN TOUCH</p>
-      <h2 class="contact-heading">Let's build something <span class="cyan">great together.</span></h2>
-      <p class="contact-desc">Whether you have a project in mind, want to collaborate, or just want to say hi — my inbox is always open. I'll do my best to get back to you promptly.</p>
-      <div class="contact-btns">
-        <a href="mailto:syaser327@gmail.com" class="btn-solid">✉ Send an Email</a>
-        <a href="https://linkedin.com/in/yaser-shaikh-b0245614a" class="btn-outline" target="_blank">in Connect on LinkedIn</a>
-      </div>
-    </div>
-    <div class="contact-right">
-      <div class="available-badge"><span class="green-dot"></span> AVAILABLE FOR WORK</div>
-      <div class="world-map" style="height:200px; border-radius:10px; overflow:hidden; margin:14px 0;">
-      <div id="contact-map" style="width:100%;height:100%;"></div>
-    </div>
-      <p>📍 GOA, INDIA</p>
-      <p>⏱ Usually responds within 24 hours</p>
-    </div>
-  </div>
-
-  <div class="contact-cards-row">
-    <div class="contact-channel-card">
-      <div class="cc-icon gmail-icon">M</div>
-      <div class="cc-label">EMAIL</div>
-      <a class="cc-value" href="mailto:syaser327@gmail.com" class="btn-solid">syaser327@gmail.com</a>
-      <div class="cc-desc">Best for project discussions & consulting</div>
-    </div>
-    <div class="contact-channel-card">
-      <div class="cc-icon li-icon">in</div>
-      <div class="cc-label">LINKEDIN</div>
-      <a class="cc-value" href="https://linkedin.com/in/yaser-shaikh-b0245614a" target="_blank">
-          Yaser Shaikh
-      </a>
-      <div class="cc-desc">Professional network & career updates</div>
-    </div>
-    <div class="contact-channel-card">
-      <div class="cc-icon gh-icon">
-        <svg width="22" height="22" viewBox="0 0 24 24" fill="currentColor"><path d="M12 0C5.37 0 0 5.37 0 12c0 5.3 3.438 9.8 8.205 11.385.6.113.82-.258.82-.577 0-.285-.01-1.04-.015-2.04-3.338.724-4.042-1.61-4.042-1.61C4.422 18.07 3.633 17.7 3.633 17.7c-1.087-.744.084-.729.084-.729 1.205.084 1.838 1.236 1.838 1.236 1.07 1.835 2.809 1.305 3.495.998.108-.776.417-1.305.76-1.605-2.665-.3-5.466-1.332-5.466-5.93 0-1.31.465-2.38 1.235-3.22-.135-.303-.54-1.523.105-3.176 0 0 1.005-.322 3.3 1.23.96-.267 1.98-.399 3-.405 1.02.006 2.04.138 3 .405 2.28-1.552 3.285-1.23 3.285-1.23.645 1.653.24 2.873.12 3.176.765.84 1.23 1.91 1.23 3.22 0 4.61-2.805 5.625-5.475 5.92.42.36.81 1.096.81 2.22 0 1.606-.015 2.896-.015 3.286 0 .315.21.69.825.57C20.565 21.795 24 17.295 24 12c0-6.63-5.37-12-12-12"/></svg>
-      </div>
-      <div class="cc-label">GITHUB</div>
-      <a class="cc-value" href="https://github.com/Yasershaikh327" target="_blank">
-        yasershaikh327
-      </a>
-      <div class="cc-desc">Open source work & code samples</div>
-    </div>
-  </div>
-
-  <div class="contact-cta-bar">
-    <div>
-      <h3>Have a project in mind?</h3>
-      <p>Drop me an email and let's get the conversation started.</p>
-    </div>
-    <a href="mailto:syaser327@gmail.com" class="btn-solid">✈ syaser327@gmail.com</a>
-  </div>
-</section>
-
-<!-- ======================== FOOTER (COMMON) ======================== -->
-<footer id="footer">
-  <div class="footer-links">
-    <a href="#home" onclick="showPage('home')">Home</a>
-    <a href="#about" onclick="showPage('about')">About</a>
-    <a href="#work" onclick="showPage('work')">Projects</a>
-    <a href="#stories" onclick="showPage('stories')">Blog</a>
-    <a href="https://linkedin.com/in/yaser-shaikh-b0245614a" target="_blank">LinkedIn</a>
-    <a href="https://github.com/Yasershaikh327" target="_blank">GitHub</a>
-  </div>
-  <p class="footer-copy">Design and Develop by <a href="#" class="cyan-link">Yaser Shaikh</a>. © 2026 All Rights Reserved.</p>
-</footer>
-
-<script src="script.js"></script>
+  document.querySelectorAll('.nav-link, [data-page]').forEach(el => { el.addEventListener('click', (e) => { e.preventDefault(); const pg = el.dataset.page || el.getAttribute('data-page'); if (pg) showPage(pg); }); });
+  document.querySelector('.btn-talk')?.addEventListener('click', () => showPage('contact'));
+  document.getElementById('hamburger')?.addEventListener('click', () => document.getElementById('mobileNav').classList.toggle('open'));
+  document.getElementById('mobileNav').innerHTML = ['home', 'about', 'work', 'stories', 'contact'].map(p => `<a class="mobile-nav-link" data-page="${p}" style="font-weight:600; color:var(--text-primary); padding:12px;">${p.toUpperCase()}</a>`).join('');
+  document.querySelectorAll('.mobile-nav-link').forEach(l => l.addEventListener('click', (e) => { showPage(l.dataset.page); document.getElementById('mobileNav').classList.remove('open'); }));
+  document.querySelectorAll('.footer-links a').forEach(a => a.addEventListener('click', (e) => { e.preventDefault(); const pg = a.dataset.page || a.getAttribute('data-page'); if (pg) showPage(pg); }));
+  if (window.location.hash) showPage(window.location.hash.slice(1) || 'home'); else showPage('home');
+  window.addEventListener('popstate', () => showPage(window.location.hash.slice(1) || 'home'));
+  document.querySelectorAll('.timeline-card-body').forEach(b => b.style.display = 'none');
+</script>
 </body>
 </html>
