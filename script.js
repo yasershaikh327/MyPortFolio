@@ -78,7 +78,7 @@
 updateClock();
 setInterval(updateClock, 1000);
 
-let worldMap = null;
+
   function initMap() {
     const mapDiv = document.getElementById('contact-map');
     if (!mapDiv) return;
