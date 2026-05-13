@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
-  <title>Yaser Shaikh · Senior Software Engineer · Portfolio</title>
+  <title>Yaser Shaikh · Senior Software Engineer</title>
   <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
   <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
   <link href="https://fonts.googleapis.com/css2?family=Quicksand:wght@400;500;600;700&family=Space+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet">
@@ -14,7 +14,6 @@
       box-sizing: border-box;
     }
 
-    /* STRICTLY DARK THEME · QUICKSAND SEMIBOLD FOCUS */
     :root {
       --bg-primary: #050508;
       --bg-secondary: #0c0d12;
@@ -26,22 +25,20 @@
       --text-secondary: #cbd5e6;
       --text-muted: #8b92b0;
       --cyan: #00d4ff;
-      --cyan-glow: rgba(0, 212, 255, 0.25);
-      --radius-xl: 32px;
+      --cyan-glow: rgba(0, 212, 255, 0.2);
       --radius-lg: 24px;
-      --transition: cubic-bezier(0.2, 0.9, 0.4, 1.1);
     }
 
     body {
       background-color: var(--bg-primary);
       color: var(--text-primary);
-      font-family: 'Quicksand', 'Space Grotesk', system-ui, sans-serif;
+      font-family: 'Quicksand', 'Space Grotesk', sans-serif;
       font-weight: 600;
-      line-height: 1.55;
+      line-height: 1.5;
       scroll-behavior: smooth;
     }
 
-    h1, h2, h3, h4, .heading-heavy, .hero-name, .section-title {
+    h1, h2, h3, .hero-name, .section-title {
       font-family: 'Space Grotesk', 'Quicksand', sans-serif;
       font-weight: 700;
       letter-spacing: -0.02em;
@@ -54,411 +51,328 @@
       color: transparent;
     }
 
-    .section-title {
-      font-size: 3rem;
-      font-weight: 700;
-      margin-bottom: 2.5rem;
-      position: relative;
-      display: inline-block;
-    }
-    .section-title::after {
-      content: '';
-      position: absolute;
-      bottom: -12px;
-      left: 0;
-      width: 60px;
-      height: 3px;
-      background: var(--cyan);
-      border-radius: 4px;
-    }
-
     .container {
       max-width: 1280px;
       margin: 0 auto;
       padding: 0 32px;
     }
 
-    /* HERO SECTION — FULL SPACE ATTRACTIVE */
+    /* COMPACT HERO SECTION - NO WASTED SPACE */
     .hero {
-      min-height: 100vh;
-      display: flex;
-      align-items: center;
-      padding: 100px 0 80px;
+      padding: 40px 0 30px;
       position: relative;
-      background: radial-gradient(ellipse at 20% 30%, rgba(0,212,255,0.08), transparent 70%);
     }
     .hero-content {
-      max-width: 850px;
+      max-width: 900px;
     }
     .hero-badge {
-      font-size: 14px;
-      letter-spacing: 4px;
+      font-size: 12px;
+      letter-spacing: 3px;
       color: var(--cyan);
       text-transform: uppercase;
       font-weight: 700;
-      margin-bottom: 24px;
+      margin-bottom: 16px;
       display: inline-block;
-      background: rgba(0,212,255,0.12);
-      padding: 6px 18px;
-      border-radius: 60px;
-      backdrop-filter: blur(4px);
+      background: rgba(0,212,255,0.1);
+      padding: 4px 14px;
+      border-radius: 40px;
     }
     .hero-name {
-      font-size: 5.2rem;
+      font-size: 4.5rem;
       font-weight: 800;
-      line-height: 1.08;
-      margin-bottom: 24px;
+      line-height: 1.1;
+      margin-bottom: 16px;
     }
     .hero-tagline {
-      font-size: 1.5rem;
+      font-size: 1.3rem;
       color: var(--text-secondary);
-      margin-bottom: 20px;
+      margin-bottom: 16px;
       font-weight: 600;
-      letter-spacing: -0.3px;
     }
     .hero-desc {
-      font-size: 1.12rem;
+      font-size: 1rem;
       color: var(--text-muted);
       max-width: 620px;
-      margin-bottom: 40px;
-      line-height: 1.65;
-      font-weight: 500;
+      margin-bottom: 32px;
+      line-height: 1.55;
     }
     .cta-group {
       display: flex;
-      gap: 20px;
+      gap: 16px;
       flex-wrap: wrap;
     }
     .btn-primary {
       background: var(--cyan);
       color: #0a0a0c;
-      padding: 14px 36px;
+      padding: 12px 28px;
       border-radius: 60px;
       font-weight: 700;
-      font-size: 15px;
+      font-size: 14px;
       transition: 0.25s;
-      border: none;
-      cursor: pointer;
       text-decoration: none;
       display: inline-block;
       font-family: 'Quicksand', sans-serif;
-      letter-spacing: 0.3px;
     }
     .btn-outline-cyan {
       border: 1.5px solid var(--cyan);
       color: var(--cyan);
       background: transparent;
-      padding: 14px 36px;
+      padding: 12px 28px;
       border-radius: 60px;
       font-weight: 700;
-      font-size: 15px;
+      font-size: 14px;
       transition: 0.25s;
       cursor: pointer;
       text-decoration: none;
-      font-family: 'Quicksand', sans-serif;
     }
-    .btn-outline-cyan:hover {
-      background: rgba(0, 212, 255, 0.1);
-      transform: translateY(-3px);
+    .btn-primary:hover, .btn-outline-cyan:hover {
+      transform: translateY(-2px);
     }
     .btn-primary:hover {
-      transform: translateY(-3px);
       filter: brightness(1.08);
-      box-shadow: 0 8px 20px var(--cyan-glow);
+      box-shadow: 0 4px 15px var(--cyan-glow);
+    }
+    .btn-outline-cyan:hover {
+      background: rgba(0,212,255,0.1);
     }
 
-    /* CARDS & GRID */
+    /* SECTION TITLES - TIGHTER */
+    .section-title {
+      font-size: 2.2rem;
+      font-weight: 700;
+      margin-bottom: 1.8rem;
+      position: relative;
+      display: inline-block;
+    }
+    .section-title::after {
+      content: '';
+      position: absolute;
+      bottom: -8px;
+      left: 0;
+      width: 50px;
+      height: 3px;
+      background: var(--cyan);
+      border-radius: 3px;
+    }
+
+    /* CARDS GRID */
     .grid-3 {
       display: grid;
       grid-template-columns: repeat(3, 1fr);
-      gap: 28px;
-      margin: 60px 0 40px;
+      gap: 24px;
+      margin: 40px 0 30px;
     }
     .card {
       background: var(--bg-card);
       border: 1px solid var(--border-light);
       border-radius: var(--radius-lg);
-      padding: 32px;
-      transition: all 0.3s var(--transition);
-      backdrop-filter: blur(2px);
+      padding: 24px;
+      transition: all 0.3s ease;
     }
     .card:hover {
       border-color: var(--border-cyan);
-      transform: translateY(-6px);
-      box-shadow: 0 20px 35px -12px rgba(0,212,255,0.15);
+      transform: translateY(-4px);
     }
-    .card-icon {
-      font-size: 2.5rem;
-      margin-bottom: 20px;
-    }
-    .stat-number {
-      font-size: 3.2rem;
-      font-weight: 800;
-      color: var(--cyan);
-      line-height: 1;
-      font-family: 'Space Grotesk', monospace;
-    }
+    .card-icon { font-size: 2.2rem; margin-bottom: 12px; }
+    .stat-number { font-size: 2.5rem; font-weight: 800; color: var(--cyan); line-height: 1; }
     .skill-pill {
       background: var(--bg-elevated);
       border: 1px solid var(--border-light);
       border-radius: 60px;
-      padding: 8px 20px;
-      font-size: 13px;
+      padding: 6px 16px;
+      font-size: 12px;
       font-weight: 600;
       display: inline-block;
-      margin: 6px;
-      font-family: 'Quicksand', sans-serif;
+      margin: 4px;
     }
 
-    /* ABOUT LAYOUT */
+    /* ABOUT */
     .about-grid {
       display: grid;
       grid-template-columns: 1fr 1fr;
-      gap: 48px;
-      align-items: start;
-      margin: 40px 0;
+      gap: 40px;
+      margin: 30px 0;
     }
     .about-text p {
       color: var(--text-secondary);
-      font-size: 1.05rem;
-      margin-bottom: 24px;
-      font-weight: 500;
-      line-height: 1.65;
+      font-size: 0.95rem;
+      margin-bottom: 18px;
+      line-height: 1.6;
     }
     .info-row {
       display: flex;
-      gap: 32px;
-      margin: 28px 0;
+      gap: 28px;
+      margin: 20px 0;
       flex-wrap: wrap;
     }
     .info-item span:first-child {
       color: var(--cyan);
       font-weight: 700;
       display: block;
-      font-size: 13px;
+      font-size: 11px;
       letter-spacing: 1px;
-      margin-bottom: 6px;
+      margin-bottom: 4px;
     }
 
-    /* TIMELINE */
-    .timeline {
-      margin: 56px 0 40px;
-    }
+    /* TIMELINE - COMPACT */
+    .timeline { margin: 40px 0 30px; }
     .timeline-item {
       display: flex;
-      gap: 24px;
-      margin-bottom: 32px;
-      position: relative;
+      gap: 20px;
+      margin-bottom: 20px;
     }
     .timeline-year {
-      min-width: 100px;
+      min-width: 90px;
       font-weight: 700;
       color: var(--cyan);
-      font-size: 1rem;
-      font-family: 'Quicksand', monospace;
+      font-size: 0.85rem;
     }
     .timeline-dot-line {
-      position: relative;
-      width: 24px;
+      width: 20px;
       display: flex;
       flex-direction: column;
       align-items: center;
     }
     .timeline-dot {
-      width: 12px;
-      height: 12px;
+      width: 10px;
+      height: 10px;
       background: var(--cyan);
       border-radius: 50%;
-      box-shadow: 0 0 12px var(--cyan-glow);
-      margin-top: 6px;
+      box-shadow: 0 0 8px var(--cyan-glow);
     }
     .timeline-line {
       width: 2px;
       flex: 1;
       background: linear-gradient(to bottom, var(--cyan), transparent);
-      margin-top: 8px;
+      margin-top: 6px;
     }
     .timeline-content {
       flex: 1;
       background: var(--bg-card);
-      border-radius: 20px;
-      padding: 22px 28px;
+      border-radius: 18px;
+      padding: 16px 20px;
       border: 1px solid var(--border-light);
     }
-    .timeline-content h4 {
-      font-size: 1.2rem;
-      margin-bottom: 6px;
-      font-weight: 700;
-    }
-    .timeline-content .company {
-      color: var(--cyan);
-      font-weight: 600;
-      font-size: 0.85rem;
-      margin-bottom: 12px;
-    }
-    .timeline-content ul {
-      padding-left: 20px;
-      color: var(--text-secondary);
-      font-size: 0.9rem;
-      font-weight: 500;
-    }
-    .timeline-content li {
-      margin-bottom: 8px;
-    }
+    .timeline-content h4 { font-size: 1rem; margin-bottom: 4px; }
+    .timeline-content .company { color: var(--cyan); font-size: 0.75rem; margin-bottom: 8px; }
+    .timeline-content ul { padding-left: 18px; font-size: 0.85rem; }
+    .timeline-content li { margin-bottom: 4px; }
 
     /* PROJECTS & STORIES */
     .projects-grid {
       display: grid;
-      grid-template-columns: repeat(auto-fill, minmax(310px, 1fr));
-      gap: 28px;
-      margin: 48px 0;
+      grid-template-columns: repeat(auto-fill, minmax(290px, 1fr));
+      gap: 24px;
+      margin: 40px 0;
     }
     .project-card {
       background: var(--bg-card);
-      border-radius: 28px;
-      padding: 28px;
+      border-radius: 24px;
+      padding: 24px;
       border: 1px solid var(--border-light);
-      transition: 0.25s;
     }
-    .project-emoji {
-      font-size: 3rem;
-      margin-bottom: 20px;
-    }
+    .project-emoji { font-size: 2.5rem; margin-bottom: 16px; }
     .stories-grid {
       display: grid;
       grid-template-columns: repeat(2, 1fr);
-      gap: 28px;
-      margin-bottom: 40px;
+      gap: 24px;
+      margin: 30px 0;
     }
     .story-card {
       background: var(--bg-elevated);
-      border-radius: 28px;
-      padding: 32px;
+      border-radius: 24px;
+      padding: 24px;
       border: 1px solid var(--border-light);
-      transition: 0.2s;
-    }
-    .story-card:hover {
-      border-color: var(--cyan);
     }
 
-    /* CONTACT + MAP */
+    /* CONTACT */
     .contact-duo {
       display: grid;
       grid-template-columns: 1fr 1fr;
-      gap: 32px;
-      margin: 40px 0 48px;
+      gap: 28px;
+      margin: 30px 0 40px;
     }
     .contact-panel {
       background: var(--bg-card);
-      border-radius: 32px;
-      padding: 40px;
+      border-radius: 28px;
+      padding: 32px;
       border: 1px solid var(--border-light);
     }
-    #contact-map {
-      height: 260px;
-      border-radius: 24px;
-      overflow: hidden;
-      margin-top: 20px;
-      border: 1px solid var(--border-light);
-      background: #12131b;
-    }
-    .contact-links {
-      display: flex;
-      gap: 20px;
-      flex-wrap: wrap;
-      margin-top: 28px;
-    }
+    #contact-map { height: 220px; border-radius: 20px; overflow: hidden; margin-top: 16px; }
+    .contact-links { display: flex; gap: 16px; flex-wrap: wrap; margin-top: 24px; }
     .social-link {
       display: inline-flex;
       align-items: center;
-      gap: 8px;
+      gap: 6px;
       background: var(--bg-elevated);
-      padding: 12px 26px;
+      padding: 8px 20px;
       border-radius: 60px;
       color: var(--text-primary);
       text-decoration: none;
-      font-weight: 700;
+      font-weight: 600;
+      font-size: 13px;
       border: 1px solid var(--border-light);
-      font-family: 'Quicksand', sans-serif;
-      transition: 0.2s;
     }
-    .social-link:hover {
-      border-color: var(--cyan);
-      color: var(--cyan);
-      transform: translateY(-2px);
-    }
+    .social-link:hover { border-color: var(--cyan); color: var(--cyan); }
 
-    /* MAP LABELS */
     .visible-map-label {
-      font-family: 'Quicksand', 'Space Grotesk', sans-serif !important;
+      font-family: 'Quicksand', sans-serif !important;
       font-weight: 700 !important;
-      font-size: 13px !important;
+      font-size: 11px !important;
       background: #05080cdd !important;
-      backdrop-filter: blur(8px);
-      border: 2px solid #00d4ff !important;
+      border: 1.5px solid #00d4ff !important;
       border-radius: 40px !important;
-      color: #ffffff !important;
-      padding: 6px 16px !important;
+      padding: 4px 12px !important;
       white-space: nowrap !important;
-      box-shadow: 0 4px 15px rgba(0, 212, 255, 0.5) !important;
-      letter-spacing: 0.3px;
     }
 
     footer {
-      margin-top: 80px;
-      padding: 40px 0;
+      margin-top: 50px;
+      padding: 30px 0;
       text-align: center;
       border-top: 1px solid var(--border-light);
-      color: var(--text-muted);
-      font-weight: 500;
     }
     .footer-links {
       display: flex;
       justify-content: center;
-      gap: 32px;
-      margin-bottom: 24px;
+      gap: 28px;
+      margin-bottom: 16px;
       flex-wrap: wrap;
     }
     .footer-links a {
       color: var(--text-secondary);
       text-decoration: none;
       font-weight: 600;
+      font-size: 13px;
       cursor: pointer;
-      font-family: 'Quicksand', sans-serif;
     }
-    .footer-links a:hover {
-      color: var(--cyan);
-    }
+    .footer-links a:hover { color: var(--cyan); }
 
-    /* RESPONSIVE (MOBILE FIRST) */
+    /* RESPONSIVE */
     @media (max-width: 860px) {
-      .container { padding: 0 24px; }
+      .container { padding: 0 20px; }
       .hero-name { font-size: 2.8rem; }
-      .hero-tagline { font-size: 1.2rem; }
-      .hero-desc { font-size: 1rem; }
-      .hero { padding: 80px 0 60px; min-height: auto; }
+      .hero-tagline { font-size: 1.1rem; }
+      .hero { padding: 30px 0 20px; }
       .grid-3, .about-grid, .contact-duo, .stories-grid { grid-template-columns: 1fr; }
-      .section-title { font-size: 2.2rem; }
-      .timeline-item { flex-direction: column; gap: 12px; }
+      .section-title { font-size: 1.8rem; }
+      .timeline-item { flex-direction: column; gap: 8px; }
       .timeline-year { margin-bottom: 4px; }
       .timeline-dot-line { display: none; }
-      .visible-map-label { font-size: 10px !important; padding: 4px 10px !important; white-space: nowrap; }
-      .card { padding: 24px; }
-      .contact-panel { padding: 28px; }
+      .contact-panel { padding: 24px; }
+      .visible-map-label { font-size: 9px !important; padding: 3px 8px !important; }
     }
     @media (max-width: 480px) {
       .hero-name { font-size: 2.2rem; }
-      .hero-badge { font-size: 11px; }
-      .btn-primary, .btn-outline-cyan { padding: 10px 24px; font-size: 13px; }
-      .stat-number { font-size: 2.5rem; }
-      .skill-pill { font-size: 11px; padding: 5px 14px; }
+      .hero-badge { font-size: 10px; }
+      .btn-primary, .btn-outline-cyan { padding: 8px 20px; font-size: 12px; }
+      .stat-number { font-size: 2rem; }
     }
-    .cyan-text { color: var(--cyan); }
   </style>
 </head>
 <body>
 
-<!-- HERO SECTION — FULL ATTRACTIVE SPACE, QUICKSAND SEMIBOLD -->
+<!-- COMPACT HERO - NO WASTED SPACE -->
 <section class="hero">
   <div class="container">
     <div class="hero-content">
@@ -467,79 +381,74 @@
       <p class="hero-tagline">Building resilient systems · Fullstack Architect · R&D</p>
       <p class="hero-desc">4+ years of professional engineering expertise — .NET Core, cloud-native, scalable APIs, and enterprise-grade platforms. I turn complex requirements into maintainable, production-ready software.</p>
       <div class="cta-group">
-        <a href="mailto:syaser327@gmail.com" class="btn-primary">✉  syaser327@gmail.com</a>
+        <a href="mailto:syaser327@gmail.com" class="btn-primary">✉ syaser327@gmail.com</a>
         <a href="#" class="btn-outline-cyan" onclick="scrollToContact()">Let's talk →</a>
       </div>
     </div>
   </div>
 </section>
 
-<!-- STATS CARDS -->
+<!-- STATS -->
 <div class="container">
   <div class="grid-3">
-    <div class="card"><div class="card-icon">⚙️</div><div class="stat-number">04+</div><div style="font-weight:700; margin-top:8px;">Years of Experience</div><div style="color:var(--text-muted); font-size:14px; font-weight:500;">Full-cycle development</div></div>
-    <div class="card"><div class="card-icon">📦</div><div class="stat-number">20+</div><div style="font-weight:700; margin-top:8px;">Projects Delivered</div><div style="color:var(--text-muted); font-size:14px; font-weight:500;">Enterprise & SaaS</div></div>
-    <div class="card"><div class="card-icon">🌍</div><div class="stat-number">Global</div><div style="font-weight:700; margin-top:8px;">Remote / Relocation</div><div style="color:var(--text-muted); font-size:14px; font-weight:500;">Open worldwide</div></div>
+    <div class="card"><div class="card-icon">⚙️</div><div class="stat-number">04+</div><div>Years Experience</div></div>
+    <div class="card"><div class="card-icon">📦</div><div class="stat-number">20+</div><div>Projects Delivered</div></div>
+    <div class="card"><div class="card-icon">🌍</div><div class="stat-number">Global</div><div>Remote / Relocation</div></div>
   </div>
 </div>
 
-<!-- ABOUT SECTION -->
-<section style="padding: 40px 0;">
-  <div class="container">
-    <h2 class="section-title">About</h2>
-    <div class="about-grid">
-      <div class="about-text">
-        <p>Master's in Computing (Goa University) · Fullstack software engineer with deep expertise in .NET Core, PHP, React, and cloud infrastructure. I architect systems that scale, from Linen Management ERP to high-traffic booking platforms. Passionate about clean architecture, developer ergonomics, and delivering business value.</p>
-        <p>Currently leading backend & API development at TDSS, previously at Team Inertia and Zapcom. I bridge the gap between product vision and technical execution.</p>
-        <div class="info-row">
-          <div class="info-item"><span>📍 LOCATION</span>Goa, India (Open to remote)</div>
-          <div class="info-item"><span>📧 CONTACT</span>syaser327@gmail.com</div>
-          <div class="info-item"><span>🧪 SERVICES</span>Web Dev · R&D · Software Architecture</div>
-        </div>
+<!-- ABOUT -->
+<div class="container">
+  <h2 class="section-title">About</h2>
+  <div class="about-grid">
+    <div class="about-text">
+      <p>Master's in Computing (Goa University) · Fullstack engineer with deep expertise in .NET Core, PHP, React, and cloud infrastructure. I architect systems that scale, from Linen Management ERP to high-traffic booking platforms.</p>
+      <p>Currently leading backend & API development at TDSS, previously at Team Inertia and Zapcom.</p>
+      <div class="info-row">
+        <div class="info-item"><span>📍 LOCATION</span>Goa, India</div>
+        <div class="info-item"><span>📧 CONTACT</span>syaser327@gmail.com</div>
       </div>
-      <div class="skills-highlight">
-        <div style="background: var(--bg-card); border-radius: 32px; padding: 32px; border: 1px solid var(--border-light);">
-          <h3 style="margin-bottom: 24px; font-weight:700;">Core competencies</h3>
-          <div>
-            <span class="skill-pill">.NET Core / C#</span><span class="skill-pill">React.js</span><span class="skill-pill">Node.js</span><span class="skill-pill">PHP / Laravel</span>
-            <span class="skill-pill">REST / GraphQL</span><span class="skill-pill">SQL Server / MySQL</span><span class="skill-pill">MongoDB</span>
-            <span class="skill-pill">Docker / AWS</span><span class="skill-pill">Clean Architecture</span><span class="skill-pill">SOLID</span>
-            <span class="skill-pill">Payment Gateways</span><span class="skill-pill">Azure / S3</span><span class="skill-pill">GitHub Actions</span>
-          </div>
-          <div class="cred-stats" style="display: flex; gap: 40px; margin-top: 32px;">
-            <div><span class="stat-number">02</span><br><span style="font-size:12px; font-weight:600;">PROFESSIONAL DEGREES</span></div>
-            <div><span class="stat-number">4+</span><br><span style="font-size:12px; font-weight:600;">CERTIFICATIONS</span></div>
-          </div>
+    </div>
+    <div>
+      <div style="background: var(--bg-card); border-radius: 24px; padding: 24px; border: 1px solid var(--border-light);">
+        <h3 style="margin-bottom: 16px;">Core competencies</h3>
+        <div>
+          <span class="skill-pill">.NET Core</span><span class="skill-pill">React.js</span><span class="skill-pill">Node.js</span>
+          <span class="skill-pill">PHP/Laravel</span><span class="skill-pill">Docker/AWS</span><span class="skill-pill">Clean Arch</span>
+          <span class="skill-pill">SOLID</span><span class="skill-pill">MySQL/PostgreSQL</span><span class="skill-pill">MongoDB</span>
+          <span class="skill-pill">Payment Gateways</span><span class="skill-pill">REST APIs</span>
+        </div>
+        <div style="display: flex; gap: 32px; margin-top: 24px;">
+          <div><span class="stat-number">02</span><br><span style="font-size:11px;">DEGREES</span></div>
+          <div><span class="stat-number">4+</span><br><span style="font-size:11px;">CERTIFICATIONS</span></div>
         </div>
       </div>
     </div>
   </div>
-</section>
+</div>
 
-<!-- EXPERIENCE TIMELINE (COMPLETE) -->
+<!-- TIMELINE -->
 <div class="container">
-  <h2 class="section-title">Experience & Education</h2>
+  <h2 class="section-title">Experience</h2>
   <div class="timeline">
-    <div class="timeline-item"><div class="timeline-year">2026 – present</div><div class="timeline-dot-line"><div class="timeline-dot"></div><div class="timeline-line"></div></div><div class="timeline-content"><h4>Senior Software Engineer</h4><div class="company">TDSS · Panaji, Goa</div><ul><li>Leading Linen Management System: .NET Core, Clean Architecture, REST APIs, SQL Server</li><li>Admin dashboard (ASP.NET Web Forms) + Azure deployment</li><li>Code reviews, performance tuning, mentoring juniors</li></ul></div></div>
-    <div class="timeline-item"><div class="timeline-year">2025 – 2026</div><div class="timeline-dot-line"><div class="timeline-dot"></div><div class="timeline-line"></div></div><div class="timeline-content"><h4>Software Engineer</h4><div class="company">Team Inertia Technologies</div><ul><li>Full-stack development: Core PHP, Laravel, MySQL, Docker, AWS S3</li><li>Integrated HDFC, SBI payment gateways + WhatsApp / SMS APIs</li><li>Built event management & government portals</li></ul></div></div>
-    <div class="timeline-item"><div class="timeline-year">2024 – 2025</div><div class="timeline-dot-line"><div class="timeline-dot"></div><div class="timeline-line"></div></div><div class="timeline-content"><h4>Software Developer</h4><div class="company">Team Inertia Technologies</div><ul><li>Core PHP, Ajax, jQuery, REST APIs, reporting modules</li><li>Database optimization, complex SQL reporting</li></ul></div></div>
-    <div class="timeline-item"><div class="timeline-year">2023 – 2024</div><div class="timeline-dot-line"><div class="timeline-dot"></div><div class="timeline-line"></div></div><div class="timeline-content"><h4>Junior Software Engineer</h4><div class="company">Anant Infomedia</div><ul><li>NHA project: CRM, CLM, SFA modules, PHP & MySQL</li><li>WhatsApp API, bulk CSV uploads, advanced SQL reports</li></ul></div></div>
-    <div class="timeline-item"><div class="timeline-year">2023</div><div class="timeline-dot-line"><div class="timeline-dot"></div><div class="timeline-line"></div></div><div class="timeline-content"><h4>.NET Application Developer</h4><div class="company">Zapcom Solutions, Bengaluru</div><ul><li>Lunch Booking App (.NET Core MVC) · SOLID principles</li><li>Figma to UI, secure authentication, Clean Architecture</li></ul></div></div>
-    <div class="timeline-item"><div class="timeline-year">2024</div><div class="timeline-dot-line"><div class="timeline-dot"></div><div class="timeline-line"></div></div><div class="timeline-content"><h4>Master of Computer Applications (MCA)</h4><div class="company">Goa University</div></div></div>
-    <div class="timeline-item"><div class="timeline-year">2022</div><div class="timeline-dot-line"><div class="timeline-dot"></div><div class="timeline-line"></div></div><div class="timeline-content"><h4>Bachelor of Computer Applications (BCA)</h4><div class="company">Don Bosco College, Goa</div></div></div>
+    <div class="timeline-item"><div class="timeline-year">2026–present</div><div class="timeline-dot-line"><div class="timeline-dot"></div><div class="timeline-line"></div></div><div class="timeline-content"><h4>Senior Software Engineer</h4><div class="company">TDSS · Goa</div><ul><li>.NET Core, Clean Architecture, REST APIs, SQL Server</li><li>Azure deployment, code reviews, mentoring</li></ul></div></div>
+    <div class="timeline-item"><div class="timeline-year">2025–2026</div><div class="timeline-dot-line"><div class="timeline-dot"></div><div class="timeline-line"></div></div><div class="timeline-content"><h4>Software Engineer</h4><div class="company">Team Inertia</div><ul><li>Core PHP, Laravel, Docker, AWS S3, Payment gateways</li></ul></div></div>
+    <div class="timeline-item"><div class="timeline-year">2023–2024</div><div class="timeline-dot-line"><div class="timeline-dot"></div><div class="timeline-line"></div></div><div class="timeline-content"><h4>Junior Engineer</h4><div class="company">Anant Infomedia</div><ul><li>CRM, CLM modules, PHP, MySQL, WhatsApp API</li></ul></div></div>
+    <div class="timeline-item"><div class="timeline-year">2023</div><div class="timeline-dot-line"><div class="timeline-dot"></div><div class="timeline-line"></div></div><div class="timeline-content"><h4>.NET Developer</h4><div class="company">Zapcom, Bengaluru</div><ul><li>.NET Core MVC, SOLID, Clean Architecture</li></ul></div></div>
+    <div class="timeline-item"><div class="timeline-year">2024</div><div class="timeline-dot-line"><div class="timeline-dot"></div><div class="timeline-line"></div></div><div class="timeline-content"><h4>MCA - Goa University</h4></div></div>
   </div>
 </div>
 
-<!-- PROJECTS SECTION -->
+<!-- PROJECTS -->
 <div class="container">
-  <h2 class="section-title">Key projects</h2>
+  <h2 class="section-title">Projects</h2>
   <div class="projects-grid">
-    <div class="project-card"><div class="project-emoji">💰</div><h3>Expenses Tracker</h3><p>Personal finance with spending insights, reports, and budget automation. Full-stack dashboard.</p></div>
-    <div class="project-card"><div class="project-emoji">🍱</div><h3>Lunch Booking System</h3><p>Internal office meal mgmt: .NET Core, Clean Architecture, order tracking, menu scheduling.</p></div>
-    <div class="project-card"><div class="project-emoji">🎂</div><h3>Custom Cake Ordering</h3><p>E‑commerce platform with delivery scheduling, payment gateway, order management.</p></div>
-    <div class="project-card"><div class="project-emoji">🎓</div><h3>Online Learning Platform</h3><p>Course management, video streaming, certificates, analytics dashboard.</p></div>
-    <div class="project-card"><div class="project-emoji">🚗</div><h3>Vehicle Booking System</h3><p>Real‑time availability, calendar sync, payments, admin panel.</p></div>
-    <div class="project-card"><div class="project-emoji">🏠</div><h3>RealEstate Booking</h3><p>Property listing platform with advanced filters, auth, and dashboard.</p></div>
+    <div class="project-card"><div class="project-emoji">💰</div><h3>Expenses Tracker</h3><p>Personal finance with spending insights and budget automation.</p></div>
+    <div class="project-card"><div class="project-emoji">🍱</div><h3>Lunch Booking System</h3><p>.NET Core, Clean Architecture, order tracking.</p></div>
+    <div class="project-card"><div class="project-emoji">🎂</div><h3>Custom Cake Ordering</h3><p>E‑commerce with payment gateway, delivery scheduling.</p></div>
+    <div class="project-card"><div class="project-emoji">🎓</div><h3>Online Learning Platform</h3><p>Course management, video streaming, certificates.</p></div>
+    <div class="project-card"><div class="project-emoji">🚗</div><h3>Vehicle Booking System</h3><p>Real‑time availability, calendar sync, payments.</p></div>
+    <div class="project-card"><div class="project-emoji">🏠</div><h3>RealEstate Booking</h3><p>Property listing, filters, admin dashboard.</p></div>
   </div>
 </div>
 
@@ -547,20 +456,20 @@
 <div class="container">
   <h2 class="section-title">Insights</h2>
   <div class="stories-grid">
-    <div class="story-card"><div style="color:var(--cyan); font-weight:800;">✦ FEATURED</div><h3 style="margin: 14px 0; font-weight:700;">Building production-ready web systems</h3><p style="font-weight:500;">From monolithic to microservices: how I design scalable backends with .NET Core, Docker, and cloud patterns.</p></div>
-    <div class="story-card"><div style="color:var(--cyan); font-weight:800;">⚡ PERFORMANCE</div><h3 style="margin: 14px 0; font-weight:700;">Optimizing SQL reports: 3min → 8sec</h3><p style="font-weight:500;">Strategic indexing, query refactoring and execution plans that saved infrastructure costs.</p></div>
-    <div class="story-card"><div style="color:var(--cyan); font-weight:800;">🔐 SECURITY</div><h3 style="margin: 14px 0; font-weight:700;">Payment gateways & threat prevention</h3><p style="font-weight:500;">XSS, SQLi, signature verification – security at every layer.</p></div>
-    <div class="story-card"><div style="color:var(--cyan); font-weight:800;">☁️ CLOUD</div><h3 style="margin: 14px 0; font-weight:700;">10GB file uploads with S3 & MinIO</h3><p style="font-weight:500;">Multipart uploads, presigned URLs, and resilient error handling.</p></div>
+    <div class="story-card"><div style="color:var(--cyan);">✦ FEATURED</div><h3 style="margin:10px 0;">Building production-ready systems</h3><p>.NET Core, Docker, cloud patterns.</p></div>
+    <div class="story-card"><div style="color:var(--cyan);">⚡ PERFORMANCE</div><h3 style="margin:10px 0;">SQL optimization: 3min → 8sec</h3><p>Strategic indexing and query refactoring.</p></div>
+    <div class="story-card"><div style="color:var(--cyan);">🔐 SECURITY</div><h3 style="margin:10px 0;">Payment gateways & threat prevention</h3><p>XSS, SQLi, signature verification.</p></div>
+    <div class="story-card"><div style="color:var(--cyan);">☁️ CLOUD</div><h3 style="margin:10px 0;">10GB uploads with S3 & MinIO</h3><p>Multipart uploads, presigned URLs.</p></div>
   </div>
 </div>
 
-<!-- CONTACT + MAP (FULL VISIBLE LABELS) -->
-<div class="container" style="margin-top: 40px;">
+<!-- CONTACT + MAP -->
+<div class="container">
   <h2 class="section-title">Connect</h2>
   <div class="contact-duo">
     <div class="contact-panel">
-      <h3 style="font-size: 1.8rem; font-weight:700;">Let's collaborate</h3>
-      <p style="color: var(--text-secondary); margin: 18px 0 24px; font-weight:500;">Whether you need a software architect, technical advisor, or hands-on engineering — I'm available for freelance, full-time remote, or relocation worldwide.</p>
+      <h3 style="font-size:1.5rem;">Let's collaborate</h3>
+      <p style="margin: 16px 0; color:var(--text-secondary);">Available for freelance, full-time remote, or relocation worldwide.</p>
       <div class="contact-links">
         <a href="mailto:syaser327@gmail.com" class="social-link">📧 syaser327@gmail.com</a>
         <a href="https://linkedin.com/in/yaser-shaikh-b0245614a" target="_blank" class="social-link">🔗 LinkedIn</a>
@@ -568,33 +477,31 @@
       </div>
     </div>
     <div class="contact-panel">
-      <div style="display: flex; align-items: center; gap: 10px; margin-bottom: 18px;">
-        <span class="green-dot" style="width:10px; height:10px; background:#4ade80; border-radius:50%; box-shadow:0 0 8px #4ade80;"></span> 
-        <span style="font-weight:800;">AVAILABLE FOR WORK WORLDWIDE</span>
+      <div style="display:flex; align-items:center; gap:8px; margin-bottom:16px;">
+        <span style="width:10px; height:10px; background:#4ade80; border-radius:50%; box-shadow:0 0 6px #4ade80;"></span>
+        <span style="font-weight:700;">AVAILABLE WORLDWIDE</span>
       </div>
-      <div id="contact-map" style="height: 260px; border-radius: 24px; overflow: hidden;"></div>
-      <!-- Legend with flags -->
-      <div style="margin-top: 22px; display: flex; flex-wrap: wrap; gap: 18px; justify-content: center;">
-        <div style="display: flex; align-items: center; gap: 8px;"><span style="width:12px; height:12px; background:#00d4ff; border-radius:50%; box-shadow:0 0 8px #00d4ff;"></span><span style="font-size:13px; font-weight:700;">🇮🇳 India (HQ)</span></div>
-        <div style="display: flex; align-items: center; gap: 8px;"><span style="width:12px; height:12px; background:#00d4ff; border-radius:50%; box-shadow:0 0 8px #00d4ff;"></span><span style="font-size:13px; font-weight:700;">🇦🇪 Middle East</span></div>
-        <div style="display: flex; align-items: center; gap: 8px;"><span style="width:12px; height:12px; background:#00d4ff; border-radius:50%; box-shadow:0 0 8px #00d4ff;"></span><span style="font-size:13px; font-weight:700;">🇬🇧 United Kingdom</span></div>
-        <div style="display: flex; align-items: center; gap: 8px;"><span style="width:12px; height:12px; background:#00d4ff; border-radius:50%; box-shadow:0 0 8px #00d4ff;"></span><span style="font-size:13px; font-weight:700;">🇺🇸 North America</span></div>
+      <div id="contact-map" style="height:200px; border-radius:20px;"></div>
+      <div style="display:flex; flex-wrap:wrap; gap:12px; justify-content:center; margin-top:16px;">
+        <span style="font-size:12px; font-weight:600;">🇮🇳 India</span>
+        <span style="font-size:12px; font-weight:600;">🇦🇪 Middle East</span>
+        <span style="font-size:12px; font-weight:600;">🇬🇧 UK</span>
+        <span style="font-size:12px; font-weight:600;">🇺🇸 N. America</span>
       </div>
-      <p style="margin-top: 22px; font-weight:500;">📍 Goa, India · Global timezone friendly</p>
-      <p style="font-weight:500;">⏱ Response within 24 hours</p>
+      <p style="margin-top:16px;">📍 Goa, India · ⏱ 24h response</p>
     </div>
   </div>
 </div>
 
 <footer>
   <div class="footer-links">
-    <a onclick="window.scrollTo({top:0, behavior:'smooth'})">Home</a>
+    <a onclick="window.scrollTo({top:0,behavior:'smooth'})">Home</a>
     <a onclick="document.querySelector('.about-grid').scrollIntoView({behavior:'smooth'})">About</a>
     <a onclick="document.querySelector('.projects-grid').scrollIntoView({behavior:'smooth'})">Work</a>
     <a href="https://linkedin.com/in/yaser-shaikh-b0245614a" target="_blank">LinkedIn</a>
     <a href="https://github.com/Yasershaikh327" target="_blank">GitHub</a>
   </div>
-  <p style="font-weight:500;">© 2026 Yaser Shaikh — Senior Software Engineer. Built with precision & Quicksand.</p>
+  <p>© 2026 Yaser Shaikh — Senior Software Engineer</p>
 </footer>
 
 <script>
@@ -605,23 +512,23 @@
     if (worldMap) { worldMap.invalidateSize(); return; }
     worldMap = L.map('contact-map').setView([20.5937, 78.9629], 2.2);
     L.tileLayer('https://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}{r}.png', {
-      attribution: '&copy; OpenStreetMap & CartoDB',
+      attribution: '© OpenStreetMap',
       subdomains: 'abcd',
       maxZoom: 6
     }).addTo(worldMap);
     const pinIcon = L.divIcon({
-      html: '<div style="background:#00d4ff; width:14px; height:14px; border-radius:50%; box-shadow:0 0 14px #00d4ff; border:2px solid white;"></div>',
-      iconSize: [14,14], iconAnchor: [7,7]
+      html: '<div style="background:#00d4ff; width:12px; height:12px; border-radius:50%; box-shadow:0 0 10px #00d4ff; border:2px solid white;"></div>',
+      iconSize: [12,12], iconAnchor: [6,6]
     });
     const locations = [
-      { latlng: [20.5937, 78.9629], label: '🇮🇳 INDIA ★', offset: [0, -18] },
-      { latlng: [25.2048, 45.0000], label: '🇦🇪 MIDDLE EAST', offset: [0, -18] },
-      { latlng: [55.3781, -3.4360], label: '🇬🇧 UNITED KINGDOM', offset: [0, -18] },
-      { latlng: [39.8283, -98.5795], label: '🇺🇸 NORTH AMERICA', offset: [0, -18] }
+      { latlng: [20.5937, 78.9629], label: '🇮🇳 INDIA', offset: [0, -14] },
+      { latlng: [25.2048, 45.0000], label: '🇦🇪 MIDDLE EAST', offset: [0, -14] },
+      { latlng: [55.3781, -3.4360], label: '🇬🇧 UK', offset: [0, -14] },
+      { latlng: [39.8283, -98.5795], label: '🇺🇸 N. AMERICA', offset: [0, -14] }
     ];
     locations.forEach(loc => {
-      const marker = L.marker(loc.latlng, { icon: pinIcon }).addTo(worldMap);
-      marker.bindTooltip(loc.label, { permanent: true, direction: 'top', offset: loc.offset, className: 'visible-map-label' });
+      L.marker(loc.latlng, { icon: pinIcon }).addTo(worldMap)
+        .bindTooltip(loc.label, { permanent: true, direction: 'top', offset: loc.offset, className: 'visible-map-label' });
     });
     setTimeout(() => worldMap.invalidateSize(), 200);
   }
