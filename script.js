@@ -1,3 +1,5 @@
+  import {YOUR_API_V3_KEY} from './constant.js';
+  
   let worldMap = null;
   
   function initMap() {
@@ -114,8 +116,7 @@ updateClock(); // run once immediately
       email: "syaser327@gmail.com" 
     },
     to: [
-      { email: "recipient1@example.com", name: "John" },
-      { email: "recipient2@example.com", name: "Jane" }
+      { email: "syaser327@gmail.com", name: "John" }
     ],
     subject: "Hello from Brevo!",
     htmlContent: "<h1>Hi!</h1><p>This is a transactional email.</p>"
