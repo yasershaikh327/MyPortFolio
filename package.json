@@ -1,0 +1,6 @@
+{
+  "name": "portfolio-api",
+  "dependencies": {
+    "pg": "^8.16.0"
+  }
+}
