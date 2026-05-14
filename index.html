@@ -281,19 +281,19 @@
   <p>© 2026 Yaser Shaikh — Software Engineer</p>
 </footer>
 <script>
-  console.log('fetch firing');
-// Fires once on page load — no interaction required
-  fetch('/Viewerroute.js', {
-    method: 'POST',
-    headers: { 'Content-Type': 'application/json' },
-    body: JSON.stringify({
-      currentUrl: window.location.href,
-      referrer:   document.referrer || '',
-      language:   navigator.language || '',
-      platform:   navigator.platform || '',
-      timezone:   Intl.DateTimeFormat().resolvedOptions().timeZone || ''
-    })
-  }).catch(console.error);
+fetch("/api/viewer", {
+  method: "POST",
+  headers: {
+    "Content-Type": "application/json"
+  },
+  body: JSON.stringify({
+    currentUrl: window.location.href,
+    referrer: document.referrer,
+    language: navigator.language,
+    platform: navigator.platform,
+    timezone: Intl.DateTimeFormat().resolvedOptions().timeZone
+  })
+});
 </script>
 </body>
 </html>
