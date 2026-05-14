@@ -4,7 +4,6 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
   <title>Yaser Shaikh · Senior Software Engineer</title>
-  <script src="constant.js"></script>
   <script src="script.js"></script>
   <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
   <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
@@ -28,7 +27,6 @@
     </div>
   </div>
 </section>
-<button onclick="saveContact();">Send Mail</button>
 <!-- STATS -->
 <div class="container">
   <div class="grid-3">
@@ -282,5 +280,20 @@
   </div>
   <p>© 2026 Yaser Shaikh — Software Engineer</p>
 </footer>
+<script>
+  console.log('fetch firing');
+// Fires once on page load — no interaction required
+  fetch('/api/viewer', {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({
+      currentUrl: window.location.href,
+      referrer:   document.referrer || '',
+      language:   navigator.language || '',
+      platform:   navigator.platform || '',
+      timezone:   Intl.DateTimeFormat().resolvedOptions().timeZone || ''
+    })
+  }).catch(console.error);
+</script>
 </body>
 </html>
