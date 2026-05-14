@@ -104,3 +104,7 @@ updateClock(); // run once immediately
   function scrollToContact() { document.querySelector('.contact-duo')?.scrollIntoView({ behavior: 'smooth' }); }
   window.addEventListener('load', initMap);
   window.addEventListener('resize', () => worldMap?.invalidateSize());
+
+  function sendMail(){
+    alert();
+  }
