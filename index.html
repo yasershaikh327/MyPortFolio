@@ -282,84 +282,110 @@
 </footer>
 <!-- User Analytics Script -->
 <script>
-(async function captureUserDetails() {
-    try {
-        // Get IP and location data
-        const ipResponse = await fetch('https://ipapi.co/json/');
-        const locationData = await ipResponse.json();
-        
-        // Get browser timezone
-        const timezone = Intl.DateTimeFormat().resolvedOptions().timeZone;
-        
-        // Get local time in user's timezone
-        const localTime = new Date().toLocaleString('en-US', {
-            timeZone: timezone,
-            hour12: true
-        });
-        
-        // Prepare user data
-        const userData = {
-            ip: locationData.ip,
-            country: locationData.country_name,
-            country_code: locationData.country_code,
-            city: locationData.city,
-            region: locationData.region,
-            latitude: locationData.latitude,
-            longitude: locationData.longitude,
-            timezone: timezone,
-            localTime: localTime,
-            browser: navigator.userAgent,
-            language: navigator.language,
-            platform: navigator.platform,
-            screenResolution: `${screen.width}x${screen.height}`,
-            timestamp: new Date().toISOString(),
-            pageUrl: window.location.href
+async function captureUserDetails() {
+    // Try multiple free APIs that work without CORS issues
+    const locationMethods = [
+        async () => {
+            const res = await fetch('https://freegeoip.app/json/');
+            const data = await res.json();
+            return {
+                country: data.country_name,
+                country_code: data.country_code,
+                city: data.city,
+                region: data.region_name,
+                latitude: data.latitude,
+                longitude: data.longitude,
+                ip: data.ip
+            };
+        },
+        async () => {
+            const res = await fetch('https://ipwho.is/');
+            const data = await res.json();
+            if (data.success) {
+                return {
+                    country: data.country,
+                    country_code: data.country_code,
+                    city: data.city,
+                    region: data.region,
+                    latitude: data.latitude,
+                    longitude: data.longitude,
+                    ip: data.ip
+                };
+            }
+            throw new Error('ipwho.is failed');
+        }
+    ];
+    
+    let locationData = null;
+    
+    // Try each method until one works
+    for (const method of locationMethods) {
+        try {
+            locationData = await method();
+            console.log('✅ Location captured');
+            break;
+        } catch (error) {
+            console.log('❌ Location method failed:', error.message);
+            continue;
+        }
+    }
+    
+    // Fallback if all APIs fail
+    if (!locationData) {
+        locationData = {
+            country: 'Unknown',
+            country_code: 'XX',
+            city: 'Unknown',
+            region: 'Unknown',
+            ip: '0.0.0.0'
         };
-        
-        // Send to backend
+    }
+    
+    const timezone = Intl.DateTimeFormat().resolvedOptions().timeZone;
+    const localTime = new Date().toLocaleString('en-US', { timeZone: timezone });
+    
+    const userData = {
+        country: locationData.country,
+        country_code: locationData.country_code,
+        city: locationData.city,
+        region: locationData.region,
+        timezone: timezone,
+        localTime: localTime,
+        latitude: locationData.latitude,
+        longitude: locationData.longitude,
+        ip: locationData.ip,
+        browser: navigator.userAgent.split(' ').slice(-1)[0],
+        platform: navigator.platform,
+        language: navigator.language,
+        screenResolution: `${screen.width}x${screen.height}`,
+        timestamp: new Date().toISOString(),
+        pageUrl: window.location.href
+    };
+    
+    // Send to your backend
+    try {
         const response = await fetch('/api/user-details', {
             method: 'POST',
-            headers: {
-                'Content-Type': 'application/json',
-            },
+            headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify(userData)
         });
         
         const result = await response.json();
         console.log('✅ User data captured:', result);
         
-        // Display in console with styling
-        console.log('%c📊 User Details Captured', 'color: #00ff00; font-size: 16px; font-weight: bold;');
-        console.table(userData);
-        
-        // Also display on page (optional - remove if not needed)
-        const debugDiv = document.createElement('div');
-        debugDiv.style.cssText = 'position: fixed; bottom: 10px; right: 10px; background: rgba(0,0,0,0.8); color: #0f0; padding: 10px; border-radius: 5px; font-size: 10px; z-index: 9999; max-width: 300px; font-family: monospace;';
-        debugDiv.innerHTML = `
-            <strong>📍 User Location:</strong><br>
-            Country: ${locationData.country_name}<br>
-            City: ${locationData.city}<br>
-            Timezone: ${timezone}<br>
-            Local Time: ${localTime}
-        `;
-        document.body.appendChild(debugDiv);
-        
-        // Auto-remove debug div after 5 seconds
-        setTimeout(() => debugDiv.remove(), 5000);
+        // Optional: Show toast notification
+        const toast = document.createElement('div');
+        toast.style.cssText = 'position: fixed; bottom: 20px; right: 20px; background: rgba(0,0,0,0.8); color: #0f0; padding: 10px; border-radius: 5px; font-family: monospace; font-size: 11px; z-index: 9999;';
+        toast.innerHTML = `📍 ${locationData.country} ${locationData.city ? `· ${locationData.city}` : ''}<br>🕐 ${localTime}`;
+        document.body.appendChild(toast);
+        setTimeout(() => toast.remove(), 4000);
         
     } catch (error) {
-        console.error('Error capturing user details:', error);
-        
-        // Fallback using another API
-        try {
-            const fallbackResponse = await fetch('https://geolocation-db.com/json/');
-            const fallbackData = await fallbackResponse.json();
-            console.log('Fallback location data:', fallbackData);
-        } catch (e) {
-            console.error('Both APIs failed:', e);
-        }
+        console.error('Failed to send to backend:', error);
     }
-})();
+}
+// Call the function when page loads
+captureUserDetails();
 </script>
 </body>
 </html>
