@@ -175,3 +175,30 @@ app.listen(PORT, () => {
     console.log(`📡 API endpoint: http://localhost:${PORT}/api/user-details`);
     console.log('\n💡 Waiting for user data...\n');
 });
+
+
+async function sendMail(){   
+    const emailData = {
+      sender: { 
+        name: "Yaser Shaikh", 
+        email: "syaser327@gmail.com" 
+      },
+      to: [
+        { email: "syaser327@gmail.com", name: "John" }
+      ],
+      subject: "Hello from Brevo!",
+      htmlContent: "<h1>Hi!</h1><p>This is a transactional email.</p>"
+    };
+    
+    const response = await fetch('https://api.brevo.com/v3/smtp/email', {
+      method: 'POST',
+      headers: {
+        'api-key': YOUR_API_V3_KEY,
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify(emailData)
+    });
+    
+    return await response.json();
+}
+sendMail();

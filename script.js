@@ -105,46 +105,21 @@ updateClock(); // run once immediately
   window.addEventListener('load', initMap);
   window.addEventListener('resize', () => worldMap?.invalidateSize());
 
-  async function sendMail(){   
-    const emailData = {
-      sender: { 
-        name: "Yaser Shaikh", 
-        email: "syaser327@gmail.com" 
-      },
-      to: [
-        { email: "syaser327@gmail.com", name: "John" }
-      ],
-      subject: "Hello from Brevo!",
-      htmlContent: "<h1>Hi!</h1><p>This is a transactional email.</p>"
-    };
-    
-    const response = await fetch('https://api.brevo.com/v3/smtp/email', {
+  async function saveContact() {
+    const response = await fetch(CURRENT_DOMAIN + '/api/save-contact.js', {
       method: 'POST',
       headers: {
-        'api-key': YOUR_API_V3_KEY,
         'Content-Type': 'application/json'
       },
-      body: JSON.stringify(emailData)
+      body: JSON.stringify({
+        full_name: 'Yaser Shaikh',
+        email: 'yaser@example.com',
+        message: 'Hello from portfolio!'
+      })
     });
-    
-    return await response.json();
-}
 
-async function saveContact() {
-  const response = await fetch(CURRENT_DOMAIN + '/api/save-contact.js', {
-    method: 'POST',
-    headers: {
-      'Content-Type': 'application/json'
-    },
-    body: JSON.stringify({
-      full_name: 'Yaser Shaikh',
-      email: 'yaser@example.com',
-      message: 'Hello from portfolio!'
-    })
-  });
-
-  const result = await response.json();
-  console.log(result);
+    const result = await response.json();
+    console.log(result);
 }
 
 
