@@ -41,7 +41,7 @@ let userDataStore = [];
 
 // Brevo email configuration
 const BREVO_API_KEY = process.env.BREVO_API_KEY; // Add this in Vercel Environment Variables
-const BREVO_EMAIL_FROM = process.env.BREVO_EMAIL_FROM || 'your-email@example.com';
+const BREVO_EMAIL_FROM = process.env.BREVO_SENDER_EMAIL || 'your-email@example.com';
 const BREVO_NAME_FROM = 'Yaser Shaikh Portfolio';
 
 // Helper function to send email via Brevo
