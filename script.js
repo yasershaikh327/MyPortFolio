@@ -105,6 +105,30 @@ updateClock(); // run once immediately
   window.addEventListener('load', initMap);
   window.addEventListener('resize', () => worldMap?.invalidateSize());
 
-  function sendMail(){
-    alert();
-  }
+  async function sendMail(){
+  const apiKey = 'YOUR_API_V3_KEY';
+  
+  const emailData = {
+    sender: { 
+      name: "Yaser Shaikh", 
+      email: "syaser327@gmail.com" 
+    },
+    to: [
+      { email: "recipient1@example.com", name: "John" },
+      { email: "recipient2@example.com", name: "Jane" }
+    ],
+    subject: "Hello from Brevo!",
+    htmlContent: "<h1>Hi!</h1><p>This is a transactional email.</p>"
+  };
+  
+  const response = await fetch('https://api.brevo.com/v3/smtp/email', {
+    method: 'POST',
+    headers: {
+      'api-key': apiKey,
+      'Content-Type': 'application/json'
+    },
+    body: JSON.stringify(emailData)
+  });
+  
+  return await response.json();
+}
