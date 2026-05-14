@@ -59,24 +59,20 @@
   window.addEventListener('load', initMap);
   window.addEventListener('resize', () => { if (worldMap) worldMap.invalidateSize(); });
 
-  function updateClock() {
-    const now = new Date();
-    let hours = now.getHours();
-    const minutes = String(now.getMinutes()).padStart(2, '0');
-    const seconds = String(now.getSeconds()).padStart(2, '0');
-    const ampm = hours >= 12 ? 'PM' : 'AM';
-    
-    // Convert to 12-hour format
-    hours = hours % 12;
-    hours = hours ? hours : 12; // 12 should be 12, not 0
-    const formattedHours = String(hours).padStart(2, '0');
-    
-    document.getElementById('liveClock').innerHTML = `🕒 ${formattedHours}:${minutes}:${seconds} ${ampm}`;
+ function updateClock() {
+  const now = new Date();
+  let hours = now.getHours();
+  const minutes = String(now.getMinutes()).padStart(2, '0');
+  const seconds = String(now.getSeconds()).padStart(2, '0');
+  const ampm = hours >= 12 ? 'PM' : 'AM';
+  const formattedHours = String(hours % 12 || 12).padStart(2, '0');
+
+  document.getElementById('liveClock').innerHTML = `🕒 ${formattedHours}:${minutes}:${seconds} ${ampm}`;
 }
 
-// Update immediately and then every second
-updateClock();
 setInterval(updateClock, 1000);
+updateClock(); // run once immediately
+
 
 
   function initMap() {
