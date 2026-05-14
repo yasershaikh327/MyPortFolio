@@ -129,3 +129,20 @@ updateClock(); // run once immediately
     
     return await response.json();
 }
+
+async function saveContact() {
+  const response = await fetch(CURRENT_DOMAIN + '/api/save-contact.js', {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json'
+    },
+    body: JSON.stringify({
+      full_name: 'Yaser Shaikh',
+      email: 'yaser@example.com',
+      message: 'Hello from portfolio!'
+    })
+  });
+
+  const result = await response.json();
+  console.log(result);
+}
