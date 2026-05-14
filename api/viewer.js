@@ -130,7 +130,13 @@ export default async function handler(req, res) {
     });
 
   } catch (err) {
-    console.error(err);
-    return res.status(500).json({ error: 'Server error' });
-  }
+        console.error("❌ FULL ERROR:", err);
+
+        return res.status(500).json({
+            error: "Server error",
+            message: err.message,
+            code: err.code,
+            detail: err.detail || null
+        });
+    }
 }
