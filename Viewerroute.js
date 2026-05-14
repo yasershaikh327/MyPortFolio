@@ -10,7 +10,7 @@ const pool = new Pool({
     rejectUnauthorized: false,
   },
 });
-
+ 
 // ─── Device detection ────────────────────────────────────────────
 function getDeviceType(uaString = '') {
   if (/mobile|android|iphone|ipod|blackberry|opera mini|windows phone/i.test(uaString)) {
