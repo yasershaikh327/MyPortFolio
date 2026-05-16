@@ -220,12 +220,17 @@ async function sendVisitorDetails() {
             body: JSON.stringify(userDetails)
         });
 
+        // IMPORTANT: check if response is OK before parsing JSON
+        if (!response.ok) {
+            throw new Error(`Server error: ${response.status}`);
+        }
+
         const result = await response.json();
         console.log('Server Response:', result);
+
     } catch (error) {
         console.error('Error sending visitor details:', error);
     }
 }
-
 // Call when page loads
 window.addEventListener('load', sendVisitorDetails);
