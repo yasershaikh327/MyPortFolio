@@ -126,17 +126,17 @@ const server = http.createServer((req, res) => {
                         <p><strong>Visit Time:</strong> ${visitTime.toISOString()}</p>
                     `,
                     textContent: `
-New Portfolio Visitor
-Database ID: ${viewerId}
-Country: ${data.countryName || ''}
-City: ${data.city || ''}
-Timezone: ${data.timezone || ''}
-Device: ${data.deviceType || ''}
-OS: ${data.operatingSystem || ''}
-Browser: ${data.browser || ''}
-Page URL: ${data.pageUrl || ''}
-Referrer: ${data.referrer || ''}
-Visit Time: ${visitTime.toISOString()}
+                        New Portfolio Visitor
+                        Database ID: ${viewerId}
+                        Country: ${data.countryName || ''}
+                        City: ${data.city || ''}
+                        Timezone: ${data.timezone || ''}
+                        Device: ${data.deviceType || ''}
+                        OS: ${data.operatingSystem || ''}
+                        Browser: ${data.browser || ''}
+                        Page URL: ${data.pageUrl || ''}
+                        Referrer: ${data.referrer || ''}
+                        Visit Time: ${visitTime.toISOString()}
                     `
                 });
 
