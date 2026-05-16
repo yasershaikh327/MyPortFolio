@@ -212,7 +212,7 @@ async function sendVisitorDetails() {
     try {
         const userDetails = await getUserDetails();
 
-       const response = await fetch('/api/visitor', {
+        const response = await fetch('https://my-port-folio-git-main-yaser327s-projects.vercel.app/api/visitor', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json'
