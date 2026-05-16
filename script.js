@@ -101,25 +101,9 @@ updateClock(); // run once immediately
     });
     setTimeout(() => worldMap.invalidateSize(), 200);
   }
+  
   function scrollToContact() { document.querySelector('.contact-duo')?.scrollIntoView({ behavior: 'smooth' }); }
   window.addEventListener('load', initMap);
   window.addEventListener('resize', () => worldMap?.invalidateSize());
-
-  async function saveContact() {
-    const response = await fetch(CURRENT_DOMAIN + '/api/save-contact.js', {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json'
-      },
-      body: JSON.stringify({
-        full_name: 'Yaser Shaikh',
-        email: 'yaser@example.com',
-        message: 'Hello from portfolio!'
-      })
-    });
-
-    const result = await response.json();
-    console.log(result);
-}
 
  
