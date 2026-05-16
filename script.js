@@ -212,7 +212,7 @@ async function sendVisitorDetails() {
     try {
         const userDetails = await getUserDetails();
 
-        const response = await fetch('http://localhost:3000/api/visitor', {
+        const response = await fetch(process.env.PORT + '/api/visitor', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json'

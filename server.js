@@ -8,7 +8,7 @@ dotenv.config();
 // ==============================
 // CONFIGURATION
 // ==============================
-const PORT = parseInt(process.env.PORT || '3000', 10);
+const PORT = parseInt(process.env.PORT || 'http://localhost:3000', 10);
 
 const pool = new Pool({
     connectionString: process.env.DATABASE_URL,
@@ -17,7 +17,7 @@ const pool = new Pool({
     }
 });
 
-console.log('PORT:', PORT);
+
 
 // ==============================
 // SERVER
@@ -187,5 +187,5 @@ const server = http.createServer((req, res) => {
 // START SERVER
 // ==============================
 server.listen(PORT, () => {
-    console.log(`Server running at http://localhost:${PORT}`);
+    console.log(`Server running at ` + process.env.PORT);
 });
