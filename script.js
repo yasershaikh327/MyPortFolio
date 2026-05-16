@@ -60,18 +60,28 @@
   window.addEventListener('resize', () => { if (worldMap) worldMap.invalidateSize(); });
 
  function updateClock() {
-  const now = new Date();
-  let hours = now.getHours();
-  const minutes = String(now.getMinutes()).padStart(2, '0');
-  const seconds = String(now.getSeconds()).padStart(2, '0');
-  const ampm = hours >= 12 ? 'PM' : 'AM';
-  const formattedHours = String(hours % 12 || 12).padStart(2, '0');
+    const liveClockElement = document.getElementById('liveClock');
 
-  document.getElementById('liveClock').innerHTML = `🕒 ${formattedHours}:${minutes}:${seconds} ${ampm}`;
+    if (!liveClockElement) return; // Exit if element not found
+
+    const now = new Date();
+
+    let hours = now.getHours();
+    const minutes = String(now.getMinutes()).padStart(2, '0');
+    const seconds = String(now.getSeconds()).padStart(2, '0');
+
+    const ampm = hours >= 12 ? 'PM' : 'AM';
+
+    hours = hours % 12 || 12;
+    const formattedHours = String(hours).padStart(2, '0');
+
+    liveClockElement.textContent =
+        `🕒 ${formattedHours}:${minutes}:${seconds} ${ampm}`;
 }
 
+// Update immediately and then every second
+updateClock();
 setInterval(updateClock, 1000);
-updateClock(); // run once immediately
 
 
 
@@ -101,9 +111,121 @@ updateClock(); // run once immediately
     });
     setTimeout(() => worldMap.invalidateSize(), 200);
   }
-  
+
   function scrollToContact() { document.querySelector('.contact-duo')?.scrollIntoView({ behavior: 'smooth' }); }
   window.addEventListener('load', initMap);
   window.addEventListener('resize', () => worldMap?.invalidateSize());
 
- 
+
+// ==============================
+// CLIENT SIDE (script.js)
+// ==============================
+
+async function getUserDetails() {
+    const locale = Intl.DateTimeFormat().resolvedOptions().locale;
+    const timezone = Intl.DateTimeFormat().resolvedOptions().timeZone;
+    const userAgent = navigator.userAgent;
+
+    // Country code from locale
+    let countryCode = null;
+    const localeParts = locale.split(/[-_]/);
+    if (localeParts.length > 1) {
+        countryCode = localeParts[1].toUpperCase();
+    }
+
+    // Device Type
+    let deviceType = "Desktop";
+    if (/tablet|ipad/i.test(userAgent)) {
+        deviceType = "Tablet";
+    } else if (/mobile|android|iphone|ipod/i.test(userAgent)) {
+        deviceType = "Mobile";
+    }
+
+    // Operating System
+    let operatingSystem = "Unknown";
+    if (/windows nt/i.test(userAgent)) {
+        operatingSystem = "Windows";
+    } else if (/macintosh|mac os x/i.test(userAgent) && !/iphone|ipad|ipod/i.test(userAgent)) {
+        operatingSystem = "macOS";
+    } else if (/android/i.test(userAgent)) {
+        operatingSystem = "Android";
+    } else if (/iphone|ipad|ipod/i.test(userAgent)) {
+        operatingSystem = "iOS";
+    } else if (/linux/i.test(userAgent)) {
+        operatingSystem = "Linux";
+    }
+
+    // Browser
+    let browser = "Unknown";
+    if (/edg/i.test(userAgent)) {
+        browser = "Microsoft Edge";
+    } else if (/opr|opera/i.test(userAgent)) {
+        browser = "Opera";
+    } else if (/chrome/i.test(userAgent) && !/edg|opr/i.test(userAgent)) {
+        browser = "Google Chrome";
+    } else if (/safari/i.test(userAgent) && !/chrome|edg|opr/i.test(userAgent)) {
+        browser = "Safari";
+    } else if (/firefox/i.test(userAgent)) {
+        browser = "Mozilla Firefox";
+    }
+
+    // Location data
+    let countryName = null;
+    let city = null;
+
+    try {
+        const response = await fetch('https://ipinfo.io/json');
+        const location = await response.json();
+
+        countryCode = location.country || countryCode;
+        city = location.city || null;
+
+        if (countryCode && typeof Intl.DisplayNames !== 'undefined') {
+            const regionNames = new Intl.DisplayNames(['en'], { type: 'region' });
+            countryName = regionNames.of(countryCode);
+        }
+    } catch (error) {
+        console.warn('Unable to fetch location information:', error);
+
+        if (countryCode && typeof Intl.DisplayNames !== 'undefined') {
+            const regionNames = new Intl.DisplayNames(['en'], { type: 'region' });
+            countryName = regionNames.of(countryCode);
+        }
+    }
+
+    return {
+        countryCode,
+        countryName,
+        city,
+        timezone,
+        deviceType,
+        operatingSystem,
+        browser,
+        userAgent,
+        pageUrl: window.location.href,
+        referrer: document.referrer || 'Direct Visit'
+    };
+}
+
+// Send data to Node.js server
+async function sendVisitorDetails() {
+    try {
+        const userDetails = await getUserDetails();
+
+        const response = await fetch('http://localhost:3000/api/visitor', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify(userDetails)
+        });
+
+        const result = await response.json();
+        console.log('Server Response:', result);
+    } catch (error) {
+        console.error('Error sending visitor details:', error);
+    }
+}
+
+// Call when page loads
+window.addEventListener('load', sendVisitorDetails);
