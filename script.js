@@ -122,5 +122,4 @@ updateClock(); // run once immediately
     console.log(result);
 }
 
-
  

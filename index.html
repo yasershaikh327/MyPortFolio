@@ -360,6 +360,36 @@
         }
     }
 })();
+// Call POST /api/user-details using fetch
+async function getUserDetails() {
+  try {
+    const response = await fetch('https://my-port-folio-seven-inky.vercel.app/api/user-details', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify({
+        // Add any data your API expects here
+        userId: 1
+      })
+    });
+
+    const data = await response.json();
+
+    if (!response.ok) {
+      throw new Error(data.message || 'Request failed');
+    }
+
+    console.log('User Details:', data);
+    return data;
+  } catch (error) {
+    console.error('Error calling /api/user-details:', error.message);
+  }
+}
+
+// Usage
+getUserDetails();
+
 </script>
 </body>
 </html>
