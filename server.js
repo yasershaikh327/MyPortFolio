@@ -153,5 +153,5 @@ const server = http.createServer((req, res) => {
 // START SERVER
 // ==============================
 server.listen(PORT, () => {
-    console.log(`Server running at ${BASE_URL || 'http://localhost:' + PORT}`);
+    console.log(`Server running at ${BASE_URL}`);
 });
