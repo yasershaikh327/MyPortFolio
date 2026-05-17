@@ -72,14 +72,7 @@ const server = http.createServer((req, res) => {
                     ? new Date().toLocaleString('en-IN', { timeZone: data.timezone })
                     : visitTime.toLocaleString('en-IN');
 
-                const mailResult = await sendMail(
-                    city,
-                    country,
-                    localTime,
-                    data.browser         || 'Unknown',
-                    data.operatingSystem || 'Unknown',
-                    data.pageUrl         || 'Unknown'
-                );
+                const mailResult = await sendMail(city, country, localTime, data.browser || 'Unknown', data.operatingSystem || 'Unknown');
 
                 console.log('Email sent:', mailResult.success);
 
