@@ -1,5 +1,6 @@
 import { Pool } from 'pg';
 import twilio from 'twilio';
+import { sendWhatsAppMessage } from './send-whatsapp.js';
 
 // ==============================
 // DATABASE
@@ -12,42 +13,6 @@ const pool = new Pool({
 // ==============================
 // TWILIO CONFIGURATION
 // ==============================
-const twilioClient = twilio(
-    process.env.TWILIO_ACCOUNT_SID,
-    process.env.TWILIO_AUTH_TOKEN
-);
-
-/**
- * Send WhatsApp Message
- * Environment Variables:
- * TWILIO_WHATSAPP_FROM=whatsapp:+14155238886
- * TWILIO_WHATSAPP_TO=919518738019
- */
-async function sendWhatsAppMessage(body) {
-    try {
-        const message = await twilioClient.messages.create({
-            from: process.env.TWILIO_WHATSAPP_FROM,
-            to: `whatsapp:+${process.env.TWILIO_WHATSAPP_TO.replace(/^\+/, '')}`,
-            body
-        });
-
-        console.log('WhatsApp Message SID:', message.sid);
-        console.log('WhatsApp Initial Status:', message.status);
-
-        return {
-            success: true,
-            sid: message.sid,
-            status: message.status
-        };
-    } catch (error) {
-        console.error('WhatsApp Send Error:', error.message);
-
-        return {
-            success: false,
-            message: error.message
-        };
-    }
-}
 
 // ==============================
 // API HANDLER (Vercel)
@@ -129,25 +94,37 @@ export default async function handler(req, res) {
             })
             : visitTime.toLocaleString('en-IN');
 
-        const whatsappBody =
-            `👀 Somebody viewed your Portfolio from ${city}, ${country} at ${localTime}.`;
+        // const whatsappBody =
+        //     `👀 Somebody viewed your Portfolio from ${city}, ${country} at ${localTime}.`;
+        // const whatsappBody =
+        //     `Hello Yaser! This WhatsApp message was sent from Node.js using Twilio.`;
+
+        const tomobile = "+919518738019"    ;
 
         // ==============================
         // SEND WHATSAPP ONLY
         // ==============================
-        const whatsappResult = await sendWhatsAppMessage(whatsappBody);
+        // const whatsappResult = await sendWhatsAppMessage(whatsappBody,tomobile);
+        // Example usage
+        const whatsappBody =
+            `Hello Yaser! This WhatsApp message was sent from Node.js using Twilio.`;
+
+        // Send WhatsApp and wait for result
+        const whatsappResult = await sendWhatsAppMessage(
+            '+919518738019',
+            whatsappBody
+        );
 
         // ==============================
         // RESPONSE
         // ==============================
-       return res.status(200).json({
+        return res.status(200).json({
             success: true,
             viewerId,
             whatsappSent: whatsappResult.success,
             whatsappSid: whatsappResult.sid || null,
             whatsappStatus: whatsappResult.status || null,
-            whatsappError: whatsappResult.message || null,
-            whatsappMessage: whatsappBody
+            whatsappError: whatsappResult.message || null
         });
 
     } catch (error) {

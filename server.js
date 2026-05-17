@@ -109,41 +109,6 @@ const server = http.createServer((req, res) => {
                 console.log('Database Insert Successful. ID:', viewerId);
 
                 // ==============================
-                // SEND EMAIL
-                // ==============================
-                const emailResult = await sendMail({
-                    subject: 'New Portfolio Visitor',
-                    htmlContent: `
-                        <h1>New Portfolio Visitor</h1>
-                        <p><strong>Database ID:</strong> ${viewerId}</p>
-                        <p><strong>Country:</strong> ${data.countryName || ''}</p>
-                        <p><strong>City:</strong> ${data.city || ''}</p>
-                        <p><strong>Timezone:</strong> ${data.timezone || ''}</p>
-                        <p><strong>Device:</strong> ${data.deviceType || ''}</p>
-                        <p><strong>OS:</strong> ${data.operatingSystem || ''}</p>
-                        <p><strong>Browser:</strong> ${data.browser || ''}</p>
-                        <p><strong>Page URL:</strong> ${data.pageUrl || ''}</p>
-                        <p><strong>Referrer:</strong> ${data.referrer || ''}</p>
-                        <p><strong>Visit Time:</strong> ${visitTime.toISOString()}</p>
-                    `,
-                    textContent: `
-                        New Portfolio Visitor
-                        Database ID: ${viewerId}
-                        Country: ${data.countryName || ''}
-                        City: ${data.city || ''}
-                        Timezone: ${data.timezone || ''}
-                        Device: ${data.deviceType || ''}
-                        OS: ${data.operatingSystem || ''}
-                        Browser: ${data.browser || ''}
-                        Page URL: ${data.pageUrl || ''}
-                        Referrer: ${data.referrer || ''}
-                        Visit Time: ${visitTime.toISOString()}
-                    `
-                });
-
-                console.log('Email Result:', emailResult);
-
-                // ==============================
                 // SEND RESPONSE
                 // ==============================
                 res.writeHead(200, {
