@@ -1,4 +1,5 @@
 import { Pool } from 'pg';
+import twilio from 'twilio';
 import { sendMail } from '../sendMail.js';
 
 // ==============================
@@ -10,10 +11,50 @@ const pool = new Pool({
 });
 
 // ==============================
+// TWILIO CONFIGURATION
+// ==============================
+const twilioClient = twilio(
+    process.env.TWILIO_ACCOUNT_SID,
+    process.env.TWILIO_AUTH_TOKEN
+);
+
+/**
+ * Send WhatsApp Message
+ * Uses environment variables:
+ * - TWILIO_WHATSAPP_FROM = whatsapp:+14155238886
+ * - TWILIO_WHATSAPP_TO   = +919518738019
+ */
+async function sendWhatsAppMessage(body) {
+    try {
+        const message = await twilioClient.messages.create({
+            from: process.env.TWILIO_WHATSAPP_FROM, // whatsapp:+14155238886
+            to: `whatsapp:${process.env.TWILIO_WHATSAPP_TO}`,
+            body
+        });
+
+        console.log('WhatsApp Message SID:', message.sid);
+        console.log('WhatsApp Initial Status:', message.status);
+
+        return {
+            success: true,
+            sid: message.sid,
+            status: message.status
+        };
+    } catch (error) {
+        console.error('WhatsApp Send Error:', error.message);
+
+        return {
+            success: false,
+            message: error.message
+        };
+    }
+}
+
+// ==============================
 // API HANDLER (Vercel)
 // ==============================
 export default async function handler(req, res) {
-    // CORS (needed on Vercel too)
+    // CORS
     res.setHeader('Access-Control-Allow-Origin', '*');
     res.setHeader('Access-Control-Allow-Methods', 'POST, OPTIONS');
     res.setHeader('Access-Control-Allow-Headers', 'Content-Type');
@@ -95,6 +136,26 @@ export default async function handler(req, res) {
         console.log('DB Insert Success ID:', viewerId);
 
         // ==============================
+        // PREPARE MESSAGE BODY
+        // ==============================
+        const whatsappBody = `
+🚀 New Portfolio Visitor!
+
+ID: ${viewerId}
+Country: ${data.countryName || 'N/A'}
+City: ${data.city || 'N/A'}
+Device: ${data.deviceType || 'N/A'}
+Browser: ${data.browser || 'N/A'}
+Page: ${data.pageUrl || 'N/A'}
+Time: ${visitTime.toISOString()}
+        `.trim();
+
+        // ==============================
+        // SEND WHATSAPP MESSAGE
+        // ==============================
+        const whatsappResult = await sendWhatsAppMessage(whatsappBody);
+
+        // ==============================
         // SEND EMAIL
         // ==============================
         const emailResult = await sendMail({
@@ -111,10 +172,16 @@ export default async function handler(req, res) {
             `
         });
 
+        // ==============================
+        // RESPONSE
+        // ==============================
         return res.status(200).json({
             success: true,
             viewerId,
-            emailSent: emailResult.success
+            emailSent: emailResult.success,
+            whatsappSent: whatsappResult.success,
+            whatsappSid: whatsappResult.sid || null,
+            whatsappStatus: whatsappResult.status || null
         });
 
     } catch (error) {
