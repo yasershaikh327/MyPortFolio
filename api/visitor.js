@@ -1,6 +1,5 @@
 import { Pool } from 'pg';
 import twilio from 'twilio';
-import { sendMail } from '../sendMail.js';
 
 // ==============================
 // DATABASE
@@ -20,15 +19,15 @@ const twilioClient = twilio(
 
 /**
  * Send WhatsApp Message
- * Uses environment variables:
- * - TWILIO_WHATSAPP_FROM = whatsapp:+14155238886
- * - TWILIO_WHATSAPP_TO   = +919518738019
+ * Environment Variables:
+ * TWILIO_WHATSAPP_FROM=whatsapp:+14155238886
+ * TWILIO_WHATSAPP_TO=919518738019
  */
 async function sendWhatsAppMessage(body) {
     try {
         const message = await twilioClient.messages.create({
-            from: process.env.TWILIO_WHATSAPP_FROM, // whatsapp:+14155238886
-            to: `whatsapp:${process.env.TWILIO_WHATSAPP_TO}`,
+            from: process.env.TWILIO_WHATSAPP_FROM,
+            to: `whatsapp:+${process.env.TWILIO_WHATSAPP_TO.replace(/^\+/, '')}`,
             body
         });
 
@@ -76,24 +75,8 @@ export default async function handler(req, res) {
         const data = req.body;
         const visitTime = new Date();
 
-        console.log('======================================');
-        console.log('NEW VISITOR DETAILS');
-        console.log('======================================');
-        console.log('Country Code     :', data.countryCode);
-        console.log('Country Name     :', data.countryName);
-        console.log('City             :', data.city);
-        console.log('Timezone         :', data.timezone);
-        console.log('Device Type      :', data.deviceType);
-        console.log('Operating System :', data.operatingSystem);
-        console.log('Browser          :', data.browser);
-        console.log('Page URL         :', data.pageUrl);
-        console.log('Referrer         :', data.referrer);
-        console.log('User Agent       :', data.userAgent);
-        console.log('Visit Time       :', visitTime.toISOString());
-        console.log('======================================');
-
         // ==============================
-        // INSERT INTO DB
+        // INSERT INTO DATABASE
         // ==============================
         const insertQuery = `
             INSERT INTO viewers_list (
@@ -136,52 +119,35 @@ export default async function handler(req, res) {
         console.log('DB Insert Success ID:', viewerId);
 
         // ==============================
-        // PREPARE MESSAGE BODY
+        // WHATSAPP MESSAGE
         // ==============================
-        const whatsappBody = `
-🚀 New Portfolio Visitor!
+        const country = data.countryName || 'Unknown Country';
+        const city = data.city || 'Unknown City';
+        const localTime = data.timezone
+            ? new Date().toLocaleString('en-IN', {
+                timeZone: data.timezone
+            })
+            : visitTime.toLocaleString('en-IN');
 
-ID: ${viewerId}
-Country: ${data.countryName || 'N/A'}
-City: ${data.city || 'N/A'}
-Device: ${data.deviceType || 'N/A'}
-Browser: ${data.browser || 'N/A'}
-Page: ${data.pageUrl || 'N/A'}
-Time: ${visitTime.toISOString()}
-        `.trim();
+        const whatsappBody =
+            `👀 Somebody viewed your Portfolio from ${city}, ${country} at ${localTime}.`;
 
         // ==============================
-        // SEND WHATSAPP MESSAGE
+        // SEND WHATSAPP ONLY
         // ==============================
         const whatsappResult = await sendWhatsAppMessage(whatsappBody);
 
         // ==============================
-        // SEND EMAIL
-        // ==============================
-        const emailResult = await sendMail({
-            subject: 'New Portfolio Visitor',
-            htmlContent: `
-                <h1>New Portfolio Visitor</h1>
-                <p><strong>ID:</strong> ${viewerId}</p>
-                <p><strong>Country:</strong> ${data.countryName || ''}</p>
-                <p><strong>City:</strong> ${data.city || ''}</p>
-                <p><strong>Device:</strong> ${data.deviceType || ''}</p>
-                <p><strong>Browser:</strong> ${data.browser || ''}</p>
-                <p><strong>Page:</strong> ${data.pageUrl || ''}</p>
-                <p><strong>Time:</strong> ${visitTime.toISOString()}</p>
-            `
-        });
-
-        // ==============================
         // RESPONSE
         // ==============================
-        return res.status(200).json({
+       return res.status(200).json({
             success: true,
             viewerId,
-            emailSent: emailResult.success,
             whatsappSent: whatsappResult.success,
             whatsappSid: whatsappResult.sid || null,
-            whatsappStatus: whatsappResult.status || null
+            whatsappStatus: whatsappResult.status || null,
+            whatsappError: whatsappResult.message || null,
+            whatsappMessage: whatsappBody
         });
 
     } catch (error) {
