@@ -1,7 +1,7 @@
 import http from 'http';
 import dotenv from 'dotenv';
 import { Pool } from 'pg';
-import { sendMail } from 'send-mail.js';
+import { sendMail } from './send-mail.js';
 
 dotenv.config();
 
