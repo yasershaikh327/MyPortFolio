@@ -1,157 +1,65 @@
 import http from 'http';
 import dotenv from 'dotenv';
 import { Pool } from 'pg';
-import { sendMail } from './sendMail.js';
+import { sendWhatsAppMessage } from './send-whatsapp.js';
 
 dotenv.config();
 
-// ==============================
-// CONFIGURATION
-// ==============================
 const PORT = parseInt(process.env.PORT || '3000', 10);
-const BASE_URL = process.env.BASE_URL;
+const TO_MOBILE = '+919518738019';
 
 const pool = new Pool({
-    connectionString: process.env.DATABASE_URL,
-    ssl: {
-        rejectUnauthorized: false
-    }
+  connectionString: process.env.DATABASE_URL,
+  ssl: { rejectUnauthorized: false }
 });
 
-
-
-// ==============================
-// SERVER
-// ==============================
 const server = http.createServer((req, res) => {
-    // Enable CORS
-    res.setHeader('Access-Control-Allow-Origin', '*');
-    res.setHeader('Access-Control-Allow-Methods', 'POST, OPTIONS');
-    res.setHeader('Access-Control-Allow-Headers', 'Content-Type');
+  res.setHeader('Access-Control-Allow-Origin', '*');
+  res.setHeader('Access-Control-Allow-Methods', 'POST, OPTIONS');
+  res.setHeader('Access-Control-Allow-Headers', 'Content-Type');
 
-    // Handle preflight
-    if (req.method === 'OPTIONS') {
-        res.writeHead(204);
-        res.end();
-        return;
-    }
+  if (req.method === 'OPTIONS') { res.writeHead(204); res.end(); return; }
 
-    // Handle POST /api/visitor
-    if (req.method === 'POST' && req.url === '/api/visitor') {
-        let body = '';
+  if (req.method === 'POST' && req.url === '/api/visitor') {
+    let body = '';
+    req.on('data', chunk => body += chunk.toString());
+    req.on('end', async () => {
+      try {
+        const data = JSON.parse(body);
+        const visitTime = new Date();
 
-        req.on('data', chunk => {
-            body += chunk.toString();
-        });
+        const { rows } = await pool.query(
+          `INSERT INTO viewers_list (country_code,country_name,city,timezone,device_type,operating_system,browser,page_url,referrer,user_agent,visit_time)
+           VALUES ($1,$2,$3,$4,$5,$6,$7,$8,$9,$10,$11) RETURNING id`,
+          [data.countryCode||null, data.countryName||null, data.city||null, data.timezone||null,
+           data.deviceType||null, data.operatingSystem||null, data.browser||null,
+           data.pageUrl||null, data.referrer||null, data.userAgent||null, visitTime]
+        );
 
-        req.on('end', async () => {
-            try {
-                const data = JSON.parse(body);
-                const visitTime = new Date();
+        const viewerId = rows[0].id;
+        const city = data.city || 'Unknown City';
+        const country = data.countryName || 'Unknown Country';
+        const localTime = data.timezone
+          ? new Date().toLocaleString('en-IN', { timeZone: data.timezone })
+          : visitTime.toLocaleString('en-IN');
 
-                console.log('======================================');
-                console.log('NEW VISITOR DETAILS');
-                console.log('======================================');
-                console.log('Country Code     :', data.countryCode);
-                console.log('Country Name     :', data.countryName);
-                console.log('City             :', data.city);
-                console.log('Timezone         :', data.timezone);
-                console.log('Device Type      :', data.deviceType);
-                console.log('Operating System :', data.operatingSystem);
-                console.log('Browser          :', data.browser);
-                console.log('Page URL         :', data.pageUrl);
-                console.log('Referrer         :', data.referrer);
-                console.log('User Agent       :', data.userAgent);
-                console.log('Visit Time       :', visitTime.toISOString());
-                console.log('======================================');
+        await sendWhatsAppMessage(
+          TO_MOBILE,
+          `👀 New portfolio visit from ${city}, ${country} at ${localTime}.`
+        );
 
-                // ==============================
-                // STORE IN DATABASE
-                // ==============================
-                const insertQuery = `
-                    INSERT INTO viewers_list (
-                        country_code,
-                        country_name,
-                        city,
-                        timezone,
-                        device_type,
-                        operating_system,
-                        browser,
-                        page_url,
-                        referrer,
-                        user_agent,
-                        visit_time
-                    )
-                    VALUES (
-                        $1, $2, $3, $4, $5,
-                        $6, $7, $8, $9, $10, $11
-                    )
-                    RETURNING id
-                `;
-
-                const values = [
-                    data.countryCode || null,
-                    data.countryName || null,
-                    data.city || null,
-                    data.timezone || null,
-                    data.deviceType || null,
-                    data.operatingSystem || null,
-                    data.browser || null,
-                    data.pageUrl || null,
-                    data.referrer || null,
-                    data.userAgent || null,
-                    visitTime
-                ];
-
-                const dbResult = await pool.query(insertQuery, values);
-                const viewerId = dbResult.rows[0].id;
-
-                console.log('Database Insert Successful. ID:', viewerId);
-
-                // ==============================
-                // SEND RESPONSE
-                // ==============================
-                res.writeHead(200, {
-                    'Content-Type': 'application/json'
-                });
-
-                res.end(JSON.stringify({
-                    success: true,
-                    message: 'Visitor details stored successfully',
-                    viewerId,
-                    emailSent: emailResult.success
-                }));
-            } catch (error) {
-                console.error('Error:', error);
-
-                res.writeHead(500, {
-                    'Content-Type': 'application/json'
-                });
-
-                res.end(JSON.stringify({
-                    success: false,
-                    message: error.message || 'Server error'
-                }));
-            }
-        });
-
-        return;
-    }
-
-    // Route not found
-    res.writeHead(404, {
-        'Content-Type': 'application/json'
+        res.writeHead(200, { 'Content-Type': 'application/json' });
+        res.end(JSON.stringify({ success: true, viewerId }));
+      } catch (error) {
+        res.writeHead(500, { 'Content-Type': 'application/json' });
+        res.end(JSON.stringify({ success: false, message: error.message }));
+      }
     });
+    return;
+  }
 
-    res.end(JSON.stringify({
-        success: false,
-        message: 'Route not found'
-    }));
+  res.writeHead(404, { 'Content-Type': 'application/json' });
+  res.end(JSON.stringify({ success: false, message: 'Route not found' }));
 });
 
-// ==============================
-// START SERVER
-// ==============================
-server.listen(PORT, () => {
-    console.log(`Server running at ${BASE_URL}`);
-});
+server.listen(PORT, () => console.log(`Server running on port ${PORT}`));
