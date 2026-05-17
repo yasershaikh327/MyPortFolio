@@ -1,0 +1,643 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>Portfolio Visitors</title>
+<link href="https://fonts.googleapis.com/css2?family=DM+Mono:ital,wght@0,300;0,400;0,500;1,300&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet"/>
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  :root {
+    --bg:        #0a0a0a;
+    --surface:   #111111;
+    --border:    #1e1e1e;
+    --border2:   #2a2a2a;
+    --accent:    #c8f542;
+    --accent2:   #42f5c8;
+    --text:      #e8e8e8;
+    --muted:     #555555;
+    --muted2:    #333333;
+    --danger:    #f54242;
+    --mono:      'DM Mono', monospace;
+    --sans:      'DM Sans', sans-serif;
+  }
+
+  body {
+    background: var(--bg);
+    color: var(--text);
+    font-family: var(--sans);
+    min-height: 100vh;
+    padding: 0;
+  }
+
+  /* ── TOP BAR ── */
+  .topbar {
+    position: sticky;
+    top: 0;
+    z-index: 100;
+    background: rgba(10,10,10,0.85);
+    backdrop-filter: blur(12px);
+    border-bottom: 1px solid var(--border);
+    padding: 0 40px;
+    height: 60px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+  }
+  .topbar-left {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+  }
+  .dot {
+    width: 8px; height: 8px;
+    border-radius: 50%;
+    background: var(--accent);
+    animation: pulse 2s ease-in-out infinite;
+  }
+  @keyframes pulse {
+    0%,100% { opacity: 1; transform: scale(1); }
+    50%      { opacity: 0.4; transform: scale(0.7); }
+  }
+  .topbar-title {
+    font-family: var(--mono);
+    font-size: 13px;
+    letter-spacing: 0.08em;
+    color: var(--text);
+    font-weight: 400;
+  }
+  .topbar-right {
+    font-family: var(--mono);
+    font-size: 11px;
+    color: var(--muted);
+    letter-spacing: 0.05em;
+  }
+  #live-time { color: var(--accent); }
+
+  /* ── MAIN LAYOUT ── */
+  .main { padding: 40px; }
+
+  /* ── STAT CARDS ── */
+  .stats-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 16px;
+    margin-bottom: 40px;
+  }
+  .stat-card {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    padding: 24px;
+    position: relative;
+    overflow: hidden;
+    transition: border-color 0.2s;
+  }
+  .stat-card:hover { border-color: var(--border2); }
+  .stat-card::before {
+    content: '';
+    position: absolute;
+    top: 0; left: 0; right: 0;
+    height: 2px;
+  }
+  .stat-card.green::before  { background: var(--accent); }
+  .stat-card.teal::before   { background: var(--accent2); }
+  .stat-card.white::before  { background: #ffffff; }
+  .stat-card.red::before    { background: var(--danger); }
+
+  .stat-label {
+    font-family: var(--mono);
+    font-size: 10px;
+    letter-spacing: 0.12em;
+    color: var(--muted);
+    text-transform: uppercase;
+    margin-bottom: 12px;
+  }
+  .stat-value {
+    font-family: var(--mono);
+    font-size: 36px;
+    font-weight: 500;
+    color: var(--text);
+    line-height: 1;
+    margin-bottom: 6px;
+  }
+  .stat-sub {
+    font-size: 12px;
+    color: var(--muted);
+  }
+
+  /* ── SECTION HEADER ── */
+  .section-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 16px;
+  }
+  .section-title {
+    font-family: var(--mono);
+    font-size: 11px;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--muted);
+  }
+
+  /* ── COUNTRY BREAKDOWN ── */
+  .country-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+    gap: 12px;
+    margin-bottom: 40px;
+  }
+  .country-card {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    padding: 16px 20px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    transition: border-color 0.2s, transform 0.15s;
+    animation: fadeUp 0.4s ease both;
+  }
+  .country-card:hover {
+    border-color: var(--border2);
+    transform: translateY(-2px);
+  }
+  .country-info { display: flex; align-items: center; gap: 12px; }
+  .country-flag { font-size: 22px; line-height: 1; }
+  .country-name { font-size: 14px; font-weight: 500; color: var(--text); }
+  .country-pct  { font-family: var(--mono); font-size: 11px; color: var(--muted); margin-top: 2px; }
+  .country-count {
+    font-family: var(--mono);
+    font-size: 22px;
+    font-weight: 500;
+    color: var(--accent);
+  }
+
+  /* ── TABLE ── */
+  .table-wrap {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    overflow: hidden;
+  }
+  .table-toolbar {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 16px 24px;
+    border-bottom: 1px solid var(--border);
+  }
+  .toolbar-left {
+    font-family: var(--mono);
+    font-size: 11px;
+    color: var(--muted);
+    letter-spacing: 0.08em;
+  }
+  #row-count { color: var(--accent); }
+  .toolbar-right { display: flex; gap: 10px; align-items: center; }
+
+  .search-box {
+    background: var(--muted2);
+    border: 1px solid var(--border2);
+    border-radius: 6px;
+    padding: 7px 12px;
+    font-family: var(--mono);
+    font-size: 12px;
+    color: var(--text);
+    width: 200px;
+    outline: none;
+    transition: border-color 0.2s;
+  }
+  .search-box:focus { border-color: var(--accent); }
+  .search-box::placeholder { color: var(--muted); }
+
+  .btn {
+    background: transparent;
+    border: 1px solid var(--border2);
+    border-radius: 6px;
+    padding: 7px 14px;
+    font-family: var(--mono);
+    font-size: 11px;
+    color: var(--muted);
+    cursor: pointer;
+    letter-spacing: 0.06em;
+    transition: all 0.2s;
+  }
+  .btn:hover { border-color: var(--accent); color: var(--accent); }
+
+  table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 13px;
+  }
+  thead th {
+    background: #0f0f0f;
+    padding: 11px 20px;
+    text-align: left;
+    font-family: var(--mono);
+    font-size: 10px;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--muted);
+    font-weight: 400;
+    border-bottom: 1px solid var(--border);
+    white-space: nowrap;
+    cursor: pointer;
+    user-select: none;
+    transition: color 0.2s;
+  }
+  thead th:hover { color: var(--text); }
+  thead th.sorted { color: var(--accent); }
+  thead th .sort-icon { margin-left: 4px; opacity: 0.5; }
+  thead th.sorted .sort-icon { opacity: 1; }
+
+  tbody tr {
+    border-bottom: 1px solid var(--border);
+    transition: background 0.15s;
+    animation: fadeUp 0.3s ease both;
+  }
+  tbody tr:last-child { border-bottom: none; }
+  tbody tr:hover { background: rgba(255,255,255,0.02); }
+
+  td {
+    padding: 13px 20px;
+    color: var(--text);
+    vertical-align: middle;
+  }
+  td.mono { font-family: var(--mono); font-size: 12px; }
+  td.muted { color: var(--muted); font-family: var(--mono); font-size: 12px; }
+
+  .badge {
+    display: inline-block;
+    padding: 3px 8px;
+    border-radius: 4px;
+    font-family: var(--mono);
+    font-size: 10px;
+    letter-spacing: 0.05em;
+    font-weight: 500;
+  }
+  .badge-device   { background: rgba(200,245,66,0.1);  color: var(--accent);  border: 1px solid rgba(200,245,66,0.2);  }
+  .badge-browser  { background: rgba(66,245,200,0.1);  color: var(--accent2); border: 1px solid rgba(66,245,200,0.2);  }
+  .badge-os       { background: rgba(255,255,255,0.05); color: #aaa;          border: 1px solid rgba(255,255,255,0.08); }
+
+  .location-main { font-weight: 500; font-size: 13px; }
+  .location-sub  { font-size: 11px; color: var(--muted); margin-top: 2px; font-family: var(--mono); }
+
+  /* ── EMPTY / LOADING ── */
+  .state-box {
+    text-align: center;
+    padding: 80px 20px;
+    color: var(--muted);
+    font-family: var(--mono);
+    font-size: 13px;
+  }
+  .state-box .big { font-size: 32px; margin-bottom: 12px; }
+
+  /* ── PAGINATION ── */
+  .pagination {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 14px 24px;
+    border-top: 1px solid var(--border);
+  }
+  .page-info { font-family: var(--mono); font-size: 11px; color: var(--muted); }
+  .page-btns { display: flex; gap: 6px; }
+  .page-btn {
+    background: transparent;
+    border: 1px solid var(--border2);
+    border-radius: 5px;
+    padding: 5px 12px;
+    font-family: var(--mono);
+    font-size: 11px;
+    color: var(--muted);
+    cursor: pointer;
+    transition: all 0.2s;
+  }
+  .page-btn:hover:not(:disabled) { border-color: var(--accent); color: var(--accent); }
+  .page-btn:disabled { opacity: 0.3; cursor: default; }
+  .page-btn.active { background: var(--accent); color: #000; border-color: var(--accent); font-weight: 600; }
+
+  @keyframes fadeUp {
+    from { opacity: 0; transform: translateY(8px); }
+    to   { opacity: 1; transform: translateY(0); }
+  }
+
+  /* ── RESPONSIVE ── */
+  @media (max-width: 900px) {
+    .stats-grid { grid-template-columns: repeat(2, 1fr); }
+    .main { padding: 20px; }
+    .topbar { padding: 0 20px; }
+  }
+  @media (max-width: 600px) {
+    .stats-grid { grid-template-columns: 1fr 1fr; }
+    .search-box { width: 130px; }
+  }
+</style>
+</head>
+<body>
+
+<!-- TOP BAR -->
+<div class="topbar">
+  <div class="topbar-left">
+    <div class="dot"></div>
+    <span class="topbar-title">PORTFOLIO / VISITORS</span>
+  </div>
+  <div class="topbar-right">
+    <span id="live-time"></span>
+  </div>
+</div>
+
+<div class="main">
+
+  <!-- STAT CARDS -->
+  <div class="stats-grid">
+    <div class="stat-card green">
+      <div class="stat-label">Total Visits</div>
+      <div class="stat-value" id="stat-total">—</div>
+      <div class="stat-sub">all time</div>
+    </div>
+    <div class="stat-card teal">
+      <div class="stat-label">Countries</div>
+      <div class="stat-value" id="stat-countries">—</div>
+      <div class="stat-sub">unique</div>
+    </div>
+    <div class="stat-card white">
+      <div class="stat-label">Top Country</div>
+      <div class="stat-value" id="stat-top" style="font-size:22px;margin-top:4px;">—</div>
+      <div class="stat-sub" id="stat-top-count">—</div>
+    </div>
+    <div class="stat-card red">
+      <div class="stat-label">Today</div>
+      <div class="stat-value" id="stat-today">—</div>
+      <div class="stat-sub">visits</div>
+    </div>
+  </div>
+
+  <!-- COUNTRY BREAKDOWN -->
+  <div class="section-header">
+    <span class="section-title">// Visits by country</span>
+  </div>
+  <div class="country-grid" id="country-grid">
+    <div class="state-box"><div class="big">⟳</div>Loading…</div>
+  </div>
+
+  <!-- VISITOR TABLE -->
+  <div class="section-header" style="margin-top:40px;">
+    <span class="section-title">// All visitors</span>
+  </div>
+  <div class="table-wrap">
+    <div class="table-toolbar">
+      <span class="toolbar-left">Showing <span id="row-count">—</span> records</span>
+      <div class="toolbar-right">
+        <input class="search-box" id="search" type="text" placeholder="Search…"/>
+        <button class="btn" onclick="loadData()">↻ Refresh</button>
+      </div>
+    </div>
+
+    <div id="table-container">
+      <div class="state-box"><div class="big">⟳</div>Fetching visitors…</div>
+    </div>
+
+    <div class="pagination" id="pagination" style="display:none;">
+      <span class="page-info" id="page-info"></span>
+      <div class="page-btns" id="page-btns"></div>
+    </div>
+  </div>
+
+</div>
+
+<script>
+  // ── CONFIG ──────────────────────────────────────────────
+  const API_URL = '/api/visitors';   // ← change if needed
+  const PAGE_SIZE = 20;
+
+  // ── STATE ───────────────────────────────────────────────
+  let allRows   = [];
+  let filtered  = [];
+  let sortCol   = 'visit_time';
+  let sortDir   = 'desc';
+  let page      = 1;
+
+  // ── LIVE CLOCK ──────────────────────────────────────────
+  function tick() {
+    document.getElementById('live-time').textContent =
+      new Date().toLocaleString('en-IN', { hour12: false });
+  }
+  tick();
+  setInterval(tick, 1000);
+
+  // ── FLAG HELPER ─────────────────────────────────────────
+  function flag(code) {
+    if (!code) return '🌐';
+    return code.toUpperCase().replace(/./g, c =>
+      String.fromCodePoint(0x1F1E6 - 65 + c.charCodeAt(0)));
+  }
+
+  // ── LOAD DATA ────────────────────────────────────────────
+  async function loadData() {
+    try {
+      const res  = await fetch(API_URL);
+      const json = await res.json();
+      allRows    = json.visitors || json || [];
+      applySearch();
+      buildCountryGrid();
+      updateStats();
+    } catch (e) {
+      document.getElementById('table-container').innerHTML =
+        `<div class="state-box"><div class="big">✕</div>Could not reach ${API_URL}<br><br>
+         <span style="font-size:11px;color:#444">Make sure your API returns { visitors: [...] }</span></div>`;
+    }
+  }
+
+  // ── STATS ────────────────────────────────────────────────
+  function updateStats() {
+    const total = allRows.length;
+    document.getElementById('stat-total').textContent = total;
+
+    const countries = [...new Set(allRows.map(r => r.country_name).filter(Boolean))];
+    document.getElementById('stat-countries').textContent = countries.length;
+
+    const countMap = {};
+    allRows.forEach(r => {
+      if (r.country_name) countMap[r.country_name] = (countMap[r.country_name] || 0) + 1;
+    });
+    const top = Object.entries(countMap).sort((a,b) => b[1]-a[1])[0];
+    if (top) {
+      document.getElementById('stat-top').textContent = top[0];
+      document.getElementById('stat-top-count').textContent = `${top[1]} visits`;
+    }
+
+    const today = new Date().toDateString();
+    const todayCount = allRows.filter(r =>
+      r.visit_time && new Date(r.visit_time).toDateString() === today
+    ).length;
+    document.getElementById('stat-today').textContent = todayCount;
+  }
+
+  // ── COUNTRY GRID ─────────────────────────────────────────
+  function buildCountryGrid() {
+    const countMap = {};
+    allRows.forEach(r => {
+      if (!r.country_name) return;
+      const key = r.country_name;
+      if (!countMap[key]) countMap[key] = { count: 0, code: r.country_code };
+      countMap[key].count++;
+    });
+
+    const sorted = Object.entries(countMap).sort((a,b) => b[1].count - a[1].count);
+    const total  = allRows.length || 1;
+    const grid   = document.getElementById('country-grid');
+
+    if (!sorted.length) {
+      grid.innerHTML = '<div class="state-box"><div class="big">🌐</div>No data yet</div>';
+      return;
+    }
+
+    grid.innerHTML = sorted.map(([name, d], i) => `
+      <div class="country-card" style="animation-delay:${i*40}ms">
+        <div class="country-info">
+          <span class="country-flag">${flag(d.code)}</span>
+          <div>
+            <div class="country-name">${name}</div>
+            <div class="country-pct">${((d.count/total)*100).toFixed(1)}% of visits</div>
+          </div>
+        </div>
+        <div class="country-count">${d.count}</div>
+      </div>
+    `).join('');
+  }
+
+  // ── SEARCH ───────────────────────────────────────────────
+  document.getElementById('search').addEventListener('input', e => {
+    page = 1;
+    applySearch(e.target.value);
+  });
+
+  function applySearch(q = '') {
+    const lq = q.toLowerCase();
+    filtered = lq
+      ? allRows.filter(r => JSON.stringify(r).toLowerCase().includes(lq))
+      : [...allRows];
+    applySort();
+  }
+
+  // ── SORT ─────────────────────────────────────────────────
+  function applySort() {
+    filtered.sort((a, b) => {
+      let va = a[sortCol] ?? '', vb = b[sortCol] ?? '';
+      if (sortCol === 'visit_time') { va = new Date(va); vb = new Date(vb); }
+      else { va = String(va).toLowerCase(); vb = String(vb).toLowerCase(); }
+      return sortDir === 'asc'
+        ? (va > vb ? 1 : va < vb ? -1 : 0)
+        : (va < vb ? 1 : va > vb ? -1 : 0);
+    });
+    renderTable();
+  }
+
+  function setSort(col) {
+    if (sortCol === col) sortDir = sortDir === 'asc' ? 'desc' : 'asc';
+    else { sortCol = col; sortDir = 'desc'; }
+    page = 1;
+    applySort();
+  }
+
+  // ── RENDER TABLE ─────────────────────────────────────────
+  function renderTable() {
+    const total  = filtered.length;
+    const pages  = Math.max(1, Math.ceil(total / PAGE_SIZE));
+    page         = Math.min(page, pages);
+    const start  = (page - 1) * PAGE_SIZE;
+    const slice  = filtered.slice(start, start + PAGE_SIZE);
+
+    document.getElementById('row-count').textContent = total;
+
+    if (!slice.length) {
+      document.getElementById('table-container').innerHTML =
+        '<div class="state-box"><div class="big">◌</div>No results found</div>';
+      document.getElementById('pagination').style.display = 'none';
+      return;
+    }
+
+    const cols = [
+      { key: 'id',               label: '#',         cls: 'muted'  },
+      { key: 'country_name',     label: 'Location'                  },
+      { key: 'visit_time',       label: 'Time',      cls: 'mono'   },
+      { key: 'device_type',      label: 'Device'                    },
+      { key: 'browser',          label: 'Browser'                   },
+      { key: 'operating_system', label: 'OS'                        },
+      { key: 'timezone',         label: 'Timezone',  cls: 'muted'  },
+    ];
+
+    const icon = col =>
+      sortCol === col ? (sortDir === 'asc' ? '↑' : '↓') : '↕';
+
+    const thead = `<thead><tr>${cols.map(c => `
+      <th class="${sortCol===c.key?'sorted':''}" onclick="setSort('${c.key}')">
+        ${c.label} <span class="sort-icon">${icon(c.key)}</span>
+      </th>`).join('')}</tr></thead>`;
+
+    const tbody = `<tbody>${slice.map((r, i) => `
+      <tr style="animation-delay:${i*20}ms">
+        <td class="muted">${r.id ?? start+i+1}</td>
+        <td>
+          <div class="location-main">${flag(r.country_code)} ${r.country_name || '—'}</div>
+          <div class="location-sub">${r.city || ''}</div>
+        </td>
+        <td class="mono">${r.visit_time ? fmtTime(r.visit_time) : '—'}</td>
+        <td><span class="badge badge-device">${r.device_type || '—'}</span></td>
+        <td><span class="badge badge-browser">${r.browser || '—'}</span></td>
+        <td><span class="badge badge-os">${r.operating_system || '—'}</span></td>
+        <td class="muted">${r.timezone || '—'}</td>
+      </tr>`).join('')}</tbody>`;
+
+    document.getElementById('table-container').innerHTML =
+      `<table>${thead}${tbody}</table>`;
+
+    // Pagination
+    const pg = document.getElementById('pagination');
+    pg.style.display = 'flex';
+    document.getElementById('page-info').textContent =
+      `${start+1}–${Math.min(start+PAGE_SIZE, total)} of ${total}`;
+
+    const btns = document.getElementById('page-btns');
+    let html = `<button class="page-btn" onclick="goPage(${page-1})" ${page===1?'disabled':''}>← Prev</button>`;
+    const range = pageRange(page, pages);
+    range.forEach(p => {
+      if (p === '…') html += `<button class="page-btn" disabled>…</button>`;
+      else html += `<button class="page-btn ${p===page?'active':''}" onclick="goPage(${p})">${p}</button>`;
+    });
+    html += `<button class="page-btn" onclick="goPage(${page+1})" ${page===pages?'disabled':''}>Next →</button>`;
+    btns.innerHTML = html;
+  }
+
+  function goPage(p) {
+    const pages = Math.ceil(filtered.length / PAGE_SIZE);
+    if (p < 1 || p > pages) return;
+    page = p;
+    renderTable();
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  }
+
+  function pageRange(cur, total) {
+    if (total <= 7) return Array.from({length:total},(_,i)=>i+1);
+    if (cur <= 4)   return [1,2,3,4,5,'…',total];
+    if (cur >= total-3) return [1,'…',total-4,total-3,total-2,total-1,total];
+    return [1,'…',cur-1,cur,cur+1,'…',total];
+  }
+
+  function fmtTime(ts) {
+    const d = new Date(ts);
+    return d.toLocaleString('en-IN', {
+      day:'2-digit', month:'short', year:'numeric',
+      hour:'2-digit', minute:'2-digit', hour12: false
+    });
+  }
+
+  // ── BOOT ────────────────────────────────────────────────
+  loadData();
+</script>
+</body>
+</html>

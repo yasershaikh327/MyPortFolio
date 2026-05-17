@@ -23,6 +23,21 @@ const server = http.createServer((req, res) => {
         return;
     }
 
+    // GET /api/visitors — serve all rows for the dashboard
+    if (req.method === 'GET' && req.url === '/api/visitors') {
+        try {
+            const { rows } = await pool.query(
+                `SELECT * FROM viewers_list ORDER BY visit_time DESC`
+            );
+            res.writeHead(200, { 'Content-Type': 'application/json' });
+            res.end(JSON.stringify({ visitors: rows }));
+        } catch (error) {
+            res.writeHead(500, { 'Content-Type': 'application/json' });
+            res.end(JSON.stringify({ success: false, message: error.message }));
+        }
+        return;
+    }
+
     if (req.method === 'POST' && req.url === '/api/visitor') {
         let body = '';
 
