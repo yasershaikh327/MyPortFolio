@@ -232,5 +232,46 @@ async function sendVisitorDetails() {
         console.error('Error sending visitor details:', error);
     }
 }
+
+function OpenIframe(id) {
+    // Set iframe src dynamically
+    document.getElementById("myIframe").src = "project_screenshots_iframe.html?id=" + id;
+    // Show modal
+    document.getElementById("myModal").style.display = "block";
+}
+
+// Close modal when clicking the X
+document.addEventListener("DOMContentLoaded", function() {
+  document.querySelector(".close").onclick = function() {
+    document.getElementById("myModal").style.display = "none";
+  };
+});
+// Close modal when clicking outside content
+window.onclick = function(event) {
+    if (event.target == document.getElementById("myModal")) {
+        document.getElementById("myModal").style.display = "none";
+    }
+};
+
+
+function OpenIframe(id) {
+    // Set iframe src dynamically
+    document.getElementById("myIframe").src = "project_screenshots_iframe.html?id=" + id;
+    // Show modal
+    document.getElementById("myModal").style.display = "block";
+}
+
+// Close modal when clicking the X
+document.querySelector(".close").onclick = function() {
+    document.getElementById("myModal").style.display = "none";
+};
+
+// Close modal when clicking outside content
+window.onclick = function(event) {
+    if (event.target == document.getElementById("myModal")) {
+        document.getElementById("myModal").style.display = "none";
+    }
+};
+
 // Call when page loads
 window.addEventListener('load', sendVisitorDetails);
