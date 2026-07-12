@@ -262,8 +262,10 @@ function OpenIframe(id) {
 }
 
 // Close modal when clicking the X
+window.onload = function() {
 document.querySelector(".close").onclick = function() {
     document.getElementById("myModal").style.display = "none";
+};
 };
 
 // Close modal when clicking outside content
