@@ -209,7 +209,6 @@ async function getUserDetails() {
 
 function displayDomain() {
     const origin = window.location.origin; 
-    alert("Current domain: " + origin);
     return origin;
 }
 
@@ -219,22 +218,23 @@ async function sendVisitorDetails() {
     try {
         
         const userDetails = await getUserDetails();
-        displayDomain();
-        const response = await fetch('https://my-port-folio-seven-inky.vercel.app/api/visitor', {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json'
-            },
-            body: JSON.stringify(userDetails)
-        });
+        if(displayDomain() === "https://yasershaikh327.github.io" || displayDomain() === "https://my-port-folio-seven-inky.vercel.app"){
+            const response = await fetch('https://my-port-folio-seven-inky.vercel.app/api/visitor', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify(userDetails)
+            });
 
-        // IMPORTANT: check if response is OK before parsing JSON
-        if (!response.ok) {
-            throw new Error(`Server error: ${response.status}`);
+            // IMPORTANT: check if response is OK before parsing JSON
+            if (!response.ok) {
+                throw new Error(`Server error: ${response.status}`);
+            }
+
+            const result = await response.json();
+            console.log('Server Response:', result);
         }
-
-        const result = await response.json();
-        console.log('Server Response:', result);
 
     } catch (error) {
         console.error('Error sending visitor details:', error);
