@@ -6,7 +6,8 @@ import { sendMail } from './send-mail.js';
 dotenv.config();
 
 const PORT = parseInt(process.env.PORT || '3000', 10);
-const IS_PROD = (process.env.IS_PROD);
+const IS_PRODS = (process.env.IS_PROD);
+console.log(IS_PRODS);
 
 const pool = new Pool({
     connectionString: process.env.DATABASE_URL,
@@ -46,59 +47,60 @@ const server = http.createServer((req, res) => {
 
         req.on('end', async () => {
             try {
-                const data = JSON.parse(body);
-                const visitTime = new Date();
+                if(IS_PRODS === "YES")  { 
+                    const data = JSON.parse(body);
+                    const visitTime = new Date();
 
-                console.log('==============================');
-                console.log('NEW VISITOR');
-                console.log('Country  :', data.countryName);
-                console.log('City     :', data.city);
-                console.log('Browser  :', data.browser);
-                console.log('OS       :', data.operatingSystem);
-                console.log('Page     :', data.pageUrl);
-                console.log('Time     :', visitTime.toISOString());
-                console.log('==============================');
+                    console.log('==============================');
+                    console.log('NEW VISITOR');
+                    console.log('Country  :', data.countryName);
+                    console.log('City     :', data.city);
+                    console.log('Browser  :', data.browser);
+                    console.log('OS       :', data.operatingSystem);
+                    console.log('Page     :', data.pageUrl);
+                    console.log('Time     :', visitTime.toISOString());
+                    console.log('==============================');
 
-                const { rows } = await pool.query(
-                    `INSERT INTO viewers_list (
-                        country_code, country_name, city, timezone,
-                        device_type, operating_system, browser,
-                        page_url, referrer, user_agent, visit_time
-                    ) VALUES ($1,$2,$3,$4,$5,$6,$7,$8,$9,$10,$11)
-                    RETURNING id`,
-                    [
-                        data.countryCode     || null,
-                        data.countryName     || null,
-                        data.city            || null,
-                        data.timezone        || null,
-                        data.deviceType      || null,
-                        data.operatingSystem || null,
-                        data.browser         || null,
-                        data.pageUrl         || null,
-                        data.referrer        || null,
-                        data.userAgent       || null,
-                        visitTime
-                    ]
-                );
+                    const { rows } = await pool.query(
+                        `INSERT INTO viewers_list (
+                            country_code, country_name, city, timezone,
+                            device_type, operating_system, browser,
+                            page_url, referrer, user_agent, visit_time
+                        ) VALUES ($1,$2,$3,$4,$5,$6,$7,$8,$9,$10,$11)
+                        RETURNING id`,
+                        [
+                            data.countryCode     || null,
+                            data.countryName     || null,
+                            data.city            || null,
+                            data.timezone        || null,
+                            data.deviceType      || null,
+                            data.operatingSystem || null,
+                            data.browser         || null,
+                            data.pageUrl         || null,
+                            data.referrer        || null,
+                            data.userAgent       || null,
+                            visitTime
+                        ]
+                    );
 
-                const viewerId  = rows[0].id;
-                const city      = data.city        || 'Unknown City';
-                const country   = data.countryName || 'Unknown Country';
-                const localTime = data.timezone
-                    ? new Date().toLocaleString('en-IN', { timeZone: data.timezone })
-                    : visitTime.toLocaleString('en-IN');
+                    const viewerId  = rows[0].id;
+                    const city      = data.city        || 'Unknown City';
+                    const country   = data.countryName || 'Unknown Country';
+                    const localTime = data.timezone
+                        ? new Date().toLocaleString('en-IN', { timeZone: data.timezone })
+                        : visitTime.toLocaleString('en-IN');
 
-                if(IS_PROD == "YES")  { 
-                    const mailResult = await sendMail(city, country, localTime, data.browser || 'Unknown', data.operatingSystem || 'Unknown');
+                
+                        const mailResult = await sendMail(city, country, localTime, data.browser || 'Unknown', data.operatingSystem || 'Unknown');
 
-                    console.log('Email sent:', mailResult.success);
+                        console.log('Email sent:', mailResult.success);
 
-                    res.writeHead(200, { 'Content-Type': 'application/json' });
-                    res.end(JSON.stringify({
-                        success: true,
-                        viewerId,
-                        emailSent: mailResult.success
-                    }));
+                        res.writeHead(200, { 'Content-Type': 'application/json' });
+                        res.end(JSON.stringify({
+                            success: true,
+                            viewerId,
+                            emailSent: mailResult.success
+                        }));
                 }
 
             } catch (error) {
