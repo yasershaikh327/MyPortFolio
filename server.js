@@ -6,13 +6,36 @@ import { sendMail } from './send-mail.js';
 dotenv.config();
 
 const PORT = parseInt(process.env.PORT || '3000', 10);
-const IS_PRODS = (process.env.IS_PROD);
-console.log(IS_PRODS);
-
 const pool = new Pool({
     connectionString: process.env.DATABASE_URL,
     ssl: { rejectUnauthorized: false }
 });
+
+function getEnvironment() {
+    const origin = window.location.origin; 
+    // Examples:
+    // "file://"
+    // "http://localhost:3000"
+    // "https://my-port-folio-seven-inky.vercel.app"
+    // "https://yasershaikh327.github.io"
+
+    const prodDomains = [
+        "https://my-port-folio-seven-inky.vercel.app",
+        "https://yasershaikh327.github.io",
+        "https://my-port-folio-seven-inky.vercel.app/api/visitor"
+    ];
+
+    if (prodDomains.some(domain => origin.startsWith(domain))) {
+        return "production";
+    } else if (origin.includes("localhost") || origin.startsWith("file://")) {
+        return "local";
+    } else {
+        return "unknown";
+    }
+}
+
+const env = getEnvironment();
+console.log(env);
 
 const server = http.createServer((req, res) => {
     res.setHeader('Access-Control-Allow-Origin', '*');
