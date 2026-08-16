@@ -235,7 +235,7 @@ async function sendVisitorDetails() {
             const result = await response.json();
             console.log('Server Response:', result);
         }else{
-            console.log('Running Locally On System' + Date.now());
+            console.log("Running Locally On System " + new Date().toLocaleString());
         }
 
     } catch (error) {
