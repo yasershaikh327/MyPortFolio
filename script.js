@@ -207,11 +207,19 @@ async function getUserDetails() {
     };
 }
 
+function displayDomain() {
+    const origin = window.location.origin; 
+    alert("Current domain: " + origin);
+    return origin;
+}
+
+
 // Send data to Node.js server
 async function sendVisitorDetails() {
     try {
+        
         const userDetails = await getUserDetails();
-
+        displayDomain();
         const response = await fetch('https://my-port-folio-seven-inky.vercel.app/api/visitor', {
             method: 'POST',
             headers: {
