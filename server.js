@@ -6,6 +6,7 @@ import { sendMail } from './send-mail.js';
 dotenv.config();
 
 const PORT = parseInt(process.env.PORT || '3000', 10);
+const IS_PROD = (process.env.IS_PROD);
 
 const pool = new Pool({
     connectionString: process.env.DATABASE_URL,
@@ -87,16 +88,18 @@ const server = http.createServer((req, res) => {
                     ? new Date().toLocaleString('en-IN', { timeZone: data.timezone })
                     : visitTime.toLocaleString('en-IN');
 
-                const mailResult = await sendMail(city, country, localTime, data.browser || 'Unknown', data.operatingSystem || 'Unknown');
+                if(IS_PROD == "YES")  { 
+                    const mailResult = await sendMail(city, country, localTime, data.browser || 'Unknown', data.operatingSystem || 'Unknown');
 
-                console.log('Email sent:', mailResult.success);
+                    console.log('Email sent:', mailResult.success);
 
-                res.writeHead(200, { 'Content-Type': 'application/json' });
-                res.end(JSON.stringify({
-                    success: true,
-                    viewerId,
-                    emailSent: mailResult.success
-                }));
+                    res.writeHead(200, { 'Content-Type': 'application/json' });
+                    res.end(JSON.stringify({
+                        success: true,
+                        viewerId,
+                        emailSent: mailResult.success
+                    }));
+                }
 
             } catch (error) {
                 console.error('Error:', error);
